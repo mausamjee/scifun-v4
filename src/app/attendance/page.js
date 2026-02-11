@@ -15,7 +15,7 @@ export default function AttendanceSystem() {
     "Scifun Branch 2": ["2pm-4pm Batch 1", "4pm-6pm Batch 2", "6pm-8pm Batch 3"]
   };
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbym_0NCqUcwVyvySejm14swr5WuuO5UAxpmDtVUVopWHId1NwPoH0-1qSwDMdiNJsn1vg/exec"; // Ensure this is your current URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyc5ge7q8uMdr1Ip14TqF629_tL3-3STPtfRNh_2hyW7PmPGXUNBfXdba-IXXJprnqrdw/exec"; // Ensure this is your current URL
 
   useEffect(() => {
     const dateInput = document.getElementById('attendanceDate');
@@ -132,46 +132,60 @@ export default function AttendanceSystem() {
                   <table className="min-w-full bg-white border border-gray-200">
                     <thead className="bg-gray-800 text-white">
                       <tr>
-                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Student Name</th>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm w-1/3">Student Details</th>
                         <th className="text-center py-3 px-4 uppercase font-semibold text-sm">Attendance & HW Status</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {students.map((student, index) => (
-                        <tr key={index} className="hover:bg-gray-50">
-                          <td className="py-3 px-4 font-medium">{student}</td>
-                          <td className="py-3 px-4">
-                            <input type="hidden" name={`studentName_${index}`} value={student} />
-                            <div className="flex flex-wrap justify-center gap-4">
-                              {/* Absent Option */}
-                              <label className="flex items-center space-x-1 cursor-pointer">
-                                <input type="radio" name={`status_${index}`} value="Absent" className="text-red-600" />
-                                <span className="text-xs font-bold text-red-600 uppercase">Absent</span>
-                              </label>
-
-                              <div className="h-6 w-px bg-gray-300 hidden sm:block"></div>
-
-                              {/* HW Done Option */}
-                              <label className="flex items-center space-x-1 cursor-pointer">
-                                <input type="radio" name={`status_${index}`} value="HW Done" defaultChecked className="text-green-600" />
-                                <span className="text-xs font-bold text-green-700 uppercase">HW Done</span>
-                              </label>
-
-                              {/* HW Partial Option */}
-                              <label className="flex items-center space-x-1 cursor-pointer">
-                                <input type="radio" name={`status_${index}`} value="HW Partial" className="text-yellow-600" />
-                                <span className="text-xs font-bold text-yellow-700 uppercase">HW Partial</span>
-                              </label>
-
-                              {/* HW Not Done Option */}
-                              <label className="flex items-center space-x-1 cursor-pointer">
-                                <input type="radio" name={`status_${index}`} value="HW Not Done" className="text-orange-600" />
-                                <span className="text-xs font-bold text-orange-700 uppercase">HW Not Done</span>
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {students.map((student, index) => {
+                        const name = typeof student === 'string' ? student : student.name;
+                        const email = typeof student === 'string' ? '' : student.email;
+                        
+                        return (
+                          <tr key={index} className="hover:bg-gray-50">
+                            <td className="py-3 px-4">
+                              <div className="font-bold text-gray-800">{name}</div>
+                              <input 
+                                type="text" 
+                                name={`email_${index}`} 
+                                placeholder="Parent Email (comma separated)" 
+                                defaultValue={email}
+                                className="mt-1 w-full text-xs px-2 py-1.5 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                              />
+                            </td>
+                            <td className="py-3 px-4">
+                              <input type="hidden" name={`studentName_${index}`} value={name} />
+                              <div className="flex flex-wrap justify-center gap-3">
+                                {/* Absent Option */}
+                                <label className="flex items-center space-x-1 cursor-pointer bg-red-50 px-2 py-1 rounded border border-red-200 hover:bg-red-100 transition">
+                                  <input type="radio" name={`status_${index}`} value="Absent" className="w-4 h-4 text-red-600 focus:ring-red-500" />
+                                  <span className="text-[10px] font-bold text-red-700 uppercase">Absent</span>
+                                </label>
+  
+                                <div className="h-8 w-px bg-gray-300 hidden sm:block"></div>
+  
+                                {/* HW Done Option */}
+                                <label className="flex items-center space-x-1 cursor-pointer bg-green-50 px-2 py-1 rounded border border-green-200 hover:bg-green-100 transition">
+                                  <input type="radio" name={`status_${index}`} value="HW Done" defaultChecked className="w-4 h-4 text-green-600 focus:ring-green-500" />
+                                  <span className="text-[10px] font-bold text-green-700 uppercase">HW Done</span>
+                                </label>
+  
+                                {/* HW Partial Option */}
+                                <label className="flex items-center space-x-1 cursor-pointer bg-yellow-50 px-2 py-1 rounded border border-yellow-200 hover:bg-yellow-100 transition">
+                                  <input type="radio" name={`status_${index}`} value="HW Partial" className="w-4 h-4 text-yellow-600 focus:ring-yellow-500" />
+                                  <span className="text-[10px] font-bold text-yellow-700 uppercase">Partial</span>
+                                </label>
+  
+                                {/* HW Not Done Option */}
+                                <label className="flex items-center space-x-1 cursor-pointer bg-orange-50 px-2 py-1 rounded border border-orange-200 hover:bg-orange-100 transition">
+                                  <input type="radio" name={`status_${index}`} value="HW Not Done" className="w-4 h-4 text-orange-600 focus:ring-orange-500" />
+                                  <span className="text-[10px] font-bold text-orange-700 uppercase">Not Done</span>
+                                </label>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
