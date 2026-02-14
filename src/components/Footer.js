@@ -2,7 +2,7 @@ import { MapPin, Phone } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="bg-white pt-20 border-t border-gray-100">
+    <footer className="bg-white pt-20 border-t border-gray-100 print:hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8 pb-10 grid md:grid-cols-4 gap-8">
         <div>
            <div className="flex items-center gap-2 mb-4">
