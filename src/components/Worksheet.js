@@ -38,16 +38,16 @@ const Worksheet = ({ data, wordProblems, isWordProblemLoading, printSettings }) 
       
       {/* Generate a section (Page) for each active operation */}
       {activeOperations.map((op, sectionIdx) => (
-        <div key={op} className="p-6 print:p-8 min-h-[10cm] print:min-h-screen relative flex flex-col break-after-page section-container">
-          <div className="border-b-2 border-slate-100 pb-2 mb-8 print:mb-4">
+        <div key={op} className="p-2 print:p-2 min-h-[10cm] print:min-h-screen relative flex flex-col break-after-page section-container">
+          {/* Heading Removed */}
+          {/* <div className="border-b-2 border-slate-100 pb-2 mb-8 print:mb-4">
                <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">{OpTitleMap[op]} Practice</h2>
-          </div>
+          </div> */}
 
-          {/* Denser Grid: Respect spacing and font size */}
           <div 
-            className="grid grid-cols-2 md:grid-cols-4 print:grid-cols-5 gap-y-12 gap-x-4 flex-1 content-start"
+            className="grid grid-cols-5 gap-y-4 gap-x-2 flex-1 content-start"
             style={{ 
-                gap: `${printSettings.spacing * 1.5}rem`,
+                gap: `${printSettings.spacing}rem`,
                 fontSize: `${printSettings.questionSize}px`
             }}
           >

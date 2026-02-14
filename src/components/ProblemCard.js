@@ -43,17 +43,7 @@ const ProblemCard = ({ problem, index, scale = 1 }) => {
         </div>
         
         {/* Answer Input Areas - Scaled */}
-        {type === 'ADD' && (
-           <div className="border-2 border-dashed border-gray-200 mt-1" style={{ height: `${scale * 2.5}rem`, width: `${scale * 4.5}rem` }}></div>
-        )}
-
-        {type === 'SUB' && (
-          <div className="border-b-2 border-l-2 border-r-2 border-gray-200 rounded-b-lg mt-1" style={{ height: `${scale * 2}rem`, width: `${scale * 4.5}rem` }}></div>
-        )}
-
-        {type === 'MUL' && (
-           <div className="mt-2 border-b-2 border-gray-200" style={{ width: `${scale * 4.5}rem`, height: `${scale * 1}rem` }}></div>
-        )}
+        {/* Answer Input Areas - Removed as per request */}
       </div>
     </div>
   );

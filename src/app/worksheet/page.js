@@ -130,10 +130,10 @@ export default function WorksheetPage() {
   const currentSettings = config.operations[activeTab];
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-slate-100 print:block print:h-auto print:bg-white print:overflow-visible">
+    <div className="flex flex-col md:flex-row min-h-screen md:h-screen bg-slate-100 print:block print:h-auto print:bg-white print:overflow-visible">
       
       {/* Sidebar Controls */}
-      <aside className="w-full md:w-96 bg-white border-r border-slate-200 flex flex-col print:hidden z-10 shadow-lg md:shadow-none flex-shrink-0">
+      <aside className="w-full md:w-96 bg-white border-r border-slate-200 flex flex-col print:hidden z-10 shadow-lg md:shadow-none flex-shrink-0 md:h-full">
         
         {/* Header */}
         <div className="p-6 border-b border-slate-100 flex items-center gap-2 text-indigo-600">
@@ -264,8 +264,8 @@ export default function WorksheetPage() {
       </aside>
 
       {/* Worksheet Preview */}
-      <main className="flex-1 overflow-auto bg-slate-200/50 p-4 md:p-8 print:p-0 print:bg-white print:overflow-visible print:h-auto print:block print:w-full">
-        <div className="max-w-[21cm] mx-auto transition-all duration-300 ease-in-out print:w-full print:max-w-none print:mx-0">
+      <main className="flex-1 bg-slate-200/50 p-4 md:p-8 overflow-auto print:p-0 print:bg-white print:overflow-visible print:h-auto print:block print:w-full">
+        <div className="min-w-[21cm] w-[21cm] mx-auto bg-white shadow-xl transition-all duration-300 ease-in-out print:w-full print:max-w-none print:mx-0 print:shadow-none">
           <Worksheet 
             data={data} 
             wordProblems={wordProblems} 
@@ -278,7 +278,7 @@ export default function WorksheetPage() {
       {/* Print Styles */}
       <style jsx global>{`
         @media print {
-          @page { margin: 10mm; size: A4; }
+          @page { margin: 5mm; size: A4; }
           body { background: white !important; }
           .section-container { page-break-after: always; break-after: page; }
           .no-break { break-inside: avoid; }
