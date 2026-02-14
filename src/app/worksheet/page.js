@@ -88,11 +88,35 @@ export default function WorksheetPage() {
   const [data, setData] = useState({});
   const [wordProblems, setWordProblems] = useState([]);
   const [loadingAI, setLoadingAI] = useState(false);
+  const [scale, setScale] = useState(1);
 
   // Initial State is Blank as requested
   useEffect(() => {
     setData({});
     setWordProblems([]);
+  }, []);
+
+  // Dynamic Scale for Mobile "Fit to Screen"
+  useEffect(() => {
+    const handleResize = () => {
+        // A4 Width at 96 DPI is approx 794px. 
+        // We add some buffer for padding (32px).
+        const a4Width = 794; 
+        const padding = 32; 
+        const availableWidth = window.innerWidth - padding;
+        
+        // If on mobile/tablet (< 768px), scale to fit
+        if (window.innerWidth < 768) {
+             const newScale = Math.min(1, availableWidth / a4Width);
+             setScale(newScale);
+        } else {
+            setScale(1);
+        }
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleGenerate = () => {
@@ -264,14 +288,19 @@ export default function WorksheetPage() {
       </aside>
 
       {/* Worksheet Preview */}
-      <main className="flex-1 bg-slate-200/50 p-4 md:p-8 overflow-auto print:p-0 print:bg-white print:overflow-visible print:h-auto print:block print:w-full">
-        <div className="min-w-[21cm] w-[21cm] mx-auto bg-white shadow-xl transition-all duration-300 ease-in-out print:w-full print:max-w-none print:mx-0 print:shadow-none">
-          <Worksheet 
-            data={data} 
-            wordProblems={wordProblems} 
-            isWordProblemLoading={loadingAI} 
-            printSettings={config.printSettings} 
-          />
+      <main className="flex-1 bg-slate-200/50 p-2 md:p-8 overflow-hidden md:overflow-auto print:p-0 print:bg-white print:overflow-visible print:h-auto print:block print:w-full">
+        <div 
+            className="flex justify-center md:block origin-top print:transform-none print:scale-100"
+        >
+          <div className="mx-auto print:w-full print:max-w-none print:mx-0 print:shadow-none print:min-h-screen">
+            <Worksheet 
+              data={data} 
+              wordProblems={wordProblems} 
+              isWordProblemLoading={loadingAI} 
+              printSettings={config.printSettings}
+              scale={scale} // Pass scale to handle internal layout
+            />
+          </div>
         </div>
       </main>
 
