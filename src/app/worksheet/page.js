@@ -16,48 +16,125 @@ const generateRandomNumber = (digits) => {
 const generateForOperation = (op, settings) => {
   const problems = [];
   let attempts = 0;
-  
-  while (problems.length < settings.questionCount && attempts < settings.questionCount * 20) {
+  let mulOneCount = 0; // Track usage of '1' in No-Carry Multiplication
+
+  while (problems.length < settings.questionCount && attempts < settings.questionCount * 50) {
     attempts++;
     let valA = 0; // Top / Divisor
     let valB = 0; // Bottom / Dividend
     let answer = 0;
     let isValid = true;
-    
+    let isOneQuestion = false;
+
     if (op === 'DIV') {
-        // Division Logic
+        // ... (Existing Division Logic) ...
         const divisorDigits = settings.digitCountA;
-        const quotientDigits = settings.digitCountB; // We treat 'Bottom Number Digits' as Quotient digits for control
+        const quotientDigits = settings.digitCountB;
         
         const divisor = generateRandomNumber(divisorDigits);
         
         if (!settings.allowRemainder) {
-            // Exact Division: Dividend = Divisor * Quotient
             const quotient = generateRandomNumber(quotientDigits);
             valA = divisor;
             valB = divisor * quotient;
             answer = quotient;
         } else {
-            // Remainder Allowed: 
-            // We want Dividend to be roughly Divisor * Quantient + Remainder
-            // So Dividend digits should be roughly DivisorDigits + QuotientDigits
             const dividendDigits = Math.max(divisorDigits + 1, divisorDigits + quotientDigits - 1);
-            valB = generateRandomNumber(dividendDigits); // Dividend
-            valA = divisor; // Divisor
+            valB = generateRandomNumber(dividendDigits); 
+            valA = divisor; 
             
-            // Ensure Dividend > Divisor
             if (valB < valA) {
                 isValid = false; 
             } else {
                 answer = `${Math.floor(valB / valA)} R${valB % valA}`;
             }
         }
+    } else if (op === 'MUL' && !settings.allowCarry) {
+        // SMART NO-CARRY MULTIPLICATION LOGIC
+        // Avoid brute forcing which biases towards '1'. 
+        // Instead, construct valid numbers.
+
+        // 1. Determine B (Multiplier)
+        // If we have exhausted our quota of '1's, force B >= 2 (if B is single digit).
+        // If B is multi-digit (>9), it is never 1, so quota check only matters for Single Digit B.
+        
+        let minB = 1;
+        if (settings.digitCountB === 1 && mulOneCount >= 5) {
+            minB = 2; // Strict limit on '1'
+        }
+
+        // Generate B
+        if (settings.digitCountB === 1) {
+             // Range [minB, 9]
+             valB = Math.floor(Math.random() * (9 - minB + 1)) + minB;
+
+             // 2. Generate A (Top Number) to satisfy No Carry
+             // For single-digit B, each digit 'd' of A must satisfy: d * valB < 10.
+             // Max digit allowed for A is floor(9 / valB).
+             const maxDigitA = Math.floor(9 / valB);
+             
+             // Construct A digit by digit
+             let sA = "";
+             for (let k = 0; k < settings.digitCountA; k++) {
+                 // First digit cannot be 0 (unless total digits is 1)
+                 const minD = (k === 0 && settings.digitCountA > 1) ? 1 : 0;
+                 
+                 // If constraints make it impossible (e.g. min 1 but max 0?), fail.
+                 if (minD > maxDigitA) {
+                     isValid = false;
+                     break;
+                 }
+                 
+                 const d = Math.floor(Math.random() * (maxDigitA - minD + 1)) + minD;
+                 sA += d;
+             }
+             valA = parseInt(sA);
+
+        } else {
+             // Multi-Digit B: Hard to construct smartly. Fallback to random with filtering.
+             // This is rare for "No Carry" requests but we must support it.
+             valA = generateRandomNumber(settings.digitCountA);
+             
+             // Respect '1' quota for Multi-digit B? 
+             // A multi-digit number is never '1'. But maybe it implies identity? 
+             // Let's standard gen B.
+             valB = generateRandomNumber(settings.digitCountB);
+
+             // VALIDATOR COPY for Multi-digit Case
+             const sA = valA.toString();
+             const sB = valB.toString();
+             for (let i = 0; i < sB.length; i++) {
+                let carry = 0;
+                const digitB = parseInt(sB[sB.length - 1 - i]);
+                for (let j = 0; j < sA.length; j++) {
+                    const digitA = parseInt(sA[sA.length - 1 - j]);
+                    const product = digitA * digitB + carry;
+                    if (product >= 10) {
+                        isValid = false;
+                        break;
+                    }
+                    carry = Math.floor(product / 10); 
+                }
+                if (!isValid) break;
+            }
+        }
+        
+        if (isValid) {
+            answer = valA * valB;
+            // Check if this counts as a "1" question
+            if (valB === 1 || valA === 1) isOneQuestion = true;
+            
+            // Re-verify quota just in case generated A was 1 (if strict logic generated it)
+            if (isOneQuestion && mulOneCount >= 5) {
+                isValid = false; // Reject if over quota
+            }
+        }
+
     } else {
-        // ADD, SUB, MUL Logic
+        // ADD, SUB, MUL-Standard Logic
         valA = generateRandomNumber(settings.digitCountA);
         valB = generateRandomNumber(settings.digitCountB);
         
-        // Ensure A is always the larger number for SUB primarily, but good practice generally
         if (op === 'SUB' && valB > valA) {
             [valA, valB] = [valB, valA];
         }
@@ -66,12 +143,9 @@ const generateForOperation = (op, settings) => {
         if (op === 'ADD' && !settings.allowCarry) {
             const sA = valA.toString();
             const sB = valB.toString();
-            // Align from right
             const len = Math.min(sA.length, sB.length);
             for(let k=1; k<=len; k++) {
-                const dA = parseInt(sA[sA.length - k]);
-                const dB = parseInt(sB[sB.length - k]);
-                if (dA + dB >= 10) {
+                if (parseInt(sA[sA.length - k]) + parseInt(sB[sB.length - k]) >= 10) {
                     isValid = false;
                     break;
                 }
@@ -82,46 +156,12 @@ const generateForOperation = (op, settings) => {
         if (op === 'SUB' && !settings.allowBorrow) {
             const sA = valA.toString();
             const sB = valB.toString();
-            // Align from right
             const len = Math.min(sA.length, sB.length);
             for(let k=1; k<=len; k++) {
-                const dA = parseInt(sA[sA.length - k]);
-                const dB = parseInt(sB[sB.length - k]);
-                // For subtraction A - B, digit A must be >= digit B to avoid borrow
-                if (dA < dB) {
+                if (parseInt(sA[sA.length - k]) < parseInt(sB[sB.length - k])) {
                     isValid = false;
                     break;
                 }
-            }
-        }
-
-        // NO CARRY MULTIPLICATION CHECK
-        // Simplified Logic: Assuming bottom number is single digit or handled simply.
-        // We check if any single digit multiplication results in a carry.
-        if (op === 'MUL' && !settings.allowCarry) {
-            const sA = valA.toString(); // Top number
-            const sB = valB.toString(); // Bottom number
-            
-            // Allow only if bottom number is single digit for "No Carry" to be meaningful/easy
-            // If bottom is multi-digit, partial products add up and create carries later.
-            // Strict interpretation: No carry at ANY step.
-            
-            // We iterate from Right to Left
-            for (let i = 0; i < sB.length; i++) {
-                let carry = 0;
-                const digitB = parseInt(sB[sB.length - 1 - i]);
-                
-                for (let j = 0; j < sA.length; j++) {
-                    const digitA = parseInt(sA[sA.length - 1 - j]);
-                    const product = digitA * digitB + carry;
-                    
-                    if (product >= 10) {
-                        isValid = false;
-                        break;
-                    }
-                    carry = Math.floor(product / 10); // Should be 0 if valid, but keeping structural
-                }
-                if (!isValid) break;
             }
         }
 
@@ -136,12 +176,13 @@ const generateForOperation = (op, settings) => {
         problems.push({
           id: Math.random().toString(36).substr(2, 9),
           type: op,
-          valA, // For DIV: Divisor. For Others: Top Number
-          valB, // For DIV: Dividend. For Others: Bottom Number
+          valA, 
+          valB, 
           operandDisplayA: valA.toString(),
           operandDisplayB: valB.toString(),
           answer
         });
+        if (isOneQuestion) mulOneCount++;
     }
   }
   return problems;
