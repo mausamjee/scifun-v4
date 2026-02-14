@@ -39,24 +39,27 @@ const A4Page = ({ children, className = "", scale = 1 }) => {
   );
 };
 
-const Worksheet = ({ data, wordProblems, isWordProblemLoading, printSettings, scale = 1 }) => {
+const Worksheet = ({ data, wordProblems, isWordProblemLoading, printSettings, currentSettings, scale = 1 }) => {
   
-  // Helper to calculate items per page based on font size/spacing
-  const getItemsPerPage = () => {
-      // Heuristic: Base 24px font allows ~50 items (10 rows x 5 cols)
-      // As font scales up, space reduces.
-      const baseCount = 50; 
-      const scaleFactor = 24 / printSettings.questionSize;
-      const spacingFactor = 1.5 / Math.max(1, printSettings.spacing);
-      
-      // Calculate and clamp
-      let count = Math.floor(baseCount * scaleFactor * spacingFactor);
-      
-      // Ensure divisible by 5 for clean grid (5 cols)
-      return Math.max(5, Math.floor(count / 5) * 5); 
-  };
+  // Helper to determine grid columns
+  const getGridCols = (op) => {
+      if (op !== 'DIV') return 'grid-cols-5';
 
-  const ITEMS_PER_PAGE = getItemsPerPage();
+      // Rule 1: Font Size > 40px -> 4 Cols
+      if (printSettings.questionSize > 40) return 'grid-cols-4';
+
+      // Rule 2: If Dividend + Divisor digits > 5 -> 4 Cols
+      if (data[op] && data[op].length > 0) {
+          const sample = data[op][0];
+          // For DIV: valA is Divisor, valB is Dividend
+          const divisorDigits = sample.valA.toString().length;
+          const dividendDigits = sample.valB.toString().length;
+          
+          if ((divisorDigits + dividendDigits) > 5) return 'grid-cols-4';
+      }
+      
+      return 'grid-cols-5';
+  };
 
   // 1. Filter active operations
   const activeOperations = (Object.keys(data))
@@ -88,7 +91,7 @@ const Worksheet = ({ data, wordProblems, isWordProblemLoading, printSettings, sc
                 <div key={op} className="mb-8 last:mb-0">
                     {/* Optional Header per operation if needed, otherwise just the grid */}
                     <div 
-                        className="grid grid-cols-5 gap-y-4 gap-x-2 content-start"
+                        className={`grid ${getGridCols(op)} gap-y-4 gap-x-2 content-start`}
                         style={{ 
                             gap: `${printSettings.spacing}rem`,
                             fontSize: `${printSettings.questionSize}px`

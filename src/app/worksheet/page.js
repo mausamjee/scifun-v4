@@ -15,34 +15,134 @@ const generateRandomNumber = (digits) => {
 
 const generateForOperation = (op, settings) => {
   const problems = [];
-  for (let i = 0; i < settings.questionCount; i++) {
-    let valA = 0;
-    let valB = 0;
+  let attempts = 0;
+  
+  while (problems.length < settings.questionCount && attempts < settings.questionCount * 20) {
+    attempts++;
+    let valA = 0; // Top / Divisor
+    let valB = 0; // Bottom / Dividend
     let answer = 0;
+    let isValid = true;
     
     if (op === 'DIV') {
-      const divisor = generateRandomNumber(settings.digitCountA); 
-      const quotient = generateRandomNumber(settings.digitCountB);
-      valA = divisor;
-      valB = divisor * quotient;
-      answer = quotient;
+        // Division Logic
+        const divisorDigits = settings.digitCountA;
+        const quotientDigits = settings.digitCountB; // We treat 'Bottom Number Digits' as Quotient digits for control
+        
+        const divisor = generateRandomNumber(divisorDigits);
+        
+        if (!settings.allowRemainder) {
+            // Exact Division: Dividend = Divisor * Quotient
+            const quotient = generateRandomNumber(quotientDigits);
+            valA = divisor;
+            valB = divisor * quotient;
+            answer = quotient;
+        } else {
+            // Remainder Allowed: 
+            // We want Dividend to be roughly Divisor * Quantient + Remainder
+            // So Dividend digits should be roughly DivisorDigits + QuotientDigits
+            const dividendDigits = Math.max(divisorDigits + 1, divisorDigits + quotientDigits - 1);
+            valB = generateRandomNumber(dividendDigits); // Dividend
+            valA = divisor; // Divisor
+            
+            // Ensure Dividend > Divisor
+            if (valB < valA) {
+                isValid = false; 
+            } else {
+                answer = `${Math.floor(valB / valA)} R${valB % valA}`;
+            }
+        }
     } else {
-      valA = generateRandomNumber(settings.digitCountA);
-      valB = generateRandomNumber(settings.digitCountB);
-      if (op === 'SUB' && valB > valA) [valA, valB] = [valB, valA];
-      if (op === 'ADD') answer = valA + valB;
-      if (op === 'SUB') answer = valA - valB;
-      if (op === 'MUL') answer = valA * valB;
+        // ADD, SUB, MUL Logic
+        valA = generateRandomNumber(settings.digitCountA);
+        valB = generateRandomNumber(settings.digitCountB);
+        
+        // Ensure A is always the larger number for SUB primarily, but good practice generally
+        if (op === 'SUB' && valB > valA) {
+            [valA, valB] = [valB, valA];
+        }
+
+        // NO CARRY ADDITION CHECK
+        if (op === 'ADD' && !settings.allowCarry) {
+            const sA = valA.toString();
+            const sB = valB.toString();
+            // Align from right
+            const len = Math.min(sA.length, sB.length);
+            for(let k=1; k<=len; k++) {
+                const dA = parseInt(sA[sA.length - k]);
+                const dB = parseInt(sB[sB.length - k]);
+                if (dA + dB >= 10) {
+                    isValid = false;
+                    break;
+                }
+            }
+        }
+
+        // NO BORROW SUBTRACTION CHECK
+        if (op === 'SUB' && !settings.allowBorrow) {
+            const sA = valA.toString();
+            const sB = valB.toString();
+            // Align from right
+            const len = Math.min(sA.length, sB.length);
+            for(let k=1; k<=len; k++) {
+                const dA = parseInt(sA[sA.length - k]);
+                const dB = parseInt(sB[sB.length - k]);
+                // For subtraction A - B, digit A must be >= digit B to avoid borrow
+                if (dA < dB) {
+                    isValid = false;
+                    break;
+                }
+            }
+        }
+
+        // NO CARRY MULTIPLICATION CHECK
+        // Simplified Logic: Assuming bottom number is single digit or handled simply.
+        // We check if any single digit multiplication results in a carry.
+        if (op === 'MUL' && !settings.allowCarry) {
+            const sA = valA.toString(); // Top number
+            const sB = valB.toString(); // Bottom number
+            
+            // Allow only if bottom number is single digit for "No Carry" to be meaningful/easy
+            // If bottom is multi-digit, partial products add up and create carries later.
+            // Strict interpretation: No carry at ANY step.
+            
+            // We iterate from Right to Left
+            for (let i = 0; i < sB.length; i++) {
+                let carry = 0;
+                const digitB = parseInt(sB[sB.length - 1 - i]);
+                
+                for (let j = 0; j < sA.length; j++) {
+                    const digitA = parseInt(sA[sA.length - 1 - j]);
+                    const product = digitA * digitB + carry;
+                    
+                    if (product >= 10) {
+                        isValid = false;
+                        break;
+                    }
+                    carry = Math.floor(product / 10); // Should be 0 if valid, but keeping structural
+                }
+                if (!isValid) break;
+            }
+        }
+
+        if (isValid) {
+            if (op === 'ADD') answer = valA + valB;
+            if (op === 'SUB') answer = valA - valB;
+            if (op === 'MUL') answer = valA * valB;
+        }
     }
-    problems.push({
-      id: Math.random().toString(36).substr(2, 9),
-      type: op,
-      valA,
-      valB,
-      operandDisplayA: valA.toString(),
-      operandDisplayB: valB.toString(),
-      answer
-    });
+
+    if (isValid) {
+        problems.push({
+          id: Math.random().toString(36).substr(2, 9),
+          type: op,
+          valA, // For DIV: Divisor. For Others: Top Number
+          valB, // For DIV: Dividend. For Others: Bottom Number
+          operandDisplayA: valA.toString(),
+          operandDisplayB: valB.toString(),
+          answer
+        });
+    }
   }
   return problems;
 };
@@ -70,10 +170,10 @@ export default function WorksheetPage() {
 
   const [config, setConfig] = useState({
     operations: {
-        ADD: { ...defaultOpSettings, enabled: true },
-        SUB: { ...defaultOpSettings, enabled: true },
-        MUL: { ...defaultOpSettings, enabled: false },
-        DIV: { ...defaultOpSettings, enabled: false },
+        ADD: { ...defaultOpSettings, enabled: true, allowCarry: true },
+        SUB: { ...defaultOpSettings, enabled: true, allowBorrow: true },
+        MUL: { ...defaultOpSettings, enabled: false, allowCarry: true },
+        DIV: { ...defaultOpSettings, enabled: false, allowRemainder: true },
     },
     includeWordProblems: false,
     printSettings: {
@@ -228,6 +328,34 @@ export default function WorksheetPage() {
                     </div>
                     <input type="range" min="4" max="60" step="4" value={currentSettings.questionCount} onChange={(e) => updateOpSettings(activeTab, { questionCount: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
                 </div>
+
+                <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
+                    <span className="text-sm font-medium text-slate-700">
+                        {activeTab === 'ADD' && 'Allow Carry'}
+                        {activeTab === 'SUB' && 'Allow Borrow'}
+                        {activeTab === 'DIV' && 'Allow Remainder'}
+                        {activeTab === 'MUL' && 'Allow Carry'}
+                    </span>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                        <input 
+                            type="checkbox" 
+                            className="sr-only peer" 
+                            checked={
+                                activeTab === 'ADD' ? currentSettings.allowCarry :
+                                activeTab === 'SUB' ? currentSettings.allowBorrow :
+                                activeTab === 'DIV' ? currentSettings.allowRemainder : 
+                                activeTab === 'MUL' ? currentSettings.allowCarry : false
+                            } 
+                            onChange={(e) => {
+                                if (activeTab === 'ADD') updateOpSettings('ADD', { allowCarry: e.target.checked });
+                                if (activeTab === 'SUB') updateOpSettings('SUB', { allowBorrow: e.target.checked });
+                                if (activeTab === 'DIV') updateOpSettings('DIV', { allowRemainder: e.target.checked });
+                                if (activeTab === 'MUL') updateOpSettings('MUL', { allowCarry: e.target.checked });
+                            }} 
+                        />
+                        <div className="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
+                    </label>
+                </div>
             </div>
           </section>
 
@@ -298,7 +426,8 @@ export default function WorksheetPage() {
               wordProblems={wordProblems} 
               isWordProblemLoading={loadingAI} 
               printSettings={config.printSettings}
-              scale={scale} // Pass scale to handle internal layout
+              currentSettings={currentSettings} // Pass active operation settings for layout logic
+              scale={scale} 
             />
           </div>
         </div>
