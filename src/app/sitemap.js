@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = 'https://www.scifun.com';
+const baseUrl = 'https://www.scifun.in'; // ✅ CORRECT  const baseUrl = 'https://www.scifun.com';
 
   // 1. Static Routes
   const staticRoutes = [
