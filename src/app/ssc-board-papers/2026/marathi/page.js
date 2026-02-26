@@ -71,6 +71,13 @@ export default function MarathiBoardPaper2026() {
       </div>
 
       <main className="max-w-4xl mx-auto px-4 pt-8 md:pt-12">
+        {/* Link Juicing Banner: Passes authority from high-traffic Marathi to new English page */}
+        <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-indigo-200">
+          <Link href="/maharashtra-board/ssc/english-question-paper-2026-answer-key">
+            🚨 Next Exam: Click Here for SSC English Paper 2026 & Live Answer Key (Feb 27) ➔
+          </Link>
+        </div>
+
         {/* Article Header */}
         <header className="mb-10">
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">

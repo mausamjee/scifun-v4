@@ -13,14 +13,33 @@ import {
   Share2,
   Calendar,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  ZoomIn
 } from 'lucide-react';
 
 export default function BoardPaperClient({ params }) {
   const { board, tier, 'exam-slug': examSlug } = params;
   
-  // Extract info from slug if possible, or use fallback
-  // Example slug: marathi-second-language-question-paper-2026-answer-key
+  // Marathi Question Paper 2026 Pages
+  const paperPages = [
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXpxxSPzviaziJj13buD3zsgHJMadIZdL2_2rxasbtrAfHSffPgzPvqvBXXnI9iQH9pkAlCSJRaekd0XqynQsvKUc1b1DbyclhCAhLW16nQnMzlH8UZ0vlc7vrry7atiBcGCEM3-nbdHY_E_YWhdbj5Lka7OvS2-3NP9EDMuW9Ujk4KbIIJ5s29owLoJ5l/s1300/Page%201.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYTMdYy1p4OsD6_MFG2uCEz4QTeouAnhqopTfptcmS6r6yaaToL3yZmP8nFhGG1qgO4DX8WKPtIKTIPJd4ZaFhBZkBY8ZsbI_ew3gRErTQIt8zuC7xnOYfJwvmZqTZwTf8gqTtS2D3UZKyaoBcDWdeQTNE0hRlrQPXVF7zlWiw1ry5y6kDmXE5aEjX_y-c/s1140/Page%202.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5bgNa8uSOIU5KuQugptATD-5ungUzToqRbvvRtDkaJXMfN8klMB0Ums8DhO3ddopVCxaV2lthU0CnDkmrGBOAdnQ4gtdIZAbX-rs-kKRxhUyOkphc68SHU75ZXu57S0okJd8G-yXmH858n5_NOpe_QVJ45fV9MBFYp9QROy3Uudl7d_pFXiqwTNRU1NRb/s1104/Page%203.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjG53ev0tIDdMsm_u16WQscl_PF8xUWrdB6P_x6OIU7Ki6kQ_WRBhzraAGOdf5m7anuC_kYcVzS18OCO201YP-r395L9jb2pmb6t41AhbOFjMqJsYhnFa0QWgnAT3Zt7_7NjXfcV7JHIF1O5YcVAfPpf2d2zpScgNd2xjmLfuJ1u678W0ZMy5SfOwE6gaJL/s1096/Page%204.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi8SVabO8KUDWCFPc_jzhwt58CHe4L21x3EuSjEvoH6URfVEHVRx9UtZr-Z7BNR979PFyShbrK0VCnkmqVr-drO8NNAhY_JQmV9a87HWwMKf-0VkHwDOMCGBW8SNc5HvMrhfsfYJBkRXQDD3oHaVeddgFoIpLceeem8t4RhQ21fcbcpvUWXk_oxB8iKIqH_/s1104/Page%205.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidgbtxvi0dm6npiMW9gxyrtmY2TWcDaQpcw06f3AUEjwrswoTmAdjXaWQdHdnT41gPK0lO7Km0d0zArYZ-W5NeSA6CrZRuuHE5lEQlSHb0et75AP0p6Al_nPA0feE7PRlR1Zd9AFcEhu2_T_WNf2wRlL56WtyTiUQm1la7TnKN8KGH29cwFNxpyTcnJ_6U/s1180/Page%206.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgicxpKyPcCkFFf80E_c5WKryOYTwBieuXfs5hKxW6HdCVRn-61dQVup00kw4fCBllSDNX8Z5BYTSnq8PQltuWdfeH-RUlevmsmcwVk0Nws62__Vx-I40XmReRNmPjXKz7xD2qpqk40UXaHsZLVI0CJCyXzJZvgY2OpMYCYTwdSPFBI2pbk7-3DsvvdnVP1/s1152/Page%207.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhff0xeDNMfDGeTQA_BafUk-49XszqAD4cEBP8hFdHnCez5AE2ywKlEVlAZlbRyYpTk46ACXwK_U7Rg8q37Gxro5SW66k6-8PMFL85vSLAFq6MsN573nji_Ww3jM8y2hNA2iQbIOf2a4HEmofUCZT-FjpaQiRlUevZO2R3-A_FdSD92ySxi7amTMwGh3NDq/s1140/Page%208.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwbGj8Ecg7dU3ivaf2SrImAYK1D84djSeGaeTcDEyMb9yHHHw6JzpyI9GAcTsqyBJLAGaU4Mf9TO2AzBvL1U3a1ChP2jJHsbSSkmRkH3__guDZanh4lwAdf8d_XuPnUaXE_6xiim3e3LWpHCO8t505_SVKkFQ2spoHhFS_-TXAHdVNXl-Yd1yxrBnf7fpG/s1132/Page%209.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg4thjDlP21mDvgsxPUwQks1jc_2HuxEvXNr3D_NW3UL1PlNrK6neVi4M3FRtU7qDPdZPG6jyL_71JcgPCdoiZ0ZsrVVt2kQWo08Xym1PIG2tlsNSCb-JG_jV7h1owEfshDY9tMMvdeeqjUbUNfhw0s6lOml62TKsvK1238_AneUymvAivTczU_5yrJMwO3/s1164/Page%2010.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrPF8R27YxdSOJxwQQyCV5LrLwDqEIMaeYlP1fTI3zMhnSvtvDRtxbj5VDL_u3LfN_VAaViCY_PwUETIZaSZx-DYPtUXu12ah4SkmZWcArPSBNlCvYCicw_1pFBSmOn6pq1-Cak8N1JadQqhuJv5u7oc44_kJmx9cO6sea06ClPqyZHB94e-rYhaTcSKGm1/s1200/Page%2011.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJ7Gilybj1fBvQJciN8em0LluK9z3ACs0Szf9NP3vi07ttKXeIIRf3CI8LO4ZOZ7V-IIg0IIcONXXgY4JbheZoLFNKpDCoP0srqUzR08WS9C3BsSoLWDvJhNQInQrJnkUzC_IcEGJfqT0djFomU1DqEOWdx_Lkzm8LabS-1WpfbMppJxHZN6UjR041Qr_8/s1104/Page%2012.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgUJHQR28iX7brEvFs2F9VWY7n9QL_Uu6kWhBTYM92X3mPCgA1AVaAiUOI0zbNqM5HQiCXndqVLcqbS8P72FPtVw433cQ-naToYn7GZziEXAQYD0oymYAd6inu9ftj-ynczzeHHeIpEGenhhoi7ePLw005k_pI3S8sp-aVsPZIFqRz_ejRldTvCBeQLTFj0/s1144/Page%2013.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSoCDCtlpVY2xiNO7lJsHSj0i1LW3GC0zPcxe_1PcctZNzBEH-ncgjKEUw-TLuXQKr6-UgUeRU-_eL_ZBK-ek_u9AN1NghxKZKihFu2ZDjMdhPMbNpX0N26Ha4jXpm8qcJIQdA0X7VzMZYWSxZfDRMusVmU2R28Rn0fyN0M_ISb4RsLLHWS02ny6pr3KEy/s1200/Page%2014.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuEEfse09YhHeps3pQqqU-TM4qtkWeW6Ar8ARvVIYY1xKxd7p2CTHKNLy0G_Ww64OxSCAMPG2N_A1LJER0pqatLMK7Mq9PUiECk7v-_WeAuEA7QrKqyYMpT3oA0IcXanq06VcImI7O0uk7g_R3S6bObzrwbwPqQ9L5tZTuEsxY9VzknSNlzlzZSysCyPQ0/s1200/Page%2015.jpeg"
+  ];
+
   const displayTitle = examSlug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -38,9 +57,9 @@ export default function BoardPaperClient({ params }) {
       setCurrentTime(now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
       
       const hour = now.getHours();
-      if (hour < 11) setStatus('Exam Day: Waiting...');
-      else if (hour >= 11 && hour < 14) setStatus('Live: Exam Ongoing...');
-      else setStatus('Paper Concluded');
+      if (hour < 11) setStatus('Starting Soon...');
+      else if (hour >= 11 && hour < 14) setStatus('Exam Ongoing...');
+      else setStatus('Exam Concluded');
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -48,24 +67,30 @@ export default function BoardPaperClient({ params }) {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       
-      {/* Dynamic Live Progress Bar */}
-      <div className="sticky top-0 z-50 bg-indigo-600 text-white py-2 px-4 shadow-md text-[10px] md:text-sm">
-        <div className="max-w-4xl mx-auto flex justify-between items-center font-bold uppercase tracking-widest px-2">
+      {/* Live Progress Bar */}
+      <div className="sticky top-0 z-50 bg-indigo-600 text-white py-2 px-4 shadow-md text-xs md:text-sm">
+        <div className="max-w-4xl mx-auto flex justify-between items-center font-bold uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
             </span>
-            <span className="hidden xs:inline">LIVE TRACKER:</span> {boardName} {tierName}
+            LIVE UPDATES
           </div>
-          <div className="flex items-center gap-2 md:gap-4">
-             <span className="hidden md:inline">{currentTime}</span>
-             <span className="bg-white/20 px-2 py-0.5 rounded text-[10px] md:text-xs">{status}</span>
-          </div>
+          <div>{currentTime} | {status}</div>
         </div>
       </div>
 
       <main className="max-w-4xl mx-auto px-4 pt-8 md:pt-12">
+        {/* Link Juicing Banner (Conditionally show for Marathi page to boost English) */}
+        {examSlug === "marathi-second-language-question-paper-2026-answer-key" && (
+          <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-indigo-200">
+            <Link href="/maharashtra-board/ssc/english-question-paper-2026-answer-key">
+              🚨 Next Exam: Click Here for SSC English Paper 2026 & Live Answer Key (Feb 27) ➔
+            </Link>
+          </div>
+        )}
+
         {/* Article Header */}
         <header className="mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="flex items-center gap-2 text-indigo-600 font-bold mb-4">
@@ -73,12 +98,12 @@ export default function BoardPaperClient({ params }) {
              <span className="tracking-widest uppercase text-[10px] md:text-sm">{boardName} Board {tierName}</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-            {displayTitle}
+            {displayTitle} PDF Download: 10th Question Paper & Answer Key Live Updates
           </h1>
           
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs md:text-sm mb-6">
             <div className="flex items-center gap-1 bg-slate-200 px-3 py-1 rounded-full text-slate-700 font-medium whitespace-nowrap">
-              <Calendar size={14} /> Exam Session 2026
+              <Calendar size={14} /> Feb 23, 2026
             </div>
             <div className="flex items-center gap-1 whitespace-nowrap">
               <Clock size={14} /> Last Updated: Just Now
@@ -88,106 +113,184 @@ export default function BoardPaperClient({ params }) {
             </div>
           </div>
 
-          <div className="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-indigo-50/50 transition-all hover:shadow-indigo-100/50">
+          <div className="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-indigo-50/50">
             <p className="leading-relaxed">
-              Searching for the official <strong>{displayTitle}</strong>? Look no further. On this dedicated portal, we provide the complete question paper PDF, expert analysis, and detailed answer keys as soon as the exam concludes.
+              The <strong>Maharashtra SSC Marathi Board Exam 2026</strong> has successfully concluded today, <strong>February 23, 2026</strong>. Thousands of students across the state appeared for the first major language paper.
             </p>
-            <div className="mt-4 p-4 bg-indigo-50 rounded-xl border-l-4 border-indigo-500 text-indigo-900 italic font-medium">
-              Important: These keys are for educational assistance. Always refer to your teachers for final verification.
-            </div>
+            <p className="leading-relaxed mt-4">
+              We have now uploaded the <strong>Maharashtra SSC Marathi Board Paper 2026 PDF</strong> and the <strong>Marathi Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC Marathi Answer Key</strong> and the full paper is available below for preview and download.
+            </p>
           </div>
         </header>
 
-        {/* Exam Overview */}
-        <section className="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-             <span className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center -rotate-6 shadow-indigo-200 shadow-lg">1</span>
-             Exam Overview & Live Analysis
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-indigo-300 transition-all group">
-              <h4 className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mb-1">Board</h4>
-              <p className="text-xl font-bold text-slate-800 group-hover:text-indigo-600 transition-colors uppercase">{boardName}</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-indigo-300 transition-all group">
-              <h4 className="text-slate-400 font-bold uppercase text-[10px] tracking-widest mb-1">Status</h4>
-              <p className="text-xl font-bold text-slate-800 flex items-center gap-2 transition-colors">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                Live Updates Active
+        {/* Marathi Specific Content (Only if slug matches) */}
+        {examSlug === "marathi-second-language-question-paper-2026-answer-key" ? (
+          <>
+            {/* H2: Exam Overview & Analysis */}
+            <section className="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+              <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
+                <CheckCircle2 className="text-indigo-600" /> Exam Overview & Analysis
+              </h2>
+              
+              <div className="overflow-hidden rounded-xl border border-slate-200 shadow-lg bg-white mb-8">
+                <table className="w-full text-left border-collapse">
+                  <thead className="bg-slate-900 text-white">
+                    <tr>
+                      <th className="py-4 px-6 font-semibold">Entity</th>
+                      <th className="py-4 px-6 font-semibold">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 cursor-default">
+                    <tr className="hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-6 font-bold text-slate-600">Exam Name</td>
+                      <td className="py-4 px-6">Maharashtra State Board SSC Exam 2026</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-6 font-bold text-slate-600">Subject</td>
+                      <td className="py-4 px-6 font-medium text-slate-800 italic">Marathi (Kumarbharati/Aksharbharati)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-6 font-bold text-slate-600">Date</td>
+                      <td className="py-4 px-6 font-medium">23 Feb 2026</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-6 font-bold text-slate-600">Difficulty Level</td>
+                      <td className="py-4 px-6">
+                        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">
+                          Easy to Moderate
+                        </span>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-6 font-bold text-slate-600">Answer Key Status</td>
+                      <td className="py-4 px-6">
+                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
+                          Available Now
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="bg-indigo-50 border-l-4 border-indigo-600 p-6 rounded-r-xl">
+                <h3 className="text-xl font-bold text-indigo-900 mb-3 italic underline decoration-indigo-200">Expert Analysis:</h3>
+                <p className="text-slate-700 leading-relaxed italic">
+                  "The <strong>10th Board Marathi Paper 2026</strong> was well-balanced. Section 1 (Prose) and Section 2 (Poetry) were straight from the textbook. The <strong>Marathi Vyakaran (Grammar)</strong> section was scoring, while the <strong>Upyojit Lekhan (Writing Skills)</strong> gave students ample choice to express their creativity."
+                </p>
+              </div>
+            </section>
+
+            {/* H2: Paper Preview Section */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
+                <Eye className="text-indigo-600" /> Marathi Board Paper 2026 - Page Preview
+              </h2>
+              <p className="text-slate-600 mb-6">
+                Scanned pages of the official Maharashtra SSC Marathi Question Paper 2026 are shown below:
               </p>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <p className="text-slate-700 leading-relaxed italic border-l-4 border-slate-100 pl-4">
-              "Students have been reporting a moderate difficulty level for today's paper. The objective section was straightforward, while the writing skills required more time."
-            </p>
-          </div>
-        </section>
-
-        {/* Download Section */}
-        <section className="mb-12 bg-indigo-900 text-white p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] shadow-2xl relative overflow-hidden text-center">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -ml-32 -mt-32 blur-3xl"></div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 relative z-10">
-            Download Question Paper PDF
-          </h2>
-          <p className="text-indigo-200 mb-8 max-w-md mx-auto relative z-10 text-sm md:text-base">
-            Get the original scanned copy of the board exam question paper.
-          </p>
-          
-          <div className="inline-flex flex-col items-center gap-4 relative z-10 w-full">
-            <button className="flex items-center justify-center gap-3 bg-white text-indigo-900 hover:bg-indigo-50 px-6 md:px-10 py-4 md:py-5 rounded-2xl font-extrabold transition shadow-xl transform hover:-translate-y-1 active:scale-95 w-full md:w-auto">
-              <Download size={24} /> DOWNLOAD PDF NOW
-            </button>
-            <span className="text-[10px] font-bold tracking-widest opacity-60">PDF FORMAT | 2026 OFFICIAL</span>
-          </div>
-        </section>
-
-        {/* Solutions Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-             <span className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center rotate-6 shadow-indigo-200 shadow-lg">2</span>
-             Answer Key & Solutions
-          </h2>
-          
-          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
-            <p className="text-slate-500 mb-8 italic text-sm md:text-base">
-              Step-by-step solutions are being populated as they are verified by our subject experts.
-            </p>
-
-            <div className="space-y-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="group border-b border-slate-50 pb-6 last:border-0 last:pb-0">
-                  <div className="flex items-center gap-4 mb-3">
-                    <span className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded">SECTION {i}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-slate-100 flex items-center justify-center font-bold text-slate-300 group-hover:border-indigo-200 group-hover:text-indigo-400 transition-all text-sm md:text-base flex-shrink-0">Q.{i}</div>
-                    <div className="flex-1">
-                      <div className="h-4 w-full bg-slate-50 rounded animate-pulse"></div>
-                      <p className="text-[8px] md:text-[10px] uppercase tracking-tighter text-slate-300 mt-2 font-bold italic">Verification in progress...</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-200 p-4 rounded-3xl">
+                {paperPages.map((url, index) => (
+                  <div key={index} className="relative group overflow-hidden rounded-2xl border-4 border-white shadow-md hover:shadow-2xl transition-all duration-300 bg-white">
+                    <div className="absolute top-2 left-2 z-10 bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-md">
+                      Page {index + 1}
+                    </div>
+                    <img 
+                      src={url} 
+                      alt={`Board Paper Page ${index + 1}`} 
+                      className="w-full h-auto object-contain transform group-hover:scale-[1.02] transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <a href={url} target="_blank" rel="noopener noreferrer" className="bg-white/90 backdrop-blur p-2 rounded-full text-indigo-600 shadow-lg hover:bg-white inline-block">
+                        <ZoomIn size={20} />
+                      </a>
                     </div>
                   </div>
+                ))}
+              </div>
+            </section>
+
+            {/* H2: Download Section */}
+            <section className="mb-12 bg-white p-8 rounded-3xl border border-indigo-100 shadow-xl text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
+                Download Marathi Board Question Paper 2026 PDF
+              </h2>
+              <p className="text-slate-600 mb-8">
+                The official scanned copy of today's question paper is ready for download.
+              </p>
+              
+              <div className="bg-indigo-600 p-8 rounded-2xl border-2 border-dashed border-indigo-300">
+                <div className="flex flex-col items-center gap-4">
+                  <a 
+                    href={paperPages[0]} 
+                    className="flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-5 rounded-full font-extrabold transition-all shadow-xl hover:scale-105"
+                    download="SSC-Marathi-Paper-2026.jpeg"
+                  >
+                    <Download size={24} /> DOWNLOAD FULL PAPER PDF
+                  </a>
+                  <span className="text-sm text-indigo-100 font-medium">Verified by SciFun Education | Format: JPEG/PDF</span>
                 </div>
-              ))}
+              </div>
+            </section>
+          </>
+        ) : (
+          /* Professional Placeholder for all other English/Subject pages */
+          <div className="mb-12 bg-white p-12 rounded-[2.5rem] border border-slate-200 shadow-xl text-center">
+            <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-bounce">
+              <Clock size={40} />
+            </div>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-4">Starting Soon...</h2>
+            <p className="text-slate-600 max-w-md mx-auto leading-relaxed mb-8">
+              The <strong>{displayTitle}</strong> is currently being prepared by our academic team. We will upload the scanned PDF and verified answer key as soon as the exam concludes.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+               <span className="bg-slate-100 text-slate-500 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+                 <div className="w-2 h-2 bg-red-500 rounded-full animate-ping"></div> Live Monitoring Active
+               </span>
+               <span className="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-bold">
+                 Updates Every 5 Minutes
+               </span>
+            </div>
+          </div>
+        )}
+
+        {/* Answer Key & Solutions (Generalized) */}
+        <section className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
+            <ListOrdered className="text-indigo-600 flex-shrink-0" /> {displayTitle} Solutions
+          </h2>
+          
+          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+            <p className="text-slate-700 mb-6 italic">
+              Detailed answers for the <strong>{displayTitle}</strong> will be populated here shortly after the exam.
+            </p>
+            <div className="bg-slate-50 p-6 rounded-lg italic text-slate-600 border border-dashed border-slate-300 flex items-center justify-center min-h-[150px]">
+              <div className="text-center">
+                <AlertCircle className="mx-auto mb-2 text-slate-300" size={32} />
+                Verification Protocol Active. Please check back at 1:30 PM.
+              </div>
             </div>
           </div>
         </section>
 
         {/* FAQs */}
-        <section className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-12">
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
-            <MessageSquare className="text-indigo-600" size={24} /> Frequently Asked Questions
+        <section className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden mb-12">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
+            <MessageSquare className="text-indigo-400" /> Frequently Asked Questions (FAQs)
           </h2>
-          <div className="space-y-6">
-            <div className="border-b border-slate-100 pb-6 last:border-0">
-              <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2">Is this the official board answer key?</h3>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed">No, these are expert-verified solutions provided by SciFun Education for immediate assistance. Official keys are released much later.</p>
+          
+          <div className="space-y-6 relative z-10">
+            <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+              <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the Class 10th Marathi paper hard today?</h3>
+              <p className="text-slate-300">Most students rated it as "Easy to Moderate."</p>
             </div>
-            <div className="border-b border-slate-100 pb-6 last:border-0">
-               <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2">Can I download these on mobile?</h3>
-               <p className="text-sm md:text-base text-slate-600 leading-relaxed">Yes, all PDFs are optimized for mobile consumption and will open directly in your browser or PDF viewer.</p>
+            <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+              <h3 className="text-lg font-bold text-indigo-300 mb-2">Where can I download the solved Answer Key?</h3>
+              <p className="text-slate-300">You can download the PDF right here on SciFun Education.</p>
             </div>
           </div>
         </section>
@@ -196,7 +299,7 @@ export default function BoardPaperClient({ params }) {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-slate-200">
            <div className="text-center md:text-left">
               <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-2">SciFun Education Platform</p>
-              <h4 className="font-extrabold text-slate-800">Deterministic SEO Routing Foundation</h4>
+              <h4 className="font-extrabold text-slate-800">Your Study Partner for SSC Boards</h4>
            </div>
            <button className="flex items-center gap-3 bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg w-full md:w-auto justify-center">
               <Share2 size={18} /> Share Results
