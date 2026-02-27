@@ -93,6 +93,38 @@ export default function BoardPaperClient({ params }) {
     return () => clearInterval(timer);
   }, []);
 
+  const englishAnswerKey = [
+    { q: "Section I: Q.1 (A) A1 (1) Pick out the infinitive", a: "to grow" },
+    { q: "Q.1 (A) A1 (2) Write two compound words", a: "Notebook, Moonlight" },
+    { q: "Q.1 (A) A1 (3) Fill in the blank (Verb form)", a: "spoke (or 'listened')" },
+    { q: "Q.1 (A) A1 (4) Rearrange: abogll", a: "global" },
+    { q: "Q.1 (A) A1 (5) Sentence Type: How frightened...", a: "Exclamatory sentence" },
+    { q: "A2 (2) Future Perfect: I shall be telling you...", a: "I shall have told you three stories." },
+    { q: "A2 (3) Change Voice: Anil was watching...", a: "A wrestling match was being watched by Anil." },
+    { q: "(B) (1) Comparative Degree", a: "An elephant is huger than most other animals in the world." },
+    { q: "(B) (1) Superlative Degree", a: "An elephant is one of the hugest animals in the world." },
+    { q: "(B) (2) Use 'No sooner...than'", a: "No sooner did the concert come to an end than the audience gave the artists a standing ovation." },
+    { q: "Section II: A1 Qualities of Joan", a: "Confident, Courageous, Strong, Well-built" },
+    { q: "A2 Complete sentence", a: "...to ask him to give her a horse, armour, and some soldiers, and to send her to the Dauphin." },
+    { q: "A3 Match meanings", a: "(i)-c (Seriously), (ii)-d (Armour), (iii)-b (Stupid person), (iv)-a (Taken for granted)" },
+    { q: "A4 (i) Indirect Speech: 'Where is she now?'", a: "Robert asked where she was then." },
+    { q: "A4 (ii) Affirmative: I shall not want many soldiers.", a: "I shall want only a few soldiers." },
+    { q: "B1 Who said: 'Are you still hungry?'", a: "Narrator to the guest (the lady)" },
+    { q: "B1 Who said: 'I shall enjoy a peach.'", a: "The guest (the lady) to the narrator" },
+    { q: "B2 Correct Order of Sentences", a: "1. Just an ice cream... 2. I ordered coffee... 3. I have a cup... 4. We were waiting..." },
+    { q: "B3 Find Words", a: "(i) terrible (ii) conversation (iii) large/huge (iv) miserable" },
+    { q: "B4 Modal Auxiliary: 'could'", a: "could (Function: Possibility / Suggestion)" },
+    { q: "Section III: A1 Qualities bestowed on man", a: "Strength, Beauty, Wisdom, Honour" },
+    { q: "A2 If God gifted 'Rest'?", a: "Man would adore the gifts instead of God and rest in Nature, rather than in the God of Nature." },
+    { q: "A3 Rhyme scheme of the poem", a: "(iv) a b a b a" },
+    { q: "Section IV: A1 True or False", a: "(i) True, (ii) False, (iii) False, (iv) True" },
+    { q: "A2 Problems faced by animals", a: "1. Forests cut down 2. Water polluted 3. Water sources drying 4. Hunting" },
+    { q: "A3 Antonyms (balance, non-existence...)", a: "(i) imbalance, (ii) existence, (iii) rare, (iv) first" },
+    { q: "A4 (i) 'Wh' question", a: "What is our country well known for?" },
+    { q: "A4 (ii) Subordinate clause", a: "...that have clearly become extinct (Adjective Clause)" },
+    { q: "Section V: Q.6 (A) Stain Types Table", a: "(1) Vegetable (Tea/Coffee) (2) Grease (Oil) (3) Animal (Milk/Blood) (4) Mineral (Rust) (5) Miscellaneous (Dye)" },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       
@@ -111,11 +143,18 @@ export default function BoardPaperClient({ params }) {
       </div>
 
       <main className="max-w-4xl mx-auto px-4 pt-8 md:pt-12">
-        {/* Link Juicing Banner (Conditionally show for Marathi page to boost English) */}
-        {examSlug === "marathi-second-language-question-paper-2026-answer-key" && (
-          <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-indigo-200">
+        {/* Link Juicing Banners */}
+        {isMarathi && (
+          <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-4 text-center font-bold animate-pulse shadow-xl shadow-indigo-200">
             <Link href="/maharashtra-board/ssc/english-question-paper-2026-answer-key">
-              🚨 Next Exam: Click Here for SSC English Paper 2026 & Live Answer Key (Feb 27) ➔
+              🚨 SSC English Paper 2026 & Live Answer Key (Feb 27) ➔
+            </Link>
+          </div>
+        )}
+        {(isMarathi || isEnglish) && (
+          <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-rose-200">
+            <Link href="/maharashtra-board/ssc/hindi-question-paper-2026-answer-key">
+              � Next Exam: Click Here for SSC Hindi Paper 2026 & Answer Key ➔
             </Link>
           </div>
         )}
@@ -155,6 +194,48 @@ export default function BoardPaperClient({ params }) {
         {/* Marathi & English Specific Content */}
         {(isMarathi || isEnglish) ? (
           <>
+            {/* Answer Key & Solutions */}
+            <section className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
+                <ListOrdered className="text-indigo-600 flex-shrink-0" /> {displayTitle} Solutions
+              </h2>
+              
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+                {isEnglish ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-slate-900 text-white">
+                          <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm border-r border-slate-800">Question</th>
+                          <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm">Answer</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {englishAnswerKey.map((item, idx) => (
+                          <tr key={idx} className="hover:bg-indigo-50/50 transition-colors">
+                            <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">{item.q}</td>
+                            <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10">{item.a}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-slate-700 mb-6 italic">
+                      Detailed answers for the <strong>{displayTitle}</strong> will be populated here shortly after the exam.
+                    </p>
+                    <div className="bg-slate-50 p-6 rounded-lg italic text-slate-600 border border-dashed border-slate-300 flex items-center justify-center min-h-[150px]">
+                      <div className="text-center">
+                        <AlertCircle className="mx-auto mb-2 text-slate-300" size={32} />
+                        Verification Protocol Active. Please check back shortly.
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </section>
+
             {/* H2: Exam Overview & Analysis */}
             <section className="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
@@ -294,24 +375,7 @@ export default function BoardPaperClient({ params }) {
           </div>
         )}
 
-        {/* Answer Key & Solutions (Generalized) */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
-            <ListOrdered className="text-indigo-600 flex-shrink-0" /> {displayTitle} Solutions
-          </h2>
-          
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-            <p className="text-slate-700 mb-6 italic">
-              Detailed answers for the <strong>{displayTitle}</strong> will be populated here shortly after the exam.
-            </p>
-            <div className="bg-slate-50 p-6 rounded-lg italic text-slate-600 border border-dashed border-slate-300 flex items-center justify-center min-h-[150px]">
-              <div className="text-center">
-                <AlertCircle className="mx-auto mb-2 text-slate-300" size={32} />
-                Verification Protocol Active. Please check back at 1:30 PM.
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* FAQs */}
         <section className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden mb-12">
