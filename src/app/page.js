@@ -28,10 +28,12 @@ export default function Home() {
               </p>
               
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                  <Calendar size={18} />
-                  Book Free Demo
-                </button>
+                <Link href="/book-demo">
+                  <button className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                    <Calendar size={18} />
+                    Book Free Demo
+                  </button>
+                </Link>
                 <button className="flex items-center gap-2 bg-white text-gray-800 border border-gray-200 px-6 py-3.5 rounded-full font-semibold hover:bg-gray-50 transition shadow-sm">
                   <MapPin size={18} className="text-red-500" />
                   Visit Center

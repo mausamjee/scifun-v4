@@ -8,7 +8,19 @@ const nextConfig = {
   // Use '*' so it applies to all routes/server chunks.
   outputFileTracingIncludes: {
     '*': ['./node_modules/pdfkit/js/data/**/*']
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'blogger.googleusercontent.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

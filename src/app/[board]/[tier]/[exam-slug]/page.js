@@ -22,7 +22,12 @@ export async function generateMetadata({ params }) {
   const slug = resolvedParams['exam-slug'];
   
   const displayTitle = formatSlug(slug);
-  const canonicalUrl = `https://scifun.in/${board}/${tier}/${slug}`;
+  let canonicalUrl = `https://scifun.in/${board}/${tier}/${slug}`;
+  
+  // SEO Fix: Consolidate Hindi 2026 power to the primary URL
+  if (slug === "hindi-question-paper-2026-answer-key") {
+    canonicalUrl = `https://scifun.in/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions`;
+  }
   
   return {
     title: `${displayTitle} PDF with Answer Key`,

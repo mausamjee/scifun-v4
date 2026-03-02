@@ -7,6 +7,10 @@ export default function sitemap() {
     '/about',
     '/contact',
     '/login',
+    '/cbsi',
+    '/privacy-policy',
+    '/terms',
+    '/book-demo',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
