@@ -20,6 +20,7 @@ export default function Header() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
           <Link href="/courses" className="hover:text-blue-600 transition">Courses</Link>
+          <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions" className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full font-bold hover:bg-rose-100 transition animate-pulse">Hindi 2026</Link>
           <Link href="/about" className="hover:text-blue-600 transition">About Us</Link>
           <Link href="/results" className="hover:text-blue-600 transition">Results</Link>
           <Link href="/faculty" className="hover:text-blue-600 transition">Faculty</Link>
@@ -45,6 +46,7 @@ export default function Header() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t px-6 py-4 space-y-4 text-sm font-medium shadow-lg absolute w-full left-0 top-full">
           <Link href="/courses" className="block text-gray-700 hover:text-blue-600">Courses</Link>
+          <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions" className="block text-rose-600 font-bold">Hindi 2026 (Live Updates)</Link>
           <Link href="/about" className="block text-gray-700 hover:text-blue-600">About Us</Link>
           <Link href="/results" className="block text-gray-700 hover:text-blue-600">Results</Link>
           <Link href="/faculty" className="block text-gray-700 hover:text-blue-600">Faculty</Link>

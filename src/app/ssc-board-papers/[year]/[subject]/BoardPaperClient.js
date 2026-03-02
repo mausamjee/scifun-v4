@@ -15,11 +15,13 @@ import {
   BookOpen,
   ArrowRight
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function BoardPaperClient({ params }) {
   const { year, subject } = params;
   
-  const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
+  const isHindi2026 = subject === 'ssc-board-hindi-question-paper-2026-with-solutions' || (subject === 'hindi' && year === '2026');
+  const subjectName = isHindi2026 ? "Hindi" : subject.charAt(0).toUpperCase() + subject.slice(1);
   const [currentTime, setCurrentTime] = useState('');
   const [status, setStatus] = useState('Checking Status...');
 
@@ -64,7 +66,7 @@ export default function BoardPaperClient({ params }) {
              <span className="tracking-widest uppercase text-[10px] md:text-sm">Maharashtra Board SSC</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-            Maharashtra SSC {subjectName} Board Paper {year} PDF Download: Question Paper & Answer Key Solution
+            {isHindi2026 ? "SSC Board Hindi Question Paper 2026 With Solutions — Maharashtra 10th Standard" : `Maharashtra SSC ${subjectName} Board Paper ${year} PDF Download: Question Paper & Answer Key Solution`}
           </h1>
           
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs md:text-sm mb-6">
@@ -172,14 +174,33 @@ export default function BoardPaperClient({ params }) {
             <MessageSquare className="text-indigo-600" size={24} /> Frequently Asked Questions
           </h2>
           <div className="space-y-6">
-            <div className="border-b border-slate-100 pb-6 last:border-0">
-              <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">When will the {subjectName} results be declared?</h3>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed">The board usually declares the SSC results in late May or early June. Final dates will be confirmed via the official board portal.</p>
-            </div>
-            <div className="border-b border-slate-100 pb-6 last:border-0">
-               <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Is this paper exactly as given in the exam?</h3>
-               <p className="text-sm md:text-base text-slate-600 leading-relaxed">Yes, our team scans the original question papers provided by students immediately after the exam concludes.</p>
-            </div>
+            {isHindi2026 ? (
+              <>
+                <div className="border-b border-slate-100 pb-6 last:border-0">
+                  <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2">Is the SSC Hindi Board Exam 2026 postponed due to Holi?</h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">There are rumors about the SSC Hindi exam being postponed since Holi (Dhulivandan) falls on March 3, just a day before the exam. As of now, the exam is scheduled for March 4, 2026. However, any official change from MSBSHSE regarding postponement will be updated here instantly.</p>
+                </div>
+                <div className="border-b border-slate-100 pb-6 last:border-0">
+                  <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2">Was the SSC Hindi 2026 paper harder than previous years?</h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">Yes, many students found the 2026 Hindi paper harder and more time-consuming than the 2025 paper. The Grammar section was particularly tricky this year.</p>
+                </div>
+                <div className="border-b border-slate-100 pb-6 last:border-0">
+                  <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2">Are there any wrong questions or free marks in the Hindi 2026 paper?</h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">We are currently checking the paper for errors. If there's a wrong question, students will get 1-2 bonus marks. Check our 'Wrong Question Tracker' on SciFun.in for the latest updates.</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="border-b border-slate-100 pb-6 last:border-0">
+                  <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">When will the {subjectName} results be declared?</h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">The board usually declares the SSC results in late May or early June. Final dates will be confirmed via the official board portal.</p>
+                </div>
+                <div className="border-b border-slate-100 pb-6 last:border-0">
+                  <h3 className="text-base md:text-lg font-bold text-slate-800 mb-2 whitespace-nowrap overflow-hidden text-ellipsis">Is this paper exactly as given in the exam?</h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed">Yes, our team scans the original question papers provided by students immediately after the exam concludes.</p>
+                </div>
+              </>
+            )}
           </div>
         </section>
 

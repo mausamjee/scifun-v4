@@ -17,6 +17,7 @@ import {
   Eye,
   ZoomIn
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function BoardPaperClient({ params }) {
   const { board, tier, 'exam-slug': examSlug } = params;
@@ -66,6 +67,7 @@ export default function BoardPaperClient({ params }) {
 
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
+  const isHindi2026 = examSlug === "hindi-question-paper-2026-answer-key";
   const paperPages = isEnglish ? englishPages : marathiPages;
 
 
@@ -151,10 +153,17 @@ export default function BoardPaperClient({ params }) {
             </Link>
           </div>
         )}
-        {(isMarathi || isEnglish) && (
+        {isMarathi && (
+          <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-rose-200">
+            <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions">
+              🚨 Hindi Board Paper 2026 — Solutions coming March 4 at 1:15 PM → scifun.in/hindi-2026
+            </Link>
+          </div>
+        )}
+        {isEnglish && (
           <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-rose-200">
-            <Link href="/maharashtra-board/ssc/hindi-question-paper-2026-answer-key">
-              � Next Exam: Click Here for SSC Hindi Paper 2026 & Answer Key ➔
+            <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions">
+              🚨 Hindi Paper with Solutions — March 4, 2026 → Click Here ➔
             </Link>
           </div>
         )}
@@ -314,12 +323,16 @@ export default function BoardPaperClient({ params }) {
                     <div className="absolute top-2 left-2 z-10 bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-md">
                       Page {index + 1}
                     </div>
-                    <img 
-                      src={url} 
-                      alt={`Board Paper Page ${index + 1}`} 
-                      className="w-full h-auto object-contain transform group-hover:scale-[1.02] transition-transform duration-500"
-                      loading="lazy"
-                    />
+                    <div className="relative w-full min-h-[500px] md:min-h-[800px]">
+                      <Image 
+                        src={url} 
+                        alt={`Board Paper Page ${index + 1}`} 
+                        fill
+                        className="object-contain transform group-hover:scale-[1.02] transition-transform duration-500"
+                        priority={index === 0}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
                     <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <a href={url} target="_blank" rel="noopener noreferrer" className="bg-white/90 backdrop-blur p-2 rounded-full text-indigo-600 shadow-lg hover:bg-white inline-block">
@@ -385,14 +398,33 @@ export default function BoardPaperClient({ params }) {
           </h2>
           
           <div className="space-y-6 relative z-10">
-            <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
-              <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the Class 10th {isEnglish ? "English" : "Marathi"} paper hard today?</h3>
-              <p className="text-slate-300">Most students rated it as "Easy to Moderate."</p>
-            </div>
-            <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
-              <h3 className="text-lg font-bold text-indigo-300 mb-2">Where can I download the solved Answer Key?</h3>
-              <p className="text-slate-300">You can download the PDF right here on SciFun Education.</p>
-            </div>
+            {isHindi2026 ? (
+              <>
+                <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Is the SSC Hindi Board Exam 2026 postponed due to Holi?</h3>
+                  <p className="text-slate-300">There are rumors about the SSC Hindi exam being postponed since Holi (Dhulivandan) falls on March 3, just a day before the exam. As of now, the exam is scheduled for March 4, 2026. However, any official change from MSBSHSE regarding postponement will be updated here instantly."</p>
+                </div>
+                <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the SSC Hindi 2026 paper harder than previous years?</h3>
+                  <p className="text-slate-300">Yes, many students found the 2026 Hindi paper harder and more time-consuming than the 2025 paper. The Grammar section was particularly tricky this year."</p>
+                </div>
+                <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Are there any wrong questions or free marks in the Hindi 2026 paper?</h3>
+                  <p className="text-slate-300">We are currently checking the paper for errors. If there's a wrong question, students will get 1-2 bonus marks. Check our 'Wrong Question Tracker' on SciFun.in for the latest updates."</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the Class 10th {isEnglish ? "English" : "Marathi"} paper hard today?</h3>
+                  <p className="text-slate-300">Most students rated it as "Easy to Moderate."</p>
+                </div>
+                <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Where can I download the solved Answer Key?</h3>
+                  <p className="text-slate-300">You can download the PDF right here on SciFun Education.</p>
+                </div>
+              </>
+            )}
           </div>
         </section>
 

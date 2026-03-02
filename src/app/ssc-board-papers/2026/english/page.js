@@ -17,6 +17,7 @@ import {
   ZoomIn,
   Award
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function EnglishBoardPaper2026() {
   const [currentTime, setCurrentTime] = useState('');
@@ -110,8 +111,8 @@ export default function EnglishBoardPaper2026() {
 
         {/* Link Juicing Banner */}
         <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-rose-200">
-          <Link href="/maharashtra-board/ssc/hindi-question-paper-2026-answer-key">
-            🔥 Next Exam: Click Here for SSC Hindi Paper 2026 & Answer Key ➔
+          <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions">
+            🚨 Hindi Paper with Solutions — March 4, 2026 → Click Here ➔
           </Link>
         </div>
 
@@ -206,12 +207,16 @@ export default function EnglishBoardPaper2026() {
                 <div className="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-white px-4 py-1.5 rounded-2xl text-xs font-black shadow-lg">
                   PAGE {index + 1}
                 </div>
-                <img 
-                  src={url} 
-                  alt={`SSC English Paper 2026 Page ${index + 1}`} 
-                  className="w-full h-auto object-contain transform group-hover:scale-[1.03] transition-transform duration-700"
-                  loading="lazy"
-                />
+                <div className="relative w-full min-h-[500px] md:min-h-[800px]">
+                  <Image 
+                    src={url} 
+                    alt={`SSC English Paper 2026 Page ${index + 1}`} 
+                    fill
+                    className="object-contain transform group-hover:scale-[1.03] transition-transform duration-700"
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
                 <div className="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/5 transition-colors"></div>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                    <a href={url} target="_blank" rel="noopener noreferrer" className="bg-white text-indigo-600 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform">

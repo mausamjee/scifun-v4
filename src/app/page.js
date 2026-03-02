@@ -79,6 +79,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Upcoming Exams - IMPORTANT FOR SEO */}
+      <section className="bg-indigo-900 py-6">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+              <h2 className="text-white font-bold text-lg md:text-xl uppercase tracking-widest">Upcoming Exam Alert:</h2>
+            </div>
+            <Link 
+              href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions"
+              className="bg-white text-indigo-900 px-8 py-3 rounded-full font-black hover:bg-indigo-50 transition shadow-xl animate-pulse flex items-center gap-2 group w-full md:w-auto justify-center"
+            >
+              SSC Hindi Paper 2026 With Solutions (March 4) <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Courses Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-8">

@@ -1,5 +1,5 @@
 export default function sitemap() {
-const baseUrl = 'https://www.scifun.in'; // ✅ CORRECT  const baseUrl = 'https://www.scifun.com';
+  const baseUrl = 'https://scifun.in';
 
   // 1. Static Routes
   const staticRoutes = [
@@ -15,7 +15,6 @@ const baseUrl = 'https://www.scifun.in'; // ✅ CORRECT  const baseUrl = 'https:
   }));
 
   // 2. Dynamic Board Paper Routes
-  // Hardcoded for now as per requirements
   const subjects = ['marathi', 'english', 'hindi', 'math', 'science'];
   const years = ['2025', '2026'];
 
@@ -23,11 +22,19 @@ const baseUrl = 'https://www.scifun.in'; // ✅ CORRECT  const baseUrl = 'https:
 
   years.forEach((year) => {
     subjects.forEach((subject) => {
+      let finalSlug = subject;
+      const isHindi2026 = year === '2026' && subject === 'hindi';
+      
+      // Use specific high-performing slug for Hindi 2026
+      if (isHindi2026) {
+        finalSlug = 'ssc-board-hindi-question-paper-2026-with-solutions';
+      }
+
       paperRoutes.push({
-        url: `${baseUrl}/ssc-board-papers/${year}/${subject}`,
+        url: `${baseUrl}/ssc-board-papers/${year}/${finalSlug}`,
         lastModified: new Date(),
-        changeFrequency: 'daily', // High frequency for exam season
-        priority: 0.9,
+        changeFrequency: isHindi2026 ? 'hourly' : 'daily',
+        priority: isHindi2026 ? 1.0 : 0.9,
       });
     });
   });
