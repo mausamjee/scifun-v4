@@ -6,7 +6,7 @@ export async function POST(request) {
   // 1. Instructions:
   // Replace the URL below with your NEW standalone Apps Script URL 
   // after you deploy the demo-booking.gs in Apps Script.
-  const appsScriptUrl = 'YOUR_NEW_DEMO_APPS_SCRIPT_URL_HERE';
+  const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby6cyJdGT2IrJyCKk7Yhhe7YWXtAOvA4meVytu3EIJeCfJgsgB40QbJf6yo_BwPKrLj/exec';
 
   try {
     const appsScriptResponse = await fetch(appsScriptUrl, {
