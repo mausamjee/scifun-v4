@@ -65,10 +65,17 @@ export default function BoardPaperClient({ params }) {
     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhqD6WBKKYW9gu1r_nGPP6fdMX1-BVIZlrCpu_j08zYjT_0xBv_QpE3BqsaSpIQI6KJDoIgK4tLoP1QlxcNvyUY9WAzYWBi_d5cQZ5Yz-_Y6-1PFAbFBSi8PERnv1ob4Eef6Nwg6ffgw1b1BMS7Me4OCVS9GTcfhkUU8-57stki7qBfDITy1LcOHdvN0eM/s1504/page%2020.jpeg"
   ];
 
+  // Hindi Question Paper 2026 Pages
+  const hindiPages = [
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQZ67BB4Dq_gobmI8PDwq4hdNdd7-rC5KQtCwopj2-mrllxHvipnBKiLrh4JDcElJblGNThG4nyLSQuPBipDsmxNSTm2qnscxCC3e03h-i4vy3e2oklNa-2Ct4UbpWv9mt2LHtGXb3uaHgXJTlR6s-ADoGSlY4mhiyE11HShov39qvQqdm0C5TIj8ROPk/s1467/page1.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOY0QXydYDN-HdW3Wu1HmIq6Jfv-UBoAThHftUfZFMfJg55wVdTttcX7ikCXney4zRf9jwrVa_p76RMU6nvndVN4bVn-ov4UJPdJsa0SCF-FIC0krI0tprCQDklBhyphenhyphen_lN5kkWhRhTxOze9sOohFfzN-VsDGLcaLkoG_5Sy-wh7WAB6VwNiThOcLFVpcGs/s1471/page2.jpeg",
+    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyuIZRsA-FQMo3liWXNR-sLC3qbneWxtJo4sF6OCDLsDLz0tmB8avoMsGEM5eOg2gw5QO5Ezgg-JIvI4VyYzaMB3Aisgz1Paqee2nCMSBXR-AFvWMVru4vsm1jdP78I3R23nAKOpcn_vP5sa_d7QIKjxv8cUASwhfwW4S7HdSZJH0TVsKhZKvWTmOtuFs/s1451/page3.jpeg"
+  ];
+
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
   const isHindi2026 = examSlug === "hindi-question-paper-2026-answer-key";
-  const paperPages = isEnglish ? englishPages : marathiPages;
+  const paperPages = isEnglish ? englishPages : (isHindi2026 ? hindiPages : marathiPages);
 
 
   const displayTitle = examSlug
@@ -124,8 +131,17 @@ export default function BoardPaperClient({ params }) {
     { q: "A3 Antonyms (balance, non-existence...)", a: "(i) imbalance, (ii) existence, (iii) rare, (iv) first" },
     { q: "A4 (i) 'Wh' question", a: "What is our country well known for?" },
     { q: "A4 (ii) Subordinate clause", a: "...that have clearly become extinct (Adjective Clause)" },
-    { q: "Section V: Q.6 (A) Stain Types Table", a: "(1) Vegetable (Tea/Coffee) (2) Grease (Oil) (3) Animal (Milk/Blood) (4) Mineral (Rust) (5) Miscellaneous (Dye)" },
+    { q: "Section V: Q.6 (A) Stain Types Table", a: "1. Vegetable (Tea/Coffee) 2. Grease (Oil) 3. Animal (Milk/Blood) 4. Mineral (Rust) 5. Miscellaneous (Dye)" },
   ];
+
+  const hindiAnswerKey = [
+    { q: "Section 1: Q1 (A) शब्द युग्म पूर्ण करें", a: "खाते-पीते, धन-दौलत" },
+    { q: "Q1 (A) विलोम शब्द लिखिए", a: "रात x दिन, खुश x उदास" },
+    { q: "Section 2: पद्य विभाग (Grammar)", a: "Verified answers pending review." },
+    { q: "Self-study Question: परोपकार का महत्व", a: "परोपकार ही सबसे बड़ा धर्म है। दूसरों की सहायता करना ही सच्ची मानवता है।" },
+  ];
+
+  const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : []);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
@@ -180,7 +196,7 @@ export default function BoardPaperClient({ params }) {
           
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs md:text-sm mb-6">
             <div className="flex items-center gap-1 bg-slate-200 px-3 py-1 rounded-full text-slate-700 font-medium whitespace-nowrap">
-              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : "Feb 23, 2026"}
+              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : (isHindi2026 ? "Mar 04, 2026" : "Feb 23, 2026")}
             </div>
             <div className="flex items-center gap-1 whitespace-nowrap">
               <Clock size={14} /> Last Updated: Just Now
@@ -192,16 +208,16 @@ export default function BoardPaperClient({ params }) {
 
           <div className="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-indigo-50/50">
             <p className="leading-relaxed">
-              The <strong>Maharashtra SSC {isEnglish ? "English" : "Marathi"} Board Exam 2026</strong> has successfully concluded today, <strong>{isEnglish ? "February 27, 2026" : "February 23, 2026"}</strong>. Thousands of students across the state appeared for the examination.
+              The <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Exam 2026</strong> has successfully concluded today, <strong>{isEnglish ? "February 27, 2026" : (isHindi2026 ? "March 4, 2026" : "February 23, 2026")}</strong>. Thousands of students across the state appeared for the examination.
             </p>
             <p className="leading-relaxed mt-4">
-              We have now uploaded the <strong>Maharashtra SSC {isEnglish ? "English" : "Marathi"} Board Paper 2026 PDF</strong> and the <strong>{isEnglish ? "English" : "Marathi"} Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC {isEnglish ? "English" : "Marathi"} Answer Key</strong> and the full paper is available below for preview and download.
+              We have now uploaded the <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Paper 2026 PDF</strong> and the <strong>{isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Answer Key</strong> and the full paper is available below for preview and download.
             </p>
           </div>
         </header>
 
-        {/* Marathi & English Specific Content */}
-        {(isMarathi || isEnglish) ? (
+        {/* Marathi & English & Hindi Specific Content */}
+        {(isMarathi || isEnglish || isHindi2026) ? (
           <>
             {/* Answer Key & Solutions */}
             <section className="mb-12">
@@ -210,7 +226,7 @@ export default function BoardPaperClient({ params }) {
               </h2>
               
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-                {isEnglish ? (
+                {(isEnglish || isHindi2026) ? (
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
@@ -220,7 +236,7 @@ export default function BoardPaperClient({ params }) {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
-                        {englishAnswerKey.map((item, idx) => (
+                        {currentAnswerKey.map((item, idx) => (
                           <tr key={idx} className="hover:bg-indigo-50/50 transition-colors">
                             <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">{item.q}</td>
                             <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10">{item.a}</td>
@@ -266,11 +282,11 @@ export default function BoardPaperClient({ params }) {
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Subject</td>
-                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : "Marathi (Kumarbharati/Aksharbharati)"}</td>
+                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : (isHindi2026 ? "Hindi (S.L.)" : "Marathi (Kumarbharati/Aksharbharati)")}</td>
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Date</td>
-                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : "23 Feb 2026"}</td>
+                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : (isHindi2026 ? "04 Mar 2026" : "23 Feb 2026")}</td>
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Difficulty Level</td>
@@ -311,10 +327,10 @@ export default function BoardPaperClient({ params }) {
             {/* H2: Paper Preview Section */}
             <section className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
-                <Eye className="text-indigo-600" /> {isEnglish ? "English" : "Marathi"} Board Paper 2026 - Page Preview
+                <Eye className="text-indigo-600" /> {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Paper 2026 - Page Preview
               </h2>
               <p className="text-slate-600 mb-6">
-                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : "Marathi"} Question Paper 2026 are shown below:
+                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Question Paper 2026 are shown below:
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-200 p-4 rounded-3xl">
@@ -347,7 +363,7 @@ export default function BoardPaperClient({ params }) {
             {/* H2: Download Section */}
             <section className="mb-12 bg-white p-8 rounded-3xl border border-indigo-100 shadow-xl text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-                Download {isEnglish ? "English" : "Marathi"} Board Question Paper 2026 PDF
+                Download {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Question Paper 2026 PDF
               </h2>
               <p className="text-slate-600 mb-8">
                 The official scanned copy of today's question paper is ready for download.
@@ -358,7 +374,7 @@ export default function BoardPaperClient({ params }) {
                   <a 
                     href={paperPages[0]} 
                     className="flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-5 rounded-full font-extrabold transition-all shadow-xl hover:scale-105"
-                    download={`SSC-${isEnglish ? "English" : "Marathi"}-Paper-2026.jpeg`}
+                    download={`SSC-${isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")}-Paper-2026.jpeg`}
                   >
                     <Download size={24} /> DOWNLOAD FULL PAPER PDF
                   </a>
@@ -373,9 +389,9 @@ export default function BoardPaperClient({ params }) {
             <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-bounce">
               <Clock size={40} />
             </div>
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-4">Starting Soon...</h2>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-4">Preparation in Progress...</h2>
             <p className="text-slate-600 max-w-md mx-auto leading-relaxed mb-8">
-              The <strong>{displayTitle}</strong> is currently being prepared by our academic team. We will upload the scanned PDF and verified answer key as soon as the exam concludes.
+              The <strong>{displayTitle}</strong> materials are being updated. We will upload the scanned PDF and verified answer key as soon as possible.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
                <span className="bg-slate-100 text-slate-500 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
