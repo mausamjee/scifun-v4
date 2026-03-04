@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import BoardPaperClient from '../../[tier]/[exam-slug]/BoardPaperClient';
+import BoardPaperClient from '../../../[board]/[tier]/[exam-slug]/BoardPaperClient';
 
 export default function HindiBoardPaper2026() {
   const params = {

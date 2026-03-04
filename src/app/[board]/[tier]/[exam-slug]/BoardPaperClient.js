@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { 
   FileText, 
@@ -105,6 +105,47 @@ export default function BoardPaperClient({ params }) {
   const [currentTime, setCurrentTime] = useState('');
   const [status, setStatus] = useState('Checking Status...');
 
+  const [activePageIndex, setActivePageIndex] = useState(0);
+  const [isAnswerKeyExpanded, setIsAnswerKeyExpanded] = useState(false);
+  const pageRefs = useRef([]);
+  const thumbContainerRef = useRef(null);
+  const mainScrollRef = useRef(null);
+
+  useEffect(() => {
+    if (!mainScrollRef.current) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.getAttribute('data-index'));
+          setActivePageIndex(index);
+          if (thumbContainerRef.current) {
+            const thumb = thumbContainerRef.current.children[index];
+            if (thumb) {
+              thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+          }
+        }
+      });
+    }, {
+      root: mainScrollRef.current,
+      threshold: 0.5
+    });
+
+    pageRefs.current.forEach(ref => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [paperPages]);
+
+  const scrollToPage = (index) => {
+    setActivePageIndex(index);
+    if (pageRefs.current[index]) {
+      pageRefs.current[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -151,10 +192,38 @@ export default function BoardPaperClient({ params }) {
   ];
 
   const hindiAnswerKey = [
-    { q: "Section 1: Q1 (A) शब्द युग्म पूर्ण करें", a: "खाते-पीते, धन-दौलत" },
-    { q: "Q1 (A) विलोम शब्द लिखिए", a: "रात x दिन, खुश x उदास" },
-    { q: "Section 2: पद्य विभाग (Grammar)", a: "Verified answers pending review." },
-    { q: "Self-study Question: परोपकार का महत्व", a: "परोपकार ही सबसे बड़ा धर्म है। दूसरों की सहायता करना ही सच्ची मानवता है।" },
+    { q: "Section 1 - Q1. (अ) (1) (i) लेखक के साढू साहब का शहर", a: "खंडवा" },
+    { q: "(ii) लेखक का शहर", a: "इंदौर" },
+    { q: "(iii) लेखक इस स्टेशन पर उतरे", a: "मडगाँव" },
+    { q: "(iv) लेखक ने इस रेल से सफर किया", a: "गोवा एक्सप्रेस" },
+    { q: "Q1. (अ) (2) सही विधान: टैक्सी एक बड़ी-सी सड़क पर दौड़ी।", a: "टैक्सी एक पतली-सी सड़क पर दौड़ पड़ी।" },
+    { q: "Q1. (अ) (3) उपसर्गयुक्त 'अप्रसन्न' का मूल शब्द", a: "प्रसन्न" },
+    { q: "Q1. (अ) (3) उपसर्गयुक्त 'असमय' का मूल शब्द", a: "समय" },
+    { q: "Q1. (आ) (1) गद्यांश में उल्लिखित पात्र", a: "सरोज, बापू जी, काका (कालेलकर), लेखक" },
+    { q: "Q1. (आ) (2) काका जी द्वारा सरोज को संदेश", a: "उर्दू लिखना सीखो और पूरा आराम लो।" },
+    { q: "Q1. (आ) (3) 'कमजोरी' और 'साप्ताहिक' के मूल शब्द", a: "कमजोर (प्रत्यय: ई), सप्ताह (प्रत्यय: इक)" },
+    { q: "Q1. (इ) (1) उपभोक्ता संस्कृति टिकने के साधन", a: "पैसा, सुविधाएँ, मनोरंजन, आराम" },
+    { q: "Section 2 - Q2. (अ) (1) संख्या और महीना", a: "सौ, फागुन" },
+    { q: "Q2. (अ) (1) फूल को नोचने का अधिकार", a: "डाली और कोंपल" },
+    { q: "Q2. (अ) (2) विलोम: दुर्गंध x ? | पराई x ?", a: "गंध, अपनी" },
+    { q: "Q2. (अ) (2) वचन: काँटे | डाली", a: "बहुवचन, एकवचन" },
+    { q: "Q2. (आ) (1) कन्हैया के नाम | दूध के पदार्थ", a: "गिरधर, गोपाल | माखन, छाछ" },
+    { q: "Q2. (आ) (2) अर्थ: निकट | मयूर", a: "ढिग, मोर" },
+    { q: "Q2. (आ) (2) लिंग: पत्नी | दास", a: "पति, दासी" },
+    { q: "Section 3 - Q3. (अ) (1) लोग सिरचन को कहते/समझते हैं", a: "मुफ्तखोर, कामचोर, बेकार, बेगार" },
+    { q: "Q3. (आ) (1) जयमल-पत्ता | प्रहलाद | ध्रुव | भरत", a: "किसी को कुछ न गिनने वाला, लगन का सच्चा, मिट्टी में खेलने वाला, शेरों के दाँत गिनने वाला" },
+    { q: "Section 4 - Q4. (1) 'तुम' का शब्दभेद", a: "सर्वनाम (मध्यम पुरुषवाचक)" },
+    { q: "(2) अव्यय प्रयोग: परंतु | अरे!", a: "परंतु, अरे! (वाक्य प्रयोग)" },
+    { q: "(3) संधि: निस्संदेह | सूर्यास्त", a: "निः + संदेह (विसर्ग), सूर्य + अस्त (स्वर)" },
+    { q: "(4) सहायक क्रिया: पड़ा | दी", a: "पड़ना, देना" },
+    { q: "(5) प्रेरणार्थक: फैलना | जुटना", a: "फैलाना/फैलवाना, जुटाना/जुटवाना" },
+    { q: "(6) मुहावरा: जेब ढीली होना", a: "बहुत अधिक खर्च होना" },
+    { q: "(6) मुहावरा: गला फाड़ना", a: "ज़ोर-ज़ोर से चिल्लाना (या 'दाद दी')" },
+    { q: "(7) कारक: शहर में | स्वभाव से", a: "अधिकरण कारक, करण कारक" },
+    { q: "(9) काल परिवर्तन: पढ़ते हैं -> अपूर्ण भूत", a: "पढ़ रहे थे" },
+    { q: "(9) काल परिवर्तन: जा रहा था -> सामान्य भविष्य", a: "जाऊँगा" },
+    { q: "(10) रचना भेद: मिश्र वाक्य", a: "जी करता कि मौका मिलते ही..." },
+    { q: "(11) शुद्ध करें: बड़ी मजा आई", a: "बड़ा मज़ा आया" }
   ];
 
   const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : []);
@@ -243,24 +312,40 @@ export default function BoardPaperClient({ params }) {
               
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
                 {(isEnglish || isHindi2026) ? (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="bg-slate-900 text-white">
-                          <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm border-r border-slate-800">Question</th>
-                          <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm">Answer</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {currentAnswerKey.map((item, idx) => (
-                          <tr key={idx} className="hover:bg-indigo-50/50 transition-colors">
-                            <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">{item.q}</td>
-                            <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10">{item.a}</td>
+                  <>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="bg-slate-900 text-white">
+                            <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm border-r border-slate-800">Question</th>
+                            <th className="py-4 px-6 font-bold uppercase tracking-wider text-sm">Answer</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                          {(isAnswerKeyExpanded ? currentAnswerKey : currentAnswerKey.slice(0, 5)).map((item, idx) => (
+                            <tr key={idx} className="hover:bg-indigo-50/50 transition-colors">
+                              <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">{item.q}</td>
+                              <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10">{item.a}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {!isAnswerKeyExpanded && currentAnswerKey.length > 5 && (
+                      <div className="mt-6 text-center">
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsAnswerKeyExpanded(true);
+                          }}
+                          type="button"
+                          className="bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 px-8 py-3 rounded-full font-bold transition-all hover:scale-105 cursor-pointer relative z-[60]"
+                        >
+                          View Full Answer Key ({currentAnswerKey.length - 5} More) ⬇
+                        </button>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <>
                     <p className="text-slate-700 mb-6 italic">
@@ -349,30 +434,53 @@ export default function BoardPaperClient({ params }) {
                 Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Question Paper 2026 are shown below:
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-200 p-4 rounded-3xl">
-                {paperPages.map((url, index) => (
-                  <div key={index} className="relative group overflow-hidden rounded-2xl border-4 border-white shadow-md hover:shadow-2xl transition-all duration-300 bg-white">
-                    <div className="absolute top-2 left-2 z-10 bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-md">
-                      Page {index + 1}
-                    </div>
-                    <div className="relative w-full min-h-[500px] md:min-h-[800px]">
-                      <Image 
-                        src={url} 
-                        alt={`Board Paper Page ${index + 1}`} 
-                        fill
-                        className="object-contain transform group-hover:scale-[1.02] transition-transform duration-500"
-                        priority={index === 0}
-                        sizes="(max-width: 768px) 100vw, 50vw"
+              <div className="flex flex-col bg-white rounded-3xl overflow-hidden shadow-2xl relative border border-slate-200 mx-auto max-w-4xl">
+                {/* Thumbnail Bar (Horizontal Scroll) */}
+                <div 
+                  ref={thumbContainerRef}
+                  className="flex overflow-x-auto gap-3 p-4 bg-slate-50 border-b border-slate-200 snap-x snap-mandatory hide-scrollbar relative z-10"
+                  style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
+                >
+                  {paperPages.map((url, idx) => (
+                    <button
+                      key={`thumb-${idx}`}
+                      onClick={() => scrollToPage(idx)}
+                      className={`relative w-16 h-20 md:w-20 md:h-28 flex-shrink-0 rounded-lg overflow-hidden snap-center transition-all duration-300 border-2 ${activePageIndex === idx ? 'border-indigo-600 scale-105 shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                    >
+                      <img
+                        src={url}
+                        alt={`Thumb ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-0 right-0 bg-indigo-600 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-bl-lg shadow-sm">
+                        {idx + 1}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Main Viewer (Vertical Snap) */}
+                <div 
+                  ref={mainScrollRef}
+                  className="h-[60vh] md:h-[75vh] overflow-y-auto snap-y snap-mandatory bg-slate-100 hide-scrollbar"
+                  style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
+                >
+                  {paperPages.map((url, idx) => (
+                    <div 
+                      key={`page-${idx}`}
+                      ref={el => pageRefs.current[idx] = el}
+                      data-index={idx}
+                      className="w-full flex justify-center items-center snap-center snap-always min-h-full py-4"
+                    >
+                      <img
+                        src={url}
+                        alt={`Board Paper Page ${idx + 1}`}
+                        className="w-full h-auto max-w-4xl object-contain shadow-md"
+                        loading={idx === 0 ? "eager" : "lazy"}
                       />
                     </div>
-                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
-                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="bg-white/90 backdrop-blur p-2 rounded-full text-indigo-600 shadow-lg hover:bg-white inline-block">
-                        <ZoomIn size={20} />
-                      </a>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </section>
 
@@ -470,9 +578,25 @@ export default function BoardPaperClient({ params }) {
               <Share2 size={18} /> Share Results
            </button>
         </div>
+
+        {/* Hidden SEO Keywords Section in Hinglish */}
+        <div style={{ fontSize: '1px', color: '#f8fafc', opacity: 0.1, pointerEvents: 'none', userSelect: 'none' }} className="pt-2">
+          SSC Hindi N 917 question paper solution 2026 maharashtra board 10th Hindi answer key 2026 N 917 Hindi paper answers 10th Class Hindi Board Paper Solution. 
+          Goa! Yeh naam sunte hi sabhi ka man tarangayit ho uthta hai passage answers Priy Saroj, tumhara 16 se 18 tak likha hua patra (Kaka Kalelkar) answers Aaj ka yug aur sanskriti vigyapan kranti se vyapt hai passage solution Chahe sabhi suman bik jayen kavita ka arth Mere to giridhar gopal, dusro na koi padyansh ke prashn uttar. 
+          Lekhak ke sadhu sahab ka shehar kaun sa tha Kanhaiya ke naam kriti purn kijiye Upbhokta sanskriti tikne ke sadhan Durgandh aur Parai ka vilom shabd padyansh se Kamzori aur Saptahik ke mool shabd. 
+          SSC Hindi grammar solution 2026 10th Hindi N 917 vyakaran answers Prernarthak kriya 10th Hindi board Avyay vakya prayog Sandhi viched N 917 Aaj sirchan ko muftkhor passage solution Ham us dharti ke ladke hain kavita ke prashn uttar Tessie Thomas gadyansh akalan prashn. 
+          10th Hindi patra lekhan format 2026 Pustak pradarshani vigyapan lekhan Bal divas vrittant lekhan Jal hai to kal hai nibandh ssc hindi board paper solution 2026 answer key pdf download science fun scifun hindi solution.
+        </div>
       </main>
 
       <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
