@@ -267,7 +267,6 @@ export default function EnglishBoardPaper2026() {
       </main>
 
       <style jsx global>{`
-        html { scroll-behavior: smooth; }
         body { background-color: #f8fafc; }
         @keyframes slideUp {
           from { opacity: 0; transform: translateY(20px); }

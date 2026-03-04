@@ -231,8 +231,8 @@ export default function BoardPaperClient({ params }) {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       
-      {/* Live Progress Bar */}
-      <div className="sticky top-0 z-50 bg-indigo-600 text-white py-2 px-4 shadow-md text-xs md:text-sm">
+      {/* Live Progress Bar - Adjusted top to sit below main header (top-16 is roughly 64px) */}
+      <div className="sticky top-[64px] z-[40] bg-indigo-600 text-white py-2 px-4 shadow-md text-xs md:text-sm">
         <div className="max-w-4xl mx-auto flex justify-between items-center font-bold uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
@@ -459,10 +459,10 @@ export default function BoardPaperClient({ params }) {
                   ))}
                 </div>
 
-                {/* Main Viewer (Vertical Snap) */}
+                {/* Main Viewer (Vertical Snap - Proximity for better user control) */}
                 <div 
                   ref={mainScrollRef}
-                  className="h-[60vh] md:h-[75vh] overflow-y-auto snap-y snap-mandatory bg-slate-100 hide-scrollbar"
+                  className="h-[60vh] md:h-[75vh] overflow-y-auto snap-y snap-proximity bg-slate-100 hide-scrollbar"
                   style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
                 >
                   {paperPages.map((url, idx) => (
@@ -470,14 +470,17 @@ export default function BoardPaperClient({ params }) {
                       key={`page-${idx}`}
                       ref={el => pageRefs.current[idx] = el}
                       data-index={idx}
-                      className="w-full flex justify-center items-center snap-center snap-always min-h-full py-4"
+                      className="w-full flex justify-center items-center snap-center snap-always min-h-full py-4 px-2"
                     >
-                      <img
-                        src={url}
-                        alt={`Board Paper Page ${idx + 1}`}
-                        className="w-full h-auto max-w-4xl object-contain shadow-md"
-                        loading={idx === 0 ? "eager" : "lazy"}
-                      />
+                      {/* Image wrapper with aspect ratio to prevent CLS (Cumulative Layout Shift) */}
+                      <div className="w-full h-full flex items-center justify-center max-w-3xl aspect-[3/4] bg-slate-200/50 rounded-xl overflow-hidden shadow-lg border border-slate-200">
+                        <img
+                          src={url}
+                          alt={`Board Paper Page ${idx + 1}`}
+                          className="w-full h-full object-contain"
+                          loading={idx === 0 ? "eager" : "lazy"}
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
