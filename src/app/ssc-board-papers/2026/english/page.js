@@ -88,8 +88,8 @@ export default function EnglishBoardPaper2026() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-50 bg-indigo-600 text-white py-2 px-4 shadow-md">
+      {/* Header Bar */}
+      <div className="relative z-50 bg-indigo-600 text-white py-2 px-4 shadow-md">
         <div className="max-w-4xl mx-auto flex justify-between items-center text-xs md:text-sm font-bold uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
@@ -212,7 +212,7 @@ export default function EnglishBoardPaper2026() {
                     src={url} 
                     alt={`SSC English Paper 2026 Page ${index + 1}`} 
                     fill
-                    className="object-contain transform group-hover:scale-[1.03] transition-transform duration-700"
+                    className="object-contain"
                     priority={index === 0}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
@@ -229,7 +229,7 @@ export default function EnglishBoardPaper2026() {
         </section>
 
         {/* SEO FAQ Section */}
-        <section className="bg-slate-900 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden mb-16">
+        <section className="bg-slate-900 text-white p-10 relative z-10 rounded-[3rem] shadow-2xl overflow-hidden mb-16">
           <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full -mr-40 -mt-40 blur-[100px]"></div>
           <h2 className="text-2xl md:text-4xl font-extrabold mb-10 text-white flex items-center gap-3">
             <MessageSquare size={36} className="text-indigo-400" /> Board Paper FAQs
@@ -268,11 +268,6 @@ export default function EnglishBoardPaper2026() {
 
       <style jsx global>{`
         body { background-color: #f8fafc; }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        main { animation: slideUp 0.8s ease-out; }
       `}</style>
     </div>
   );

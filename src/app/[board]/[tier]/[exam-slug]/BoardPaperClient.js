@@ -122,7 +122,8 @@ export default function BoardPaperClient({ params }) {
           if (thumbContainerRef.current) {
             const thumb = thumbContainerRef.current.children[index];
             if (thumb) {
-              thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              const scrollPos = thumb.offsetLeft - (thumbContainerRef.current.clientWidth / 2) + (thumb.clientWidth / 2);
+              thumbContainerRef.current.scrollTo({ left: scrollPos, behavior: 'smooth' });
             }
           }
         }
@@ -141,8 +142,13 @@ export default function BoardPaperClient({ params }) {
 
   const scrollToPage = (index) => {
     setActivePageIndex(index);
-    if (pageRefs.current[index]) {
-      pageRefs.current[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (pageRefs.current[index] && mainScrollRef.current) {
+      const parent = mainScrollRef.current;
+      const child = pageRefs.current[index];
+      parent.scrollTo({
+        top: child.offsetTop - parent.offsetTop,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -231,8 +237,8 @@ export default function BoardPaperClient({ params }) {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       
-      {/* Live Progress Bar - Adjusted top to sit below main header (top-16 is roughly 64px) */}
-      <div className="sticky top-[64px] z-[40] bg-indigo-600 text-white py-2 px-4 shadow-md text-xs md:text-sm">
+      {/* Live Progress Bar */}
+      <div className="relative z-[40] bg-indigo-600 text-white py-2 px-4 shadow-md text-xs md:text-sm">
         <div className="max-w-4xl mx-auto flex justify-between items-center font-bold uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
@@ -270,7 +276,7 @@ export default function BoardPaperClient({ params }) {
         )}
 
         {/* Article Header */}
-        <header className="mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
+        <header className="mb-10">
           <div className="flex items-center gap-2 text-indigo-600 font-bold mb-4">
              <BookOpen size={20} />
              <span className="tracking-widest uppercase text-[10px] md:text-sm">{boardName} Board {tierName}</span>
@@ -363,7 +369,7 @@ export default function BoardPaperClient({ params }) {
             </section>
 
             {/* H2: Exam Overview & Analysis */}
-            <section className="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+            <section className="mb-12 bg-white relative z-10 p-2 md:p-4 rounded-3xl">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
                 <CheckCircle2 className="text-indigo-600" /> Exam Overview & Analysis
               </h2>
@@ -438,14 +444,14 @@ export default function BoardPaperClient({ params }) {
                 {/* Thumbnail Bar (Horizontal Scroll) */}
                 <div 
                   ref={thumbContainerRef}
-                  className="flex overflow-x-auto gap-3 p-4 bg-slate-50 border-b border-slate-200 snap-x snap-mandatory hide-scrollbar relative z-10"
+                  className="flex overflow-x-auto gap-3 p-4 bg-slate-50 border-b border-slate-200 hide-scrollbar relative z-10"
                   style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
                 >
                   {paperPages.map((url, idx) => (
                     <button
                       key={`thumb-${idx}`}
                       onClick={() => scrollToPage(idx)}
-                      className={`relative w-16 h-20 md:w-20 md:h-28 flex-shrink-0 rounded-lg overflow-hidden snap-center transition-all duration-300 border-2 ${activePageIndex === idx ? 'border-indigo-600 scale-105 shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                      className={`relative w-16 h-20 md:w-20 md:h-28 flex-shrink-0 rounded-lg overflow-hidden transition-all duration-300 border-2 ${activePageIndex === idx ? 'border-indigo-600 shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                     >
                       <img
                         src={url}
@@ -459,10 +465,10 @@ export default function BoardPaperClient({ params }) {
                   ))}
                 </div>
 
-                {/* Main Viewer (Vertical Snap - Proximity for better user control) */}
+                {/* Main Viewer (Height-auto to prevent breakout and overlaps) */}
                 <div 
                   ref={mainScrollRef}
-                  className="h-[60vh] md:h-[75vh] overflow-y-auto snap-y snap-proximity bg-slate-100 hide-scrollbar"
+                  className="max-h-[80vh] min-h-[500px] overflow-y-auto relative bg-slate-100 hide-scrollbar"
                   style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}
                 >
                   {paperPages.map((url, idx) => (
@@ -470,14 +476,14 @@ export default function BoardPaperClient({ params }) {
                       key={`page-${idx}`}
                       ref={el => pageRefs.current[idx] = el}
                       data-index={idx}
-                      className="w-full flex justify-center items-center snap-center snap-always min-h-full py-4 px-2"
+                      className="w-full flex justify-center py-6 px-4"
                     >
-                      {/* Image wrapper with aspect ratio to prevent CLS (Cumulative Layout Shift) */}
-                      <div className="w-full h-full flex items-center justify-center max-w-3xl aspect-[3/4] bg-slate-200/50 rounded-xl overflow-hidden shadow-lg border border-slate-200">
+                      {/* Image wrapper with height auto */}
+                      <div className="w-full max-w-3xl bg-white rounded-xl overflow-hidden shadow-lg border border-slate-200 relative">
                         <img
                           src={url}
                           alt={`Board Paper Page ${idx + 1}`}
-                          className="w-full h-full object-contain"
+                          className="w-full h-auto object-contain"
                           loading={idx === 0 ? "eager" : "lazy"}
                         />
                       </div>
@@ -534,7 +540,7 @@ export default function BoardPaperClient({ params }) {
 
 
         {/* FAQs */}
-        <section className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden mb-12">
+        <section className="bg-slate-900 relative z-10 text-white p-8 rounded-3xl shadow-2xl overflow-hidden mb-12">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
           <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
             <MessageSquare className="text-indigo-400" /> Frequently Asked Questions (FAQs)
@@ -600,11 +606,6 @@ export default function BoardPaperClient({ params }) {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        main { animation: fadeIn 0.8s ease-out; }
       `}</style>
     </div>
   );

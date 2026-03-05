@@ -57,7 +57,7 @@ export default function MarathiBoardPaper2026() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       {/* Live Progress Bar */}
-      <div className="sticky top-0 z-50 bg-indigo-600 text-white py-2 px-4 shadow-md">
+      <div className="relative z-50 bg-indigo-600 text-white py-2 px-4 shadow-md">
         <div className="max-w-4xl mx-auto flex justify-between items-center text-xs md:text-sm font-bold uppercase tracking-widest">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
@@ -236,7 +236,7 @@ export default function MarathiBoardPaper2026() {
         </section>
 
         {/* H2: FAQs Section */}
-        <section className="mb-12 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+        <section className="mb-12 bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative z-10 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
           <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
             <MessageSquare className="text-indigo-400" /> Frequently Asked Questions (FAQs)
@@ -284,13 +284,6 @@ export default function MarathiBoardPaper2026() {
         .ripple {
           position: relative;
           overflow: hidden;
-        }
-        main {
-          animation: fadeIn 0.8s ease-out;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>
