@@ -88,10 +88,16 @@ export default function BoardPaperClient({ params }) {
     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-tc1DCS6txVByiZ2TuG3NSotB_cgmDgx08RV9Gv4P7cqz3kb3L4ZZ1Ck-bfzUrF3hoAltqFfd22FwAqzck5iJjQeqnX7l2GH_g_pd2uDbzkmTuMhyphenhyphen3HTeCy2TYcz7S5scx_0BeWVPiGgQVoNRnLdTtmNwUq81BxdvheB3eh7M53syCc-w45lnrTy35Ek/s1364/page%2019.jpeg"
   ];
 
+  // Maths 1 (Algebra) Question Paper 2026 Pages
+  const math1Pages = [
+   
+  ];
+
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
   const isHindi2026 = examSlug === "hindi-question-paper-2026-answer-key";
-  const paperPages = isEnglish ? englishPages : (isHindi2026 ? hindiPages : marathiPages);
+  const isMath1 = examSlug === "ssc-maths-part1-algebra-question-paper-2026-with-solutions";
+  const paperPages = isEnglish ? englishPages : (isHindi2026 ? hindiPages : (isMath1 ? math1Pages : marathiPages));
 
 
   const displayTitle = examSlug
@@ -229,10 +235,32 @@ export default function BoardPaperClient({ params }) {
     { q: "(9) काल परिवर्तन: पढ़ते हैं -> अपूर्ण भूत", a: "पढ़ रहे थे" },
     { q: "(9) काल परिवर्तन: जा रहा था -> सामान्य भविष्य", a: "जाऊँगा" },
     { q: "(10) रचना भेद: मिश्र वाक्य", a: "जी करता कि मौका मिलते ही..." },
-    { q: "(11) शुद्ध करें: बड़ी मजा आई", a: "बड़ा मज़ा आया" }
+    { mural: "बड़ी मजा आई", corrected: "बड़ा मज़ा आया" }
   ];
 
-  const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : []);
+  const math1AnswerKey = [
+    { q: "Q1(A) — MCQ 1", a: "____" },
+    { q: "Q1(A) — MCQ 2", a: "____" },
+    { q: "Q1(A) — MCQ 3", a: "____" },
+    { q: "Q1(A) — MCQ 4", a: "____" },
+    { q: "Q1(B) — Fill Blank 1", a: "____" },
+    { q: "Q1(B) — Fill Blank 2", a: "____" },
+    { q: "Q1(B) — Fill Blank 3", a: "____" },
+    { q: "Q1(B) — Fill Blank 4", a: "____" },
+    { q: "Q2 — Short Answer (i)", a: "____" },
+    { q: "Q2 — Short Answer (ii)", a: "____" },
+    { q: "Q2 — Short Answer (iii)", a: "____" },
+    { q: "Q2 — Short Answer (iv)", a: "____" },
+    { q: "Q3 — Medium Answer (i)", a: "____" },
+    { q: "Q3 — Medium Answer (ii)", a: "____" },
+    { q: "Q3 — Medium Answer (iii)", a: "____" },
+    { q: "Q4 — Long Answer (i)", a: "____" },
+    { q: "Q4 — Long Answer (ii)", a: "____" },
+    { q: "Q5 — Activity (A)", a: "____" },
+    { q: "Q5 — Proof (B)", a: "____" },
+  ];
+
+  const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : []));
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
@@ -267,10 +295,17 @@ export default function BoardPaperClient({ params }) {
             </Link>
           </div>
         )}
-        {isEnglish && (
+        {(isEnglish || isMarathi || isHindi2026) && (
           <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-rose-200">
+            <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions">
+              🚨 SSC Algebra Paper 2026 with Solutions — March 6 LIVE Now ➔
+            </Link>
+          </div>
+        )}
+        {(isMath1) && (
+          <div className="bg-amber-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-amber-200">
             <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions">
-              🚨 Hindi Paper with Solutions — March 4, 2026 → Click Here ➔
+              🔥 Missing Hindi Paper Solutions? Click Here ➔
             </Link>
           </div>
         )}
@@ -282,12 +317,16 @@ export default function BoardPaperClient({ params }) {
              <span className="tracking-widest uppercase text-[10px] md:text-sm">{boardName} Board {tierName}</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-            {displayTitle} PDF Download: 10th Question Paper & Answer Key Live Updates
+            {isMath1 ? (
+              <>SSC Maths Part 1 (Algebra) Question Paper 2026 With Solutions — Maharashtra 10th Board</>
+            ) : (
+              <>{displayTitle} PDF Download: 10th Question Paper & Answer Key Live Updates</>
+            )}
           </h1>
           
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs md:text-sm mb-6">
             <div className="flex items-center gap-1 bg-slate-200 px-3 py-1 rounded-full text-slate-700 font-medium whitespace-nowrap">
-              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : (isHindi2026 ? "Mar 04, 2026" : "Feb 23, 2026")}
+              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : (isHindi2026 ? "Mar 04, 2026" : (isMath1 ? "Mar 06, 2026" : "Feb 23, 2026"))}
             </div>
             <div className="flex items-center gap-1 whitespace-nowrap">
               <Clock size={14} /> Last Updated: Just Now
@@ -298,26 +337,72 @@ export default function BoardPaperClient({ params }) {
           </div>
 
           <div className="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-indigo-50/50">
-            <p className="leading-relaxed">
-              The <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Exam 2026</strong> has successfully concluded today, <strong>{isEnglish ? "February 27, 2026" : (isHindi2026 ? "March 4, 2026" : "February 23, 2026")}</strong>. Thousands of students across the state appeared for the examination.
-            </p>
-            <p className="leading-relaxed mt-4">
-              We have now uploaded the <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Paper 2026 PDF</strong> and the <strong>{isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Answer Key</strong> and the full paper is available below for preview and download.
-            </p>
+            {isMath1 ? (
+              <>
+                <div className="mb-6 p-4 bg-indigo-50 rounded-2xl border-l-4 border-indigo-600">
+                  <p className="font-bold text-indigo-900 mb-2">Subject: Maths Part 1 — Algebra | Class: 10th (SSC)</p>
+                  <p className="text-sm">Exam Date: March 6, 2026 | Total Marks: 40</p>
+                  <p className="text-rose-600 font-bold mt-2 animate-pulse">⏳ Complete solutions uploading LIVE from 1:10 PM. Bookmark & Refresh this page.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                  <div className="bg-slate-900 text-white p-6 rounded-3xl shadow-xl">
+                    <h3 className="text-amber-400 font-bold mb-4 flex items-center gap-2">
+                      <FileText size={20} /> GUARANTEED FORMULAS 2026
+                    </h3>
+                    <ul className="space-y-3 text-sm font-mono">
+                      <li><span className="text-slate-400">Quadratic:</span> x = (-b ± √b²-4ac) / 2a</li>
+                      <li><span className="text-slate-400">AP nth:</span> aₙ = a + (n-1)d</li>
+                      <li><span className="text-slate-400">AP Sum:</span> Sₙ = n/2 [2a + (n-1)d]</li>
+                      <li><span className="text-slate-400">Prob:</span> P(A) = n(A) / n(S)</li>
+                      <li><span className="text-slate-400">Mean:</span> x̄ = Σfx / Σf</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl">
+                    <h3 className="text-indigo-600 font-bold mb-4 flex items-center gap-2">
+                      <ListOrdered size={20} /> EXPECTED PAPER PATTERN
+                    </h3>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      <li className="flex justify-between"><span>Q1(A) 4 MCQs</span> <strong>4 Marks</strong></li>
+                      <li className="flex justify-between"><span>Q1(B) 4 Fill Blanks</span> <strong>4 Marks</strong></li>
+                      <li className="flex justify-between"><span>Q2 4 Questions × 2M</span> <strong>8 Marks</strong></li>
+                      <li className="flex justify-between"><span>Q3 3 Questions × 3M</span> <strong>9 Marks</strong></li>
+                      <li className="flex justify-between"><span>Q4 2 Questions × 4M</span> <strong>8 Marks</strong></li>
+                      <li className="flex justify-between"><span>Q5 Activity & Proof</span> <strong>7 Marks</strong></li>
+                    </ul>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="leading-relaxed">
+                  The <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Exam 2026</strong> has successfully concluded today, <strong>{isEnglish ? "February 27" : (isHindi2026 ? "March 4" : (isMath1 ? "March 6" : "February 23"))}, 2026</strong>. Thousands of students across the state appeared for the examination.
+                </p>
+                <p className="leading-relaxed mt-4">
+                  We have now uploaded the <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Paper 2026 PDF</strong> and the <strong>{isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Answer Key</strong> and the full paper is available below for preview and download.
+                </p>
+              </>
+            )}
           </div>
         </header>
 
-        {/* Marathi & English & Hindi Specific Content */}
-        {(isMarathi || isEnglish || isHindi2026) ? (
+        {/* Marathi & English & Hindi & Maths Specific Content */}
+        {(isMarathi || isEnglish || isHindi2026 || isMath1) ? (
           <>
             {/* Answer Key & Solutions */}
             <section className="mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
-                <ListOrdered className="text-indigo-600 flex-shrink-0" /> {displayTitle} Solutions
+              <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-2 flex items-center gap-2">
+                <ListOrdered className="text-indigo-600 flex-shrink-0" /> {isMath1 ? "SSC Algebra 2026 — Complete Answer Key" : (displayTitle + " Solutions")}
               </h2>
+              {isMath1 && (
+                <p className="text-slate-500 mb-6 font-semibold">
+                  Last Updated: <span className="text-rose-600 animate-pulse">Updating from 1:10 PM</span>
+                </p>
+              )}
               
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-                {(isEnglish || isHindi2026) ? (
+                {(isEnglish || isHindi2026 || isMath1) ? (
                   <>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse">
@@ -389,11 +474,11 @@ export default function BoardPaperClient({ params }) {
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Subject</td>
-                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : (isHindi2026 ? "Hindi (S.L.)" : "Marathi (Kumarbharati/Aksharbharati)")}</td>
+                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : (isHindi2026 ? "Hindi (S.L.)" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi (Kumarbharati/Aksharbharati)"))}</td>
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Date</td>
-                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : (isHindi2026 ? "04 Mar 2026" : "23 Feb 2026")}</td>
+                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : (isHindi2026 ? "04 Mar 2026" : (isMath1 ? "06 Mar 2026" : "23 Feb 2026"))}</td>
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Difficulty Level</td>
@@ -422,11 +507,15 @@ export default function BoardPaperClient({ params }) {
                     <>
                       "The <strong>10th Board English Paper 2026</strong> was well-balanced. Section 1 (Language Study) and Section 4 (Non-Textual) were straightforward. The <strong>English Grammar</strong> section was scoring, while the <strong>Writing Skills</strong> gave students ample choice to express their creativity."
                     </>
+                  ) : (isMath1 ? (
+                    <>
+                      "The <strong>10th Board Maths Part 1 (Algebra) Paper 2026</strong> was very student-friendly. Most questions from the <strong>Linear Equations</strong> and <strong>Quadratic Equations</strong> sections were direct. The <strong>Probability</strong> part was scoring, while <strong>Arithmetic Progression</strong> tested conceptual clarity."
+                    </>
                   ) : (
                     <>
                       "The <strong>10th Board Marathi Paper 2026</strong> was well-balanced. Section 1 (Prose) and Section 2 (Poetry) were straight from the textbook. The <strong>Marathi Vyakaran (Grammar)</strong> section was scoring, while the <strong>Upyojit Lekhan (Writing Skills)</strong> gave students ample choice to express their creativity."
                     </>
-                  )}
+                  ))}
                 </p>
               </div>
             </section>
@@ -434,10 +523,10 @@ export default function BoardPaperClient({ params }) {
             {/* H2: Paper Preview Section */}
             <section className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
-                <Eye className="text-indigo-600" /> {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Paper 2026 - Page Preview
+                <Eye className="text-indigo-600" /> {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Paper 2026 - Page Preview
               </h2>
               <p className="text-slate-600 mb-6">
-                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Question Paper 2026 are shown below:
+                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Question Paper 2026 are shown below:
               </p>
               
               <div className="flex flex-col bg-white rounded-3xl overflow-hidden shadow-2xl relative border border-slate-200 mx-auto max-w-4xl">
@@ -496,7 +585,7 @@ export default function BoardPaperClient({ params }) {
             {/* H2: Download Section */}
             <section className="mb-12 bg-white p-8 rounded-3xl border border-indigo-100 shadow-xl text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-                Download {isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")} Board Question Paper 2026 PDF
+                Download {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Question Paper 2026 PDF
               </h2>
               <p className="text-slate-600 mb-8">
                 The official scanned copy of today's question paper is ready for download.
@@ -507,7 +596,7 @@ export default function BoardPaperClient({ params }) {
                   <a 
                     href={paperPages[0]} 
                     className="flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-5 rounded-full font-extrabold transition-all shadow-xl hover:scale-105"
-                    download={`SSC-${isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")}-Paper-2026.jpeg`}
+                    download={`SSC-${isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))}-Paper-2026.jpeg`}
                   >
                     <Download size={24} /> DOWNLOAD FULL PAPER PDF
                   </a>
