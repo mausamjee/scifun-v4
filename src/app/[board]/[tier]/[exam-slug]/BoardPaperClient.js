@@ -109,7 +109,7 @@ const math1Pages = [
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiI7uzohOEE0RUyb_8eYA407KoAikrpfAslf3PGdpqmsoKsiFBOYVbqWCHHlReayjlvXAfLFExOPt4r4DeZG4TV2q3UBuhKLFRY0_KRnRP7j8f2iR5fPBSXo_pfvwuBJcVhnH9w_lQHciO4dsk-1TUK0DE6U4Y_W21AkeDULDpe11JIo38pLtdnRei-OuZ/s1600/PAGE%209.jpeg",
 
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh59xsP-Md781tvKd0uch-rJjgsDyTb4hz4oy245pInIJ10j6nDGzKBgHTxABecxAeg_GbRKd-UQWEQ3hh8BJplaMVtGiUdxSZA7LgS6JGLJvawE32_4yQrOGnzQc6GVRuJunKdTTLtJgN21qznT4J_GyeJvTx-RA6wHCSXCIlVOIYCiRw95TVY13EtOQG0/s1295/PAGE%2010.jpeg",
-href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiSSHJ1w38kR3WQ7EkezGE_a10RPkkqGbLUx1V3vsN1Sp6S8SPGQpnLG8sYuUxRmPD1feEIq3Qe8LTxLPZfsXr_xWQCGwdQblk4hIVKecANEQR9m0R5DiGukN6yKZhABIpMhizAR_4WOr-TKljthpmqpSXR2QZItrpL2S6mHjAITPGlIJqvNYt3kGPb6DfL/s1600/PAGE%2011.jpeg"
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiSSHJ1w38kR3WQ7EkezGE_a10RPkkqGbLUx1V3vsN1Sp6S8SPGQpnLG8sYuUxRmPD1feEIq3Qe8LTxLPZfsXr_xWQCGwdQblk4hIVKecANEQR9m0R5DiGukN6yKZhABIpMhizAR_4WOr-TKljthpmqpSXR2QZItrpL2S6mHjAITPGlIJqvNYt3kGPb6DfL/s1600/PAGE%2011.jpeg"
 ];
 
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
