@@ -258,25 +258,29 @@ const math1Pages = [
   ];
 
   const math1AnswerKey = [
-    { q: "Q1(A) — MCQ 1", a: "____" },
-    { q: "Q1(A) — MCQ 2", a: "____" },
-    { q: "Q1(A) — MCQ 3", a: "____" },
-    { q: "Q1(A) — MCQ 4", a: "____" },
-    { q: "Q1(B) — Fill Blank 1", a: "____" },
-    { q: "Q1(B) — Fill Blank 2", a: "____" },
-    { q: "Q1(B) — Fill Blank 3", a: "____" },
-    { q: "Q1(B) — Fill Blank 4", a: "____" },
-    { q: "Q2 — Short Answer (i)", a: "____" },
-    { q: "Q2 — Short Answer (ii)", a: "____" },
-    { q: "Q2 — Short Answer (iii)", a: "____" },
-    { q: "Q2 — Short Answer (iv)", a: "____" },
-    { q: "Q3 — Medium Answer (i)", a: "____" },
-    { q: "Q3 — Medium Answer (ii)", a: "____" },
-    { q: "Q3 — Medium Answer (iii)", a: "____" },
-    { q: "Q4 — Long Answer (i)", a: "____" },
-    { q: "Q4 — Long Answer (ii)", a: "____" },
-    { q: "Q5 — Activity (A)", a: "____" },
-    { q: "Q5 — Proof (B)", a: "____" },
+    { q: "Q1(A) — MCQ 1 (ii) Not a quadratic equation", a: "(A) x² + 4x = 11 + x²" },
+    { q: "Q1(A) — MCQ 2 (iii) Value of y when x=1 for 4x+5y=19", a: "(B) 3" },
+    { q: "Q1(A) — MCQ 3 (iv) Sum of first five multiples of 3", a: "(A) 45" },
+    { q: "Q1(A) — MCQ 4 (Reserved)", a: "____" },
+    { q: "Q1(B) — (i) Rate of GST if CGST is 9%", a: "18%" },
+    { q: "Q1(B) — (ii) Value of x if Dx = -42 and D = -3", a: "x = 14" },
+    { q: "Q1(B) — (iii) Sample space for two coins tossed", a: "S = {HH, HT, TH, TT}" },
+    { q: "Q1(B) — (iv) Standard form of 2y = 10 - y²", a: "y² + 2y - 10 = 0" },
+    { q: "Q2(A) — (i) Probability of prime number on a die (Box 4)", a: "3/6 = 1/2" },
+    { q: "Q2(B) — (i) Probability of at least one head (2 coins)", a: "3/4" },
+    { q: "Q2(B) — (ii) Simultaneous equations (x+y=4, 2x-y=2)", a: "(x, y) = (2, 2)" },
+    { q: "Q2(B) — (iii) Roots of x² + x - 20 = 0", a: "4 and -5" },
+    { q: "Q2(B) — (iv) 24th term of A.P. (12, 16, 20...)", a: "104" },
+    { q: "Q2(B) — (v) Mean if Σxifi = 1265 and N = 50", a: "25.3" },
+    { q: "Q3(A) — (i) Shreekar Laptop Tax Activity (Final amount)", a: "₹ 53,100 (CGST 4050, SGST 4050)" },
+    { q: "Q3(B) — (i) Two numbers differing by 3 (Sum 19)", a: "Greater = 5, Smaller = 2" },
+    { q: "Q3(B) — (ii) Total NSC investment in 12 years", a: "₹ 1,92,000" },
+    { q: "Q3(B) — (iii) Probability: (1) Natural (2) Whole number", a: "(1) 5/6, (2) 1" },
+    { q: "Q4 — (i) Roots sum=7, cubes sum=91. Find equation.", a: "x² - 7x + 12 = 0" },
+    { q: "Q4 — (ii) Smt. Tejaswini total amount for 100 shares", a: "₹ 90,531" },
+    { q: "Q4 — (iii) Median of flood relief fund data", a: "₹ 33.67" },
+    { q: "Q5 — (i) Survey: Pie diagram 'a' value", a: "a = 15" },
+    { q: "Q5 — (ii) Students in group A and B", a: "A = 7, B = 5" },
   ];
 
   const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : []));
@@ -422,7 +426,7 @@ const math1Pages = [
               </h2>
               {isMath1 && (
                 <p className="text-slate-500 mb-6 font-semibold">
-                  Last Updated: <span className="text-rose-600 animate-pulse">Updating from 1:10 PM</span>
+                  Last Updated: <span className="text-emerald-600 font-bold">Solutions Uploaded Live</span>
                 </p>
               )}
               
