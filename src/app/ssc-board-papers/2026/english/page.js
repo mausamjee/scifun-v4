@@ -249,6 +249,31 @@ export default function EnglishBoardPaper2026() {
           </div>
         </section>
 
+        {/* Internal Links: SSC 2026 Board Papers */}
+        <section className="mb-12 border-t border-slate-200 pt-10">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <BookOpen size={24} className="text-indigo-600" /> Explore More SSC Board Papers 2026
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link href="/ssc-board-papers/2026/marathi" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Marathi Board Paper 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/hindi" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Hindi Board Paper 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Hindi Paper With Solutions</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Algebra (Maths 1) Paper & Solutions 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+          </div>
+        </section>
+
         {/* Share & CTA */}
         <div className="border-t border-slate-200 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex flex-col gap-2 scale-100 translate-y-0 opacity-100">

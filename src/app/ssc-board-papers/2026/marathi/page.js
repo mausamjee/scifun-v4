@@ -71,10 +71,10 @@ export default function MarathiBoardPaper2026() {
       </div>
 
       <main className="max-w-4xl mx-auto px-4 pt-8 md:pt-12">
-        {/* Link Juicing Banner: Passes authority from high-traffic Marathi to new English page */}
-        <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-indigo-200">
-          <Link href="/maharashtra-board/ssc/english-question-paper-2026-answer-key">
-            🚨 Next Exam: Click Here for SSC English Paper 2026 & Live Answer Key (Feb 27) ➔
+        {/* Link Juicing Banner: Passes authority from high-traffic Marathi to new Maths page */}
+        <div className="bg-rose-600 hover:bg-rose-700 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-rose-200 transition-all">
+          <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions">
+            🚨 Maths Algebra Paper 2026 Solutions LIVE from 1:10 PM ➔ 
           </Link>
         </div>
 
@@ -263,6 +263,31 @@ export default function MarathiBoardPaper2026() {
                 You can download the PDF solution and view the preview right here on <strong>SciFun Education</strong>.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Internal Links: SSC 2026 Board Papers */}
+        <section className="mb-12 border-t border-slate-200 pt-10">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <BookOpen size={24} className="text-indigo-600" /> Explore More SSC Board Papers 2026
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link href="/ssc-board-papers/2026/english" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC English Board Paper 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/hindi" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Hindi Board Paper 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Hindi Paper With Solutions</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
+            <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions" className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+              <span className="font-semibold text-slate-700">SSC Algebra (Maths 1) Paper & Solutions 2026</span>
+              <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+            </Link>
           </div>
         </section>
 

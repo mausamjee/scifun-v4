@@ -382,6 +382,12 @@ export default function BoardPaperClient({ params }) {
                 <p className="leading-relaxed mt-4">
                   We have now uploaded the <strong>Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Paper 2026 PDF</strong> and the <strong>{isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Question Paper Solution 2026</strong>. Our expert teachers have verified the <strong>SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Answer Key</strong> and the full paper is available below for preview and download.
                 </p>
+                
+                {isEnglish && (
+                  <p className="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-indigo-700 font-bold w-fit">
+                    Also see <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions" className="underline hover:text-indigo-900">Maths Paper 2026 With Solutions</Link>
+                  </p>
+                )}
               </>
             )}
           </div>
@@ -663,6 +669,27 @@ export default function BoardPaperClient({ params }) {
                 </div>
               </>
             )}
+          </div>
+        </section>
+
+        {/* Internal Links: SSC 2026 Board Papers */}
+        <section className="mb-12 border-t border-slate-200 pt-10">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <BookOpen size={24} className="text-indigo-600" /> Explore More SSC Board Papers 2026
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { href: "/ssc-board-papers/2026/marathi", title: "SSC Marathi Board Paper 2026", slug: "marathi-second-language-question-paper-2026-answer-key" },
+              { href: "/ssc-board-papers/2026/english", title: "SSC English Board Paper 2026", slug: "english-question-paper-2026-answer-key" },
+              { href: "/ssc-board-papers/2026/hindi", title: "SSC Hindi Board Paper 2026", slug: "hindi-question-paper-2026-answer-key" },
+              { href: "/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions", title: "SSC Hindi Paper With Solutions", slug: "ssc-board-hindi-question-paper-2026-with-solutions" },
+              { href: "/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions", title: "SSC Algebra (Maths 1) Paper & Solutions 2026", slug: "ssc-maths-part1-algebra-question-paper-2026-with-solutions" },
+            ].filter(link => link.slug !== examSlug).map((link, idx) => (
+              <Link key={idx} href={link.href} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
+                <span className="font-semibold text-slate-700">{link.title}</span>
+                <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+              </Link>
+            ))}
           </div>
         </section>
 

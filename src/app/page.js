@@ -93,10 +93,10 @@ export default function Home() {
               <h2 className="text-white font-bold text-lg md:text-xl uppercase tracking-widest">Upcoming Exam Alert:</h2>
             </div>
             <Link 
-              href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions"
+              href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions"
               className="bg-white text-indigo-900 px-8 py-3 rounded-full font-black hover:bg-indigo-50 transition shadow-xl animate-pulse flex items-center gap-2 group w-full md:w-auto justify-center"
             >
-              SSC Hindi Paper 2026 With Solutions (March 4) <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+              Maths Paper 2026 Coming March 6 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>

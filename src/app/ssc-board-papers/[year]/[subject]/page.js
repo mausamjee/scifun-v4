@@ -31,8 +31,27 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
+  const isScience = subject === 'science';
   const canonicalUrl = `https://scifun.in/ssc-board-papers/${year}/${subject}`;
+  
+  if (isScience) {
+    return {
+      title: "SSC Science Paper 2026 With Solutions | Maharashtra 10th Answer Key",
+      description: "Download the official Science question paper and answer key for the 2026 Maharashtra Board Exam. Complete solutions and analysis.",
+      keywords: ["Science board paper 2026", "SSC Science paper solution", "Maharashtra board 2026", "Science answer key 2026"],
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      openGraph: {
+        url: canonicalUrl,
+        title: "SSC Science Paper 2026 With Solutions | Maharashtra 10th Answer Key",
+        description: "Live Updates: Download SSC Science 2026 PDF and check Answer Key.",
+        type: 'article',
+      }
+    };
+  }
+
+  const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
   
   return {
     title: `Maharashtra SSC ${subjectName} Board Paper ${year} PDF Download`,
