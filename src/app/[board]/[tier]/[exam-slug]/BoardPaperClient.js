@@ -88,10 +88,28 @@ export default function BoardPaperClient({ params }) {
     "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-tc1DCS6txVByiZ2TuG3NSotB_cgmDgx08RV9Gv4P7cqz3kb3L4ZZ1Ck-bfzUrF3hoAltqFfd22FwAqzck5iJjQeqnX7l2GH_g_pd2uDbzkmTuMhyphenhyphen3HTeCy2TYcz7S5scx_0BeWVPiGgQVoNRnLdTtmNwUq81BxdvheB3eh7M53syCc-w45lnrTy35Ek/s1364/page%2019.jpeg"
   ];
 
-  // Maths 1 (Algebra) Question Paper 2026 Pages
-  const math1Pages = [
-   
-  ];
+// Maths 1 (Algebra) Question Paper 2026 Pages
+const math1Pages = [
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0jQHrZ9nCd7HFX5Q-gf1hX-TjMSZ8g-UHg8h5ThuHlSTy0o6JV9e6YlHgt8_ria0Yu4sHOfUivm4LfYNLv1gq0mebS7zunaDtVp-b_MiXQWnAGFWCHK1WdL6Rr85Ofznr9fS-AdXw5M6_Fk5Q_7XkpC-GKiIwvVFksGXfgdzoDR0UXE0_cIzM3ry6WxGt/s1600/page%201.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3yVVDacW_nksHE-M6KeihythAwcjEHDZO-ow35FWVHUhNnTAfZJZH97E_chzZuGZzxpnSLzEvlXDLy9vE6Z2T3aCwje5mLH-2Hw4xDlnPGmtfvDUgpwXWLn99P4yGWIT194lasYIm96OgiUx3SDIFp5rhOOEMfmzsG3NsfDXR3rlgPi0G2iRL5Wecf1Pv/s1600/page%202.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYqruPUXlA0hV3YmxsMwU9FPCDfRQViRqeed8xI-JxQDwUld9-KFHYRlAb6xoYyMUNcPkGYTTlDDYw4MNWeFjIj9vqu89dCg3zTDshPMx5oFo6rZ4WkJfHOaL6Eg_rf-QSssePp8-nojOv4cIo8H2vpPa5cEAe46OWyNzOeITkTgltq2owyaBPPDG2tJPe/s1289/page%203.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZx9VUhBHjZ20zaIA1fdz5ENU9EvPKStNdfwAwVGa7EWFqpNpVokRS3fUbH9PZ4EIJNElUzqYQNwL09Sg149fayEEMWuB_ahdJCn0oI2o_M5Vppwe7zq6COlRZF9BkUlSJi8oLsLTeLjctJwpiHJy6vSs9sP4E14-IE1tp0v5_AI5tCoNqnXQdguRaQcOJ/s1391/page%204.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOwhih4sTruUm7osT_391a_91H8FPtYUV-QLlTuHVAJRu1RgKXludTozdH8ASVwKWrAWMUu5K18X6Pm8ezmfWieDqPzu6vfQJfHQUElkSyEI4tfzfxwGozHJsPL4kBUdeiTW_FJ3WtJSzeUytQAunC9G_Jc24ojSflsU1S22_mM-wPQU5AA5ICsM1cH9Bt/s1320/page%205.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiF7_9jvmjnpVSjdFY-c2iAeXMcGYwrkrS7zsyZwE1bnV9Ceyt7XXp_LWGMGG3pKfYCZAqDkyKg7nw8qUt3mDOByfElAJplAbfGMNM6L5iqlLXLQG98brnkGdcXsDLSPJ8DjdZdlnd53d5AR2oow8Gujv3EoUTo0VnSpcbwGEfQykasSZMPGoN-x4A4FuRx/s1600/PAGE%206.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjznWEQtRXyHs-JNbTljcTId5ykIN_d1MKRPyHmH1GWVmMK1fHqZA2NJF95hZGS3mPKzyVcKz3UIBthpMLrXFBBXdeHMYgmmaoXtm_QW8O1Ud8Q4ymI0hyphenhyphenpOXYYhkbElWF7dnBtLgbHrlgUtcWfMu1J1tKD4BbVurfGmISX1kKy3XOAWgZvukV9vxbA5Ym7/s1309/PAGE%207.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjzBw5YcypMJSXSM0Yh7AVwk8fxq9stgWXiJ8zW1KHjj3Doj37tQyPI0f2uVRElCD3Y6IQuYaBgFDt5ll0pKxH1f4q2XhlozNZvZdfkLlQJv7sx6BPPAXfRI_doCeWF4XYOrJYA_YtqDjWibdCqD_Rm9WNZZu9KZhbCBJWe4MDWtzCqMaW6mYTNSTI5uUYg/s1309/PAGE%208.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiI7uzohOEE0RUyb_8eYA407KoAikrpfAslf3PGdpqmsoKsiFBOYVbqWCHHlReayjlvXAfLFExOPt4r4DeZG4TV2q3UBuhKLFRY0_KRnRP7j8f2iR5fPBSXo_pfvwuBJcVhnH9w_lQHciO4dsk-1TUK0DE6U4Y_W21AkeDULDpe11JIo38pLtdnRei-OuZ/s1600/PAGE%209.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh59xsP-Md781tvKd0uch-rJjgsDyTb4hz4oy245pInIJ10j6nDGzKBgHTxABecxAeg_GbRKd-UQWEQ3hh8BJplaMVtGiUdxSZA7LgS6JGLJvawE32_4yQrOGnzQc6GVRuJunKdTTLtJgN21qznT4J_GyeJvTx-RA6wHCSXCIlVOIYCiRw95TVY13EtOQG0/s1295/PAGE%2010.jpeg"
+];
 
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
