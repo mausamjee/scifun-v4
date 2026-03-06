@@ -15,7 +15,8 @@ import {
   BookOpen,
   ArrowRight,
   Eye,
-  ZoomIn
+  ZoomIn,
+  ChevronRight
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -132,6 +133,7 @@ const math1Pages = [
 
   const [activePageIndex, setActivePageIndex] = useState(0);
   const [isAnswerKeyExpanded, setIsAnswerKeyExpanded] = useState(false);
+  const [expandedAnswers, setExpandedAnswers] = useState({});
   const pageRefs = useRef([]);
   const thumbContainerRef = useRef(null);
   const mainScrollRef = useRef(null);
@@ -258,29 +260,29 @@ const math1Pages = [
   ];
 
   const math1AnswerKey = [
-    { q: "Q1(A) — MCQ 1 (ii) Not a quadratic equation", a: "(A) x² + 4x = 11 + x²" },
-    { q: "Q1(A) — MCQ 2 (iii) Value of y when x=1 for 4x+5y=19", a: "(B) 3" },
-    { q: "Q1(A) — MCQ 3 (iv) Sum of first five multiples of 3", a: "(A) 45" },
+    { q: "Q1(A) — MCQ 1 (ii) Not a quadratic equation", a: "(A) x² + 4x = 11 + x²", exp: "x² + 4x = 11 + x²\nSubtract x² from both sides to get 4x = 11, which is a linear equation. The highest power is 1, so it is not quadratic." },
+    { q: "Q1(A) — MCQ 2 (iii) Value of y when x=1 for 4x+5y=19", a: "(B) 3", exp: "Substitute x=1 into the equation:\n4(1) + 5y = 19\n5y = 19 - 4\n5y = 15\ny = 3." },
+    { q: "Q1(A) — MCQ 3 (iv) Sum of first five multiples of 3", a: "(A) 45", exp: "Multiples of 3: 3, 6, 9, 12, 15.\nSum = 3 + 6 + 9 + 12 + 15 = 45." },
     { q: "Q1(A) — MCQ 4 (Reserved)", a: "____" },
-    { q: "Q1(B) — (i) Rate of GST if CGST is 9%", a: "18%" },
-    { q: "Q1(B) — (ii) Value of x if Dx = -42 and D = -3", a: "x = 14" },
-    { q: "Q1(B) — (iii) Sample space for two coins tossed", a: "S = {HH, HT, TH, TT}" },
-    { q: "Q1(B) — (iv) Standard form of 2y = 10 - y²", a: "y² + 2y - 10 = 0" },
-    { q: "Q2(A) — (i) Probability of prime number on a die (Box 4)", a: "3/6 = 1/2" },
-    { q: "Q2(B) — (i) Probability of at least one head (2 coins)", a: "3/4" },
-    { q: "Q2(B) — (ii) Simultaneous equations (x+y=4, 2x-y=2)", a: "(x, y) = (2, 2)" },
-    { q: "Q2(B) — (iii) Roots of x² + x - 20 = 0", a: "4 and -5" },
-    { q: "Q2(B) — (iv) 24th term of A.P. (12, 16, 20...)", a: "104" },
-    { q: "Q2(B) — (v) Mean if Σxifi = 1265 and N = 50", a: "25.3" },
-    { q: "Q3(A) — (i) Shreekar Laptop Tax Activity (Final amount)", a: "₹ 53,100 (CGST 4050, SGST 4050)" },
-    { q: "Q3(B) — (i) Two numbers differing by 3 (Sum 19)", a: "Greater = 5, Smaller = 2" },
-    { q: "Q3(B) — (ii) Total NSC investment in 12 years", a: "₹ 1,92,000" },
-    { q: "Q3(B) — (iii) Probability: (1) Natural (2) Whole number", a: "(1) 5/6, (2) 1" },
-    { q: "Q4 — (i) Roots sum=7, cubes sum=91. Find equation.", a: "x² - 7x + 12 = 0" },
-    { q: "Q4 — (ii) Smt. Tejaswini total amount for 100 shares", a: "₹ 90,531" },
-    { q: "Q4 — (iii) Median of flood relief fund data", a: "₹ 33.67" },
-    { q: "Q5 — (i) Survey: Pie diagram 'a' value", a: "a = 15" },
-    { q: "Q5 — (ii) Students in group A and B", a: "A = 7, B = 5" },
+    { q: "Q1(B) — (i) Rate of GST if CGST is 9%", a: "18%", exp: "The rate of CGST equals the rate of SGST.\nSGST = 9%\nRate of GST = CGST + SGST = 9% + 9% = 18%." },
+    { q: "Q1(B) — (ii) Value of x if Dx = -42 and D = -3", a: "x = 14", exp: "According to Cramer's Rule:\nx = Dx / D\nx = -42 / -3 = 14" },
+    { q: "Q1(B) — (iii) Sample space for two coins tossed", a: "S = {HH, HT, TH, TT}", exp: "When two coins are tossed simultaneously, the possible combinations are Head-Head, Head-Tail, Tail-Head, and Tail-Tail." },
+    { q: "Q1(B) — (iv) Standard form of 2y = 10 - y²", a: "y² + 2y - 10 = 0", exp: "Move all terms to the left-hand side so the equation equals zero:\ny² + 2y - 10 = 0" },
+    { q: "Q2(A) — (i) Probability of prime number on a die (Box 4)", a: "3/6 = 1/2", exp: "Sample space S = {1, 2, 3, 4, 5, 6}, so n(S) = 6.\nPrime numbers A = {2, 3, 5}, so n(A) = 3.\nProbability P(A) = n(A) / n(S) = 3 / 6 = 1/2." },
+    { q: "Q2(B) — (i) Probability of at least one head (2 coins)", a: "3/4", exp: "S = {HH, HT, TH, TT}, n(S) = 4.\nAt least one head A = {HH, HT, TH}, n(A) = 3.\nProbability P(A) = 3 / 4." },
+    { q: "Q2(B) — (ii) Simultaneous equations (x+y=4, 2x-y=2)", a: "(x, y) = (2, 2)", exp: "Add the two equations:\n(x+y) + (2x-y) = 4 + 2\n3x = 6 ⇒ x = 2.\nSubstitute x=2 in first equation: 2 + y = 4 ⇒ y = 2." },
+    { q: "Q2(B) — (iii) Roots of x² + x - 20 = 0", a: "4 and -5", exp: "x² + 5x - 4x - 20 = 0\nx(x+5) - 4(x+5) = 0\n(x-4)(x+5) = 0\nTherefore, x = 4 or x = -5." },
+    { q: "Q2(B) — (iv) 24th term of A.P. (12, 16, 20...)", a: "104", exp: "First term a = 12, common difference d = 4. n = 24.\nFormula: tn = a + (n-1)d\nt24 = 12 + (23)(4) = 12 + 92 = 104." },
+    { q: "Q2(B) — (v) Mean if Σxifi = 1265 and N = 50", a: "25.3", exp: "Mean (x̄) = Σxifi / N\n= 1265 / 50 \n= 25.3" },
+    { q: "Q3(A) — (i) Shreekar Laptop Tax Activity (Final amount)", a: "₹ 53,100", exp: "Discount = 10% of 50,000 = ₹ 5,000.\nTaxable value = 50,000 - 5,000 = ₹ 45,000.\nCGST = SGST = 9% of 45,000 = ₹ 4,050.\nTotal amount = 45,000 + 4,050 + 4,050 = ₹ 53,100." },
+    { q: "Q3(B) — (i) Two numbers differing by 3 (Sum 19)", a: "Greater = 5, Smaller = 2", exp: "Let numbers be x and y. x - y = 3. 3x + 2y = 19.\nSubstitute x = y+3:\n3(y+3) + 2y = 19\n5y + 9 = 19 ⇒ 5y = 10 ⇒ y = 2.\nx = 2 + 3 = 5." },
+    { q: "Q3(B) — (ii) Total NSC investment in 12 years", a: "₹ 1,92,000", exp: "A.P. with a = 5000, d = 2000, n = 12.\nSum = (n/2)[2a + (n-1)d]\n= 6[10000 + 11(2000)] = 6[10000 + 22000]\n= 6 × 32000 = ₹ 1,92,000." },
+    { q: "Q3(B) — (iii) Probability: (1) Natural (2) Whole number", a: "(1) 5/6, (2) 1", exp: "Sample space S = {0,1,2,3,4,5}, n(S) = 6.\n(1) Natural numbers {1,2,3,4,5}, n = 5. P = 5/6.\n(2) Whole numbers {0,1,2,3,4,5}, n = 6. P = 6/6 = 1." },
+    { q: "Q4 — (i) Roots sum=7, cubes sum=91. Find equation.", a: "x² - 7x + 12 = 0", exp: "α+β = 7. α³+β³ = 91.\n(α+β)³ - 3αβ(α+β) = 91\n343 - 21αβ = 91\n21αβ = 252 ⇒ αβ = 12.\nEquation: x² - (sum)x + (product) = 0 ⇒ x² - 7x + 12 = 0." },
+    { q: "Q4 — (ii) Smt. Tejaswini total amount for 100 shares", a: "₹ 90,531", exp: "Sum invested = 100 × 900 = ₹ 90,000.\nBrokerage = 0.5% × 90,000 = ₹ 450.\nGST on brokerage = 18% × 450 = ₹ 81.\nTotal = 90000 + 450 + 81 = ₹ 90,531." },
+    { q: "Q4 — (iii) Median of flood relief fund data", a: "₹ 33.67", exp: "N = 105. N/2 = 52.5.\nMedian class matches cf just above 52.5, which is 30-40.\nL=30, f=15, cf=47, h=10.\nMedian = 30 + [(52.5 - 47) / 15] × 10 = 30 + 3.67 = ₹ 33.67." },
+    { q: "Q5 — (i) Survey: Pie diagram 'a' value", a: "a = 15", exp: "Total percentage = 100.\n35 + a + 2a + 20 = 100\n55 + 3a = 100 ⇒ 3a = 45 ⇒ a = 15." },
+    { q: "Q5 — (ii) Students in group A and B", a: "A = 7, B = 5", exp: "Condition 1 (A to B): x-1 = y+1 ⇒ x-y = 2.\nCondition 2 (B to A): x+1 = 2(y-1) ⇒ x-2y = -3.\nSubtracting equations: y = 5. Therefore, x = 7." },
   ];
 
   const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : []));
@@ -443,10 +445,43 @@ const math1Pages = [
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                           {(isAnswerKeyExpanded ? currentAnswerKey : currentAnswerKey.slice(0, 5)).map((item, idx) => (
-                            <tr key={idx} className="hover:bg-indigo-50/50 transition-colors">
-                              <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">{item.q}</td>
-                              <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10">{item.a}</td>
-                            </tr>
+                            <React.Fragment key={idx}>
+                              <tr 
+                                onClick={() => {
+                                  if (item.exp) {
+                                    setExpandedAnswers(prev => ({
+                                      ...prev,
+                                      [idx]: !prev[idx]
+                                    }));
+                                  }
+                                }}
+                                className={`hover:bg-indigo-50/50 transition-colors ${item.exp ? 'cursor-pointer' : ''}`}
+                              >
+                                <td className="py-4 px-6 text-slate-700 font-medium border-r border-slate-50 italic">
+                                  {item.q}
+                                </td>
+                                <td className="py-4 px-6 text-indigo-700 font-bold bg-indigo-50/10 flex items-center justify-between">
+                                  <span>{item.a}</span>
+                                  {item.exp && (
+                                    <span className="text-indigo-400 bg-white border border-indigo-100 rounded-full p-1 shadow-sm">
+                                      <ChevronRight size={16} className={`transition-transform duration-300 ${expandedAnswers[idx] ? 'rotate-90' : ''}`} />
+                                    </span>
+                                  )}
+                                </td>
+                              </tr>
+                              {item.exp && expandedAnswers[idx] && (
+                                <tr className="bg-slate-900 border-none">
+                                  <td colSpan={2} className="py-4 px-6">
+                                    <div className="flex gap-3 text-slate-300">
+                                      <div className="flex-shrink-0 mt-1"><CheckCircle2 size={16} className="text-emerald-400" /></div>
+                                      <div className="text-sm font-mono whitespace-pre-line leading-relaxed">
+                                        {item.exp}
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
                           ))}
                         </tbody>
                       </table>
