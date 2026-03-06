@@ -260,29 +260,117 @@ const math1Pages = [
   ];
 
   const math1AnswerKey = [
-    { q: "Q1(A) — MCQ 1 (ii) Not a quadratic equation", a: "(A) x² + 4x = 11 + x²", exp: "x² + 4x = 11 + x²\nSubtract x² from both sides to get 4x = 11, which is a linear equation. The highest power is 1, so it is not quadratic." },
-    { q: "Q1(A) — MCQ 2 (iii) Value of y when x=1 for 4x+5y=19", a: "(B) 3", exp: "Substitute x=1 into the equation:\n4(1) + 5y = 19\n5y = 19 - 4\n5y = 15\ny = 3." },
-    { q: "Q1(A) — MCQ 3 (iv) Sum of first five multiples of 3", a: "(A) 45", exp: "Multiples of 3: 3, 6, 9, 12, 15.\nSum = 3 + 6 + 9 + 12 + 15 = 45." },
+    { 
+      q: "Q1(A) — MCQ 1 (ii)", 
+      a: "(A) x² + 4x = 11 + x²", 
+      exp: "Question:\nOut of the following equations which one is not a quadratic equation?\n(A) x² + 4x = 11 + x²\n(B) x² = 4x\n(C) 5x² = 90\n(D) 2x - x² = x² + 5\n\nSolution:\nLet's simplify equation (A):\nx² + 4x = 11 + x²\nSubtract x² from both sides:\n4x = 11\nSince the highest power of the variable x is 1, this is a linear equation, not a quadratic equation. The other options remain quadratic after simplification.\nCorrect Option: (A)" 
+    },
+    { 
+      q: "Q1(A) — MCQ 2 (iii)", 
+      a: "(B) 3", 
+      exp: "Question:\nTo draw graph of 4x + 5y = 19, find the value of y when x = 1.\n(A) 4  (B) 3  (C) 2  (D) -3\n\nSolution:\nSubstitute x = 1 into the given equation:\n4(1) + 5y = 19\n4 + 5y = 19\n5y = 19 - 4\n5y = 15\ny = 15 / 5 = 3\nCorrect Option: (B)" 
+    },
+    { 
+      q: "Q1(A) — MCQ 3 (iv)", 
+      a: "(A) 45", 
+      exp: "Question:\nSum of first five multiples of 3 is ..................... .\n(A) 45  (B) 55  (C) 15  (D) 75\n\nSolution:\nThe first five multiples of 3 are: 3, 6, 9, 12, 15.\nSum = 3 + 6 + 9 + 12 + 15 = 45.\nAlternatively, use the Arithmetic Progression (A.P.) formula:\nSn = n/2 [2a + (n-1)d] where a = 3, d = 3, n = 5.\nS5 = 5/2 [2(3) + (5-1)3] = 5/2 [6 + 12] = 5/2 [18] = 5 × 9 = 45.\nCorrect Option: (A)" 
+    },
     { q: "Q1(A) — MCQ 4 (Reserved)", a: "____" },
-    { q: "Q1(B) — (i) Rate of GST if CGST is 9%", a: "18%", exp: "The rate of CGST equals the rate of SGST.\nSGST = 9%\nRate of GST = CGST + SGST = 9% + 9% = 18%." },
-    { q: "Q1(B) — (ii) Value of x if Dx = -42 and D = -3", a: "x = 14", exp: "According to Cramer's Rule:\nx = Dx / D\nx = -42 / -3 = 14" },
-    { q: "Q1(B) — (iii) Sample space for two coins tossed", a: "S = {HH, HT, TH, TT}", exp: "When two coins are tossed simultaneously, the possible combinations are Head-Head, Head-Tail, Tail-Head, and Tail-Tail." },
-    { q: "Q1(B) — (iv) Standard form of 2y = 10 - y²", a: "y² + 2y - 10 = 0", exp: "Move all terms to the left-hand side so the equation equals zero:\ny² + 2y - 10 = 0" },
-    { q: "Q2(A) — (i) Probability of prime number on a die (Box 4)", a: "3/6 = 1/2", exp: "Sample space S = {1, 2, 3, 4, 5, 6}, so n(S) = 6.\nPrime numbers A = {2, 3, 5}, so n(A) = 3.\nProbability P(A) = n(A) / n(S) = 3 / 6 = 1/2." },
-    { q: "Q2(B) — (i) Probability of at least one head (2 coins)", a: "3/4", exp: "S = {HH, HT, TH, TT}, n(S) = 4.\nAt least one head A = {HH, HT, TH}, n(A) = 3.\nProbability P(A) = 3 / 4." },
-    { q: "Q2(B) — (ii) Simultaneous equations (x+y=4, 2x-y=2)", a: "(x, y) = (2, 2)", exp: "Add the two equations:\n(x+y) + (2x-y) = 4 + 2\n3x = 6 ⇒ x = 2.\nSubstitute x=2 in first equation: 2 + y = 4 ⇒ y = 2." },
-    { q: "Q2(B) — (iii) Roots of x² + x - 20 = 0", a: "4 and -5", exp: "x² + 5x - 4x - 20 = 0\nx(x+5) - 4(x+5) = 0\n(x-4)(x+5) = 0\nTherefore, x = 4 or x = -5." },
-    { q: "Q2(B) — (iv) 24th term of A.P. (12, 16, 20...)", a: "104", exp: "First term a = 12, common difference d = 4. n = 24.\nFormula: tn = a + (n-1)d\nt24 = 12 + (23)(4) = 12 + 92 = 104." },
-    { q: "Q2(B) — (v) Mean if Σxifi = 1265 and N = 50", a: "25.3", exp: "Mean (x̄) = Σxifi / N\n= 1265 / 50 \n= 25.3" },
-    { q: "Q3(A) — (i) Shreekar Laptop Tax Activity (Final amount)", a: "₹ 53,100", exp: "Discount = 10% of 50,000 = ₹ 5,000.\nTaxable value = 50,000 - 5,000 = ₹ 45,000.\nCGST = SGST = 9% of 45,000 = ₹ 4,050.\nTotal amount = 45,000 + 4,050 + 4,050 = ₹ 53,100." },
-    { q: "Q3(B) — (i) Two numbers differing by 3 (Sum 19)", a: "Greater = 5, Smaller = 2", exp: "Let numbers be x and y. x - y = 3. 3x + 2y = 19.\nSubstitute x = y+3:\n3(y+3) + 2y = 19\n5y + 9 = 19 ⇒ 5y = 10 ⇒ y = 2.\nx = 2 + 3 = 5." },
-    { q: "Q3(B) — (ii) Total NSC investment in 12 years", a: "₹ 1,92,000", exp: "A.P. with a = 5000, d = 2000, n = 12.\nSum = (n/2)[2a + (n-1)d]\n= 6[10000 + 11(2000)] = 6[10000 + 22000]\n= 6 × 32000 = ₹ 1,92,000." },
-    { q: "Q3(B) — (iii) Probability: (1) Natural (2) Whole number", a: "(1) 5/6, (2) 1", exp: "Sample space S = {0,1,2,3,4,5}, n(S) = 6.\n(1) Natural numbers {1,2,3,4,5}, n = 5. P = 5/6.\n(2) Whole numbers {0,1,2,3,4,5}, n = 6. P = 6/6 = 1." },
-    { q: "Q4 — (i) Roots sum=7, cubes sum=91. Find equation.", a: "x² - 7x + 12 = 0", exp: "α+β = 7. α³+β³ = 91.\n(α+β)³ - 3αβ(α+β) = 91\n343 - 21αβ = 91\n21αβ = 252 ⇒ αβ = 12.\nEquation: x² - (sum)x + (product) = 0 ⇒ x² - 7x + 12 = 0." },
-    { q: "Q4 — (ii) Smt. Tejaswini total amount for 100 shares", a: "₹ 90,531", exp: "Sum invested = 100 × 900 = ₹ 90,000.\nBrokerage = 0.5% × 90,000 = ₹ 450.\nGST on brokerage = 18% × 450 = ₹ 81.\nTotal = 90000 + 450 + 81 = ₹ 90,531." },
-    { q: "Q4 — (iii) Median of flood relief fund data", a: "₹ 33.67", exp: "N = 105. N/2 = 52.5.\nMedian class matches cf just above 52.5, which is 30-40.\nL=30, f=15, cf=47, h=10.\nMedian = 30 + [(52.5 - 47) / 15] × 10 = 30 + 3.67 = ₹ 33.67." },
-    { q: "Q5 — (i) Survey: Pie diagram 'a' value", a: "a = 15", exp: "Total percentage = 100.\n35 + a + 2a + 20 = 100\n55 + 3a = 100 ⇒ 3a = 45 ⇒ a = 15." },
-    { q: "Q5 — (ii) Students in group A and B", a: "A = 7, B = 5", exp: "Condition 1 (A to B): x-1 = y+1 ⇒ x-y = 2.\nCondition 2 (B to A): x+1 = 2(y-1) ⇒ x-2y = -3.\nSubtracting equations: y = 5. Therefore, x = 7." },
+    { 
+      q: "Q1(B) — (i)", 
+      a: "18%", 
+      exp: "Question:\nOn certain article if rate of CGST is 9%, then what is the rate of GST?\n\nSolution:\nThe rate of GST is the sum of CGST (Central GST) and SGST (State GST). In any transaction, the rate of CGST equals the rate of SGST.\nTherefore, SGST = 9%.\nRate of GST = CGST + SGST = 9% + 9% = 18%." 
+    },
+    { 
+      q: "Q1(B) — (ii)", 
+      a: "x = 14", 
+      exp: "Question:\nFor simultaneous equations in variables x and y, if Dx = -42 and D = -3, then find the value of x.\n\nSolution:\nAccording to Cramer's Rule:\nx = Dx / D\nx = -42 / -3 = 14" 
+    },
+    { 
+      q: "Q1(B) — (iii)", 
+      a: "S = {HH, HT, TH, TT}", 
+      exp: "Question:\nWhen two coins are tossed simultaneously, write the sample space 'S'.\n\nSolution:\nWhen a single coin is tossed, outcomes are Head (H) or Tail (T). For two coins tossed simultaneously, the possible combinations are:\nS = {HH, HT, TH, TT}" 
+    },
+    { 
+      q: "Q1(B) — (iv)", 
+      a: "y² + 2y - 10 = 0", 
+      exp: "Question:\nWrite the following quadratic equation in the form ax² + bx + c = 0 :\n2y = 10 - y²\n\nSolution:\nTo write the equation in the standard form ax² + bx + c = 0, we move all terms to the left-hand side so the equation equals zero.\ny² + 2y - 10 = 0 (where a=1, b=2, c=-10)" 
+    },
+    { 
+      q: "Q2(A) — (i)", 
+      a: "1/2", 
+      exp: "Question:\nComplete activity: If one die is rolled, then find the probability of the event, that the number on the upper face is prime.\n\nSolution:\n'S' is the sample space. S = {1, 2, 3, 4, 5, 6}\n∴ n(S) = [6] (Box 1)\nEvent A : Prime number on the upper face. A = {2, 3, 5}\n∴ n(A) = [3] (Box 2)\n∴ P(A) = n(A) / [n(S)] (Box 3)\n∴ P(A) = [3] / 6 (Box 4)\n= 1/2" 
+    },
+    { 
+      q: "Q2(B) — (i)", 
+      a: "3/4", 
+      exp: "Question:\nIf two coins are tossed simultaneously, find the probability of the event, \"getting at least one head.\"\n\nSolution:\nWhen two coins are tossed, the sample space S = {HH, HT, TH, TT}. Total outcomes, n(S) = 4.\nLet event A be \"getting at least one head\".\nThe favorable outcomes for A are {HH, HT, TH}.\nNumber of favorable outcomes, n(A) = 3.\nProbability P(A) = n(A) / n(S) = 3/4." 
+    },
+    { 
+      q: "Q2(B) — (ii)", 
+      a: "(x, y) = (2, 2)", 
+      exp: "Question:\nSolve the following simultaneous equations : x + y = 4 ; 2x - y = 2\n\nSolution:\nLet x + y = 4 (Equation 1)\nLet 2x - y = 2 (Equation 2)\nAdding equation (1) and equation (2):\n(x + y) + (2x - y) = 4 + 2\n3x = 6 ⇒ x = 2\nSubstitute x = 2 into equation (1):\n2 + y = 4 ⇒ y = 4 - 2 = 2\nThe solution is (x, y) = (2, 2)" 
+    },
+    { 
+      q: "Q2(B) — (iii)", 
+      a: "4 and -5", 
+      exp: "Question:\nSolve the following quadratic equation by factorisation method : x² + x - 20 = 0\n\nSolution:\nWe need to find two numbers that multiply to -20 and add to +1. These numbers are 5 and -4.\nx² + 5x - 4x - 20 = 0\nFactor by grouping:\nx(x + 5) - 4(x + 5) = 0\n(x - 4)(x + 5) = 0\nTherefore, either (x - 4) = 0 or (x + 5) = 0\nx = 4 or x = -5.\nThe roots are 4 and -5." 
+    },
+    { 
+      q: "Q2(B) — (iv)", 
+      a: "104", 
+      exp: "Question:\nGiven A.P. is 12, 16, 20, 24, … Find the 24th term of this progression.\n\nSolution:\nFirst term, a = 12\nCommon difference, d = 16 - 12 = 4\nWe need to find t24 (n=24). Formula for nth term: tn = a + (n-1)d\nt24 = 12 + (24 - 1)4\nt24 = 12 + (23 × 4)\nt24 = 12 + 92 = 104\nThe 24th term is 104." 
+    },
+    { 
+      q: "Q2(B) — (v)", 
+      a: "25.3", 
+      exp: "Question:\nIf ∑xifi = 1265 and N = 50, then find the mean of the given data.\n\nSolution:\nThe formula for mean (x̄) is:\nx̄ = ∑xifi / N\nSubstitute the given values:\nx̄ = 1265 / 50\nx̄ = 126.5 / 5 = 25.3\nThe mean is 25.3." 
+    },
+    { 
+      q: "Q3(A) — (i)", 
+      a: "₹ 53,100", 
+      exp: "Question:\nShreekar bought a Laptop with 10% discount on printed price. The printed price was ₹ 50,000. 18% GST was charged on discounted price. Complete activity to find CGST, SGST and amount paid.\n\nSolution:\nDiscount = 10% of 50,000 = ₹ [5,000] (Box 1)\n∴ Taxable value of Laptop = 50,000 - [5,000] (Box 2) = ₹ 45,000\n∴ Rate of GST = [18%] (Box 3)\n∴ Rate of CGST = 9%\n∴ CGST = 9% of 45,000 = [9/100] (Box 4) × 45,000 = ₹ [4,050] (Box 5)\n∴ SGST = ₹ 4,050\nTotal amount of Laptop = 45,000 + 4,050 + 4,050 = ₹ [53,100] (Box 6)" 
+    },
+    { 
+      q: "Q3(B) — (i)", 
+      a: "Greater = 5, Smaller = 2", 
+      exp: "Question:\nTwo numbers differ by 3. The sum of twice the smaller number and thrice the greater number is 19. Find the numbers.\n\nSolution:\nLet the greater number be x and the smaller number be y.\nx - y = 3 ⇒ x = y + 3  --- (Eq 1)\n3x + 2y = 19 --- (Eq 2)\nSubstitute Eq 1 into Eq 2:\n3(y+3) + 2y = 19\n3y + 9 + 2y = 19\n5y + 9 = 19 ⇒ 5y = 10 ⇒ y = 2\nSubstitute y=2 in Eq 1:\nx = 2 + 3 ⇒ x = 5\nThe two numbers are 5 and 2." 
+    },
+    { 
+      q: "Q3(B) — (ii)", 
+      a: "₹ 1,92,000", 
+      exp: "Question:\nSachin invested in NSC Scheme. 1st year ₹ 5,000, 2nd year ₹ 7,000, 3rd year ₹ 9,000 and so on. Find total amount in 12 years.\n\nSolution:\nThe investments form an A.P.: 5000, 7000, 9000, …\nFirst term (a) = 5000, Common difference (d) = 2000, n = 12.\nWe need sum of 12 terms (S12).\nSn = (n/2) [2a + (n-1)d]\nS12 = (12/2) [2(5000) + (11)(2000)]\nS12 = 6 [10000 + 22000]\nS12 = 6 [32000] = 192,000\nThe total amount invested is ₹ 1,92,000." 
+    },
+    { 
+      q: "Q3(B) — (iii)", 
+      a: "(1) 5/6, (2) 1", 
+      exp: "Question:\nSix cards in a box, numbered 0 to 5. Find the probability that number drawn is: (1) natural number (2) whole number.\n\nSolution:\nSample space S = {0, 1, 2, 3, 4, 5}. Total outcomes n(S) = 6.\n(1) Natural number: A = {1, 2, 3, 4, 5}, n(A) = 5. P(A) = 5/6.\n(2) Whole number: B = {0, 1, 2, 3, 4, 5}, n(B) = 6. P(B) = 6/6 = 1." 
+    },
+    { 
+      q: "Q4 — (i)", 
+      a: "x² - 7x + 12 = 0", 
+      exp: "Question:\nThe sum of two roots of a quadratic equation is 7 and sum of their cubes is 91, find the equation.\n\nSolution:\nLet roots be α and β. Given: α+β = 7 and α³+β³ = 91.\nIdentity: α³+β³ = (α+β)³ - 3αβ(α+β)\nSubstitute values:\n91 = (7)³ - 3αβ(7)\n91 = 343 - 21αβ\n21αβ = 343 - 91 = 252\nαβ = 252 / 21 = 12\nQuadratic equation: x² - (Sum of roots)x + (Product of roots) = 0\n=> x² - 7x + 12 = 0." 
+    },
+    { 
+      q: "Q4 — (ii)", 
+      a: "Total = ₹ 90,531", 
+      exp: "Question:\nSmt. Tejaswini purchased 100 shares of FV ₹ 80 when MV is ₹ 900. Brokerage 0.5% and 18% GST. Find net amount, brokerage, GST and total amount.\n\nSolution:\n(1) Net amount (Sum invested): 100 shares × 900 (MV) = ₹ 90,000.\n(2) Brokerage: 0.5% of 90,000 = (0.5/100) × 90000 = ₹ 450.\n(3) GST on brokerage: 18% of 450 = ₹ 81.\n(4) Total amount paid: 90,000 + 450 + 81 = ₹ 90,531." 
+    },
+    { 
+      q: "Q4 — (iii)", 
+      a: "₹ 33.67", 
+      exp: "Question:\nThe table shows funds collected by 105 students for flood affected people. Find the median of the data.\n\nSolution:\nCreate Cumulative Frequency (CF) table:\n10-20: f=10, cf=10\n20-30: f=37, cf=47\n30-40: f=15, cf=62 (Median Class)\n...\nTotal N = 105. N/2 = 52.5.\nCF just greater than 52.5 is 62 (Class 30-40).\nL=30, f=15, cf=47 (preceding), h=10.\nMedian = L + [ (N/2 - cf) / f ] × h\n= 30 + [ (52.5 - 47) / 15 ] × 10\n= 30 + (5.5 / 15) × 10\n= 30 + 55 / 15 = 30 + 3.666...\n≈ ₹ 33.67" 
+    },
+    { 
+      q: "Q5 — (i)", 
+      a: "a = 15", 
+      exp: "Question:\nSurvey of transport modes: Bicycle 35%, Bus a%, Railway 2a%, Rickshaw 20%. Find 'a' and draw Pie diagram.\n\nSolution:\nStep 1: Total percentage = 100%\n35 + a + 2a + 20 = 100\n55 + 3a = 100 ⇒ 3a = 45 ⇒ a = 15.\nStep 2: Central angles\nBicycle (35%): (35/100)×360° = 126°\nBus (15%): (15/100)×360° = 54°\nRailway (30%): (30/100)×360° = 108°\nRickshaw (20%): (20/100)×360° = 72°\nStep 3: Draw circle, mark radii according to these angles." 
+    },
+    { 
+      q: "Q5 — (ii)", 
+      a: "A = 7, B = 5", 
+      exp: "Question:\nStudents in group A and B. 1 goes from A to B: groups becomes same. 1 goes from B to A: A becomes twice of B. Find students in each group.\n\nSolution:\nLet initially A have x students, B have y students.\nCondition 1 (A to B): (x - 1) = (y + 1) ⇒ x - y = 2  ---(Eq 1)\nCondition 2 (B to A): (x + 1) = 2(y - 1)\nx + 1 = 2y - 2 ⇒ x - 2y = -3  ---(Eq 2)\nFrom Eq 1, x = y + 2. Substitute in Eq 2:\n(y + 2) - 2y = -3\n-y + 2 = -3 ⇒ -y = -5 ⇒ y = 5\nThen x = 5 + 2 = 7.\nStudents in A: 7, Students in B: 5." 
+    },
   ];
 
   const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : []));
