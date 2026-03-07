@@ -19,6 +19,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import Image from 'next/image';
+import SmartDownloadButton from '@/components/SmartDownloadButton';
 
 export default function BoardPaperClient({ params }) {
   const { board, tier, 'exam-slug': examSlug } = params;
@@ -735,26 +736,22 @@ const math1Pages = [
             </section>
 
             {/* H2: Download Section */}
-            <section className="mb-12 bg-white p-8 rounded-3xl border border-indigo-100 shadow-xl text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-                Download {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Question Paper 2026 PDF
+            <section className="mb-12 bg-white p-8 md:p-12 rounded-[3rem] border border-indigo-50 shadow-2xl text-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500"></div>
+              
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+                Download Official PDF Paper
               </h2>
-              <p className="text-slate-600 mb-8">
-                The official scanned copy of today's question paper is ready for download.
+              <p className="text-slate-600 mb-10 max-w-2xl mx-auto text-lg">
+                Get the complete, high-resolution <strong>{isMath1 ? "SSC Maths Part 1 (Algebra)" : (isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi"))} Board Question Paper 2026</strong> for offline study.
               </p>
               
-              <div className="bg-indigo-600 p-8 rounded-2xl border-2 border-dashed border-indigo-300">
-                <div className="flex flex-col items-center gap-4">
-                  <a 
-                    href={paperPages[0]} 
-                    className="flex items-center gap-2 bg-white text-indigo-600 hover:bg-indigo-50 px-10 py-5 rounded-full font-extrabold transition-all shadow-xl hover:scale-105"
-                    download={`SSC-${isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))}-Paper-2026.jpeg`}
-                  >
-                    <Download size={24} /> DOWNLOAD FULL PAPER PDF
-                  </a>
-                  <span className="text-sm text-indigo-100 font-medium">Verified by SciFun Education | Format: JPEG/PDF</span>
-                </div>
-              </div>
+              <SmartDownloadButton 
+                fileUrl={isMath1 ? "https://drive.google.com/uc?export=download&id=11mIJ1apQyEmWte1QkzGUIZmUctZsAU-1" : paperPages[0]} 
+                fileName={`${isMath1 ? "SSC-Maths-Algebra" : (isEnglish ? "SSC-English" : (isHindi2026 ? "SSC-Hindi" : "SSC-Marathi"))}-Board-Paper-2026.pdf`}
+                paperId={examSlug}
+              />
+
             </section>
           </>
         ) : (
