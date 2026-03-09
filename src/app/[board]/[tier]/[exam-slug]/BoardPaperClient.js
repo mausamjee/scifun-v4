@@ -93,32 +93,51 @@ export default function BoardPaperClient({ params }) {
 // Maths 1 (Algebra) Question Paper 2026 Pages
 const math1Pages = [
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0jQHrZ9nCd7HFX5Q-gf1hX-TjMSZ8g-UHg8h5ThuHlSTy0o6JV9e6YlHgt8_ria0Yu4sHOfUivm4LfYNLv1gq0mebS7zunaDtVp-b_MiXQWnAGFWCHK1WdL6Rr85Ofznr9fS-AdXw5M6_Fk5Q_7XkpC-GKiIwvVFksGXfgdzoDR0UXE0_cIzM3ry6WxGt/s1600/page%201.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3yVVDacW_nksHE-M6KeihythAwcjEHDZO-ow35FWVHUhNnTAfZJZH97E_chzZuGZzxpnSLzEvlXDLy9vE6Z2T3aCwje5mLH-2Hw4xDlnPGmtfvDUgpwXWLn99P4yGWIT194lasYIm96OgiUx3SDIFp5rhOOEMfmzsG3NsfDXR3rlgPi0G2iRL5Wecf1Pv/s1600/page%202.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYqruPUXlA0hV3YmxsMwU9FPCDfRQViRqeed8xI-JxQDwUld9-KFHYRlAb6xoYyMUNcPkGYTTlDDYw4MNWeFjIj9vqu89dCg3zTDshPMx5oFo6rZ4WkJfHOaL6Eg_rf-QSssePp8-nojOv4cIo8H2vpPa5cEAe46OWyNzOeITkTgltq2owyaBPPDG2tJPe/s1289/page%203.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZx9VUhBHjZ20zaIA1fdz5ENU9EvPKStNdfwAwVGa7EWFqpNpVokRS3fUbH9PZ4EIJNElUzqYQNwL09Sg149fayEEMWuB_ahdJCn0oI2o_M5Vppwe7zq6COlRZF9BkUlSJi8oLsLTeLjctJwpiHJy6vSs9sP4E14-IE1tp0v5_AI5tCoNqnXQdguRaQcOJ/s1391/page%204.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgOwhih4sTruUm7osT_391a_91H8FPtYUV-QLlTuHVAJRu1RgKXludTozdH8ASVwKWrAWMUu5K18X6Pm8ezmfWieDqPzu6vfQJfHQUElkSyEI4tfzfxwGozHJsPL4kBUdeiTW_FJ3WtJSzeUytQAunC9G_Jc24ojSflsU1S22_mM-wPQU5AA5ICsM1cH9Bt/s1320/page%205.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiF7_9jvmjnpVSjdFY-c2iAeXMcGYwrkrS7zsyZwE1bnV9Ceyt7XXp_LWGMGG3pKfYCZAqDkyKg7nw8qUt3mDOByfElAJplAbfGMNM6L5iqlLXLQG98brnkGdcXsDLSPJ8DjdZdlnd53d5AR2oow8Gujv3EoUTo0VnSpcbwGEfQykasSZMPGoN-x4A4FuRx/s1600/PAGE%206.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjznWEQtRXyHs-JNbTljcTId5ykIN_d1MKRPyHmH1GWVmMK1fHqZA2NJF95hZGS3mPKzyVcKz3UIBthpMLrXFBBXdeHMYgmmaoXtm_QW8O1Ud8Q4ymI0hyphenhyphenpOXYYhkbElWF7dnBtLgbHrlgUtcWfMu1J1tKD4BbVurfGmISX1kKy3XOAWgZvukV9vxbA5Ym7/s1309/PAGE%207.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjzBw5YcypMJSXSM0Yh7AVwk8fxq9stgWXiJ8zW1KHjj3Doj37tQyPI0f2uVRElCD3Y6IQuYaBgFDt5ll0pKxH1f4q2XhlozNZvZdfkLlQJv7sx6BPPAXfRI_doCeWF4XYOrJYA_YtqDjWibdCqD_Rm9WNZZu9KZhbCBJWe4MDWtzCqMaW6mYTNSTI5uUYg/s1309/PAGE%208.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiI7uzohOEE0RUyb_8eYA407KoAikrpfAslf3PGdpqmsoKsiFBOYVbqWCHHlReayjlvXAfLFExOPt4r4DeZG4TV2q3UBuhKLFRY0_KRnRP7j8f2iR5fPBSXo_pfvwuBJcVhnH9w_lQHciO4dsk-1TUK0DE6U4Y_W21AkeDULDpe11JIo38pLtdnRei-OuZ/s1600/PAGE%209.jpeg",
-
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh59xsP-Md781tvKd0uch-rJjgsDyTb4hz4oy245pInIJ10j6nDGzKBgHTxABecxAeg_GbRKd-UQWEQ3hh8BJplaMVtGiUdxSZA7LgS6JGLJvawE32_4yQrOGnzQc6GVRuJunKdTTLtJgN21qznT4J_GyeJvTx-RA6wHCSXCIlVOIYCiRw95TVY13EtOQG0/s1295/PAGE%2010.jpeg",
 "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiSSHJ1w38kR3WQ7EkezGE_a10RPkkqGbLUx1V3vsN1Sp6S8SPGQpnLG8sYuUxRmPD1feEIq3Qe8LTxLPZfsXr_xWQCGwdQblk4hIVKecANEQR9m0R5DiGukN6yKZhABIpMhizAR_4WOr-TKljthpmqpSXR2QZItrpL2S6mHjAITPGlIJqvNYt3kGPb6DfL/s1600/PAGE%2011.jpeg"
 ];
+
+// Maths 2 (Geometry) Question Paper 2026 Pages
+const math2Pages = [
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitvFOpp94CIWABhIPxD9pXbzgPYvjUWp5HpDAXB1Gik9y2yfiIl1QRvsxlUePw0lE2snJTVlUcbdCQH9XYwOHFcbeGP8NU6nIIE1tQocRK9P22ZXm-1blS40-_6Ka_hw7XWyMUv4RbcE-dhbmeGicIBFdC2yNXMUU_0CjPZTLow6NNRNG2OhMdoiSYkIE/s1454/page%201.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5r7NfCGUG_5rAI5_Gj74jfS225DKeL4XFE7_ZGTyjuhu77RCqBmT7RD5gLHL7RsfYgUHx1eg9IXZvV7qWfZSUzHS1_7GbDbFLOTkCRFQv3HsFqgEhf5UzIKfvbD-ZFva4oRHXjEEhRGlDLFlKBPoSUdeOV7-LQJQG_P0w-pdgCmyzv69UGqCiuHfjOKk/s1504/page%202.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_OxZXcMvqm3QIq-6qAVFMBBldaJokcOHTcRNZa51MQdOoy8Nswz5_tnt6c1Kqhv8YPjtjFQzF-ddoiVt3hd5u2M1ng6QdlIzokIP1Cg-5338fwPU2UwKgmCOAxV4kwOIxHu9H_E9Zyy51N1Y_Sl55UOyPGILBZmOpk2UiGWxCxLVNNU4SKXKfHWwgdAc/s1405/page%203.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidcdyfpilaCXsuJKHkxYh8sT6zEgDWsXkA3nfc9lLhUOOQb8mO1JmnpGAhuXo_p_NMjkF8neLRUGrThVguQ48CIkoSpbWmi7rNcMnrtWaMSQ_hBIpv7MJ0mXqvmFZikae7Ry9c_cssHPzUByZO5oIyTe6kDrtSVl4W1RJac8yK19CJx9TtIO5LsE4MIeU/s1421/page%204.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikanxsWuQ6M_XV-hB5_DyL8in8FEmYT6ziRWHhZjxYb62d06v3KjE7jhvlv41mQizk4t7TZTW0mBZ65jk9uIYLCNARTEa-6I6oCU9_MZ1e0xBFVEsPyhg-L-UJ3GXI2yD3fXAfyKBJ5Hw5bH4nax3yHvUrXtgfXQtvet7nMM5KTmk-7bFvLbRAL93xDrE/s1388/page%205.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_dWXNQ9f30lGwkCdvmJG6L21DYhq-Y2Sab_I_B_96Tz5FX4eaQk8H6bJMye5k3HK7uq9MwmK02plGZ6U1D3fdBkZJTHuerNnAQx0UcmP-f0utXzR734M3QGCmpB4Fx4l9Z2U7Z8HFWIPmFh-fsjp1MGboU2fnu1OH0uCdKLFiwPNNm3C7XPNhypP-2Jk/s1440/page%206.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi7knGkWb2rZyomp5xPJp1tsMgAGZkSKrNueh0NQmcYlgCGxGtfp4noo_W-u7kMt8b3Hgxeb9TJlC6Hdyc3WXYHeRDIPzV__HF8n_ybMg8ZNQLSgPV_fxBAAb-u_d9XzJsutGwiTtYevV-vPdOFBKmTWx-JhPjfUu4sQKS0eQZAylKiy7SVEZ6MO2aaRuY/s1384/page%207.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpTpVFhIhDQG7S5R0EYrD30Qx05vbjAuMAiDmq6XCjgZZK3Znh5cB634qCyfPGy7NdEQpoBXe52ycAD8GwGyMQd-tvIaDuii442vfkwvbd7x6E3ybX8oPzKYyUYyZ3PuOhwm_GFC5Xn5IpTS13wsaiZlAUhcgzrCuJgIlaxz7YTDViWLWheAfeiAm2N0o/s1387/page%208.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhorAE4cqRUlD_ti0-eX1QHGbjFU9sm8QU9vQlNLY11cXYMRVip3iBrP_t5w-JagObGiILAKOwiVxuCmF2_jX62aseynW4bAwZHTnny5YoCTSVGeIcEcV8mSOYTVA0wFRCXNZ9qg7oWjmo4qXmhHufWmUvynnOekZGKuRJEiJxZk061V1FRe-0oMn6aw6Y/s1415/page%209.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKeLbgPRyPR-Ag2aLxNO0p-u5BIr1AUSFQ9xVVYPHGjDGd_-UcLLUCMIKQRPQUOg-Z0ejkNOipFnHFed8-lchFNpF83FxQHni20Hjg_w9QkK5EI10UXjBM-KEmdJOdmjzWT7vTo7fywrojKCOONfQ3gcgygPs9szTjWiIUMet5_xxuf8CqmOyMqGZ5tJc/s1416/page%2010.jpeg",
+
+"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdPhs93xsRgT7J-fODfs8wLd7IfZL2aHo8RrE3myDE46Xu5bCWGFZsZwevLGYMfkaMrtlaAyQ5eDs3GnsRogWEqyHBNCZrcB1N06GYz7AN39Z26n5sWJVYbIq9PPAd7ojylNow3C1b-kJLfAAwrkRK6tei1IPZzoAdwejQL2QJsr4IGOKIMwW3E-LBJww/s1372/page%2011.jpeg"
+];
+
 
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
   const isHindi2026 = examSlug === "hindi-question-paper-2026-answer-key";
   const isMath1 = examSlug === "ssc-maths-part1-algebra-question-paper-2026-with-solutions";
-  const paperPages = isEnglish ? englishPages : (isHindi2026 ? hindiPages : (isMath1 ? math1Pages : marathiPages));
+  const isMath2 = examSlug === "ssc-maths-part2-geometry-question-paper-2026-with-solutions";
+  const paperPages = isEnglish ? englishPages : (isHindi2026 ? hindiPages : (isMath1 ? math1Pages : (isMath2 ? math2Pages : marathiPages)));
+
 
 
   const displayTitle = examSlug
@@ -374,7 +393,36 @@ const math1Pages = [
     },
   ];
 
-  const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : []));
+  const math2AnswerKey = [
+    { 
+      q: "Q1(A) — MCQ 1", 
+      a: "(B) 5", 
+      exp: "Question:\nIn ∆ABC, if AB = 3, BC = 4 and ∠B = 90°, find the length of AC.\n(A) 7  (B) 5  (C) 1  (D) 3.5\n\nSolution:\nBy Pythagoras theorem:\nAC² = AB² + BC²\nAC² = 3² + 4² = 9 + 16 = 25\nAC = √25 = 5.\nCorrect Option: (B)" 
+    },
+    { 
+      q: "Q1(A) — MCQ 2", 
+      a: "(A) (3, 3)", 
+      exp: "Question:\nFind the coordinates of the midpoint of the segment joining P(2, 4) and Q(4, 2).\n(A) (3, 3) (B) (6, 6) (C) (1, 1) (D) (2, 2)\n\nSolution:\nMidpoint formula: M = [(x1+x2)/2, (y1+y2)/2]\nx = (2 + 4) / 2 = 3\ny = (4 + 2) / 2 = 3\nMidpoint is (3, 3).\nCorrect Option: (A)" 
+    },
+    { 
+      q: "Q1(A) — MCQ 3", 
+      a: "(C) 1", 
+      exp: "Question:\nFind the value of sin 30° + cos 60°.\n(A) 1/2  (B) √3  (C) 1  (D) 0\n\nSolution:\nsin 30° = 1/2\ncos 60° = 1/2\nSum = 1/2 + 1/2 = 1.\nCorrect Option: (C)" 
+    },
+    { 
+      q: "Q1(B) — (i)", 
+      a: "154 sq.cm", 
+      exp: "Question:\nFind the area of a circle with radius 7 cm.\n\nSolution:\nArea = πr² = (22/7) × 7 × 7 = 22 × 7 = 154." 
+    },
+    { 
+      q: "Q1(B) — (ii)", 
+      a: "4/5", 
+      exp: "Question:\nIf the ratio of areas of two similar triangles is 16:25, find the ratio of their corresponding sides.\n\nSolution:\nRatio of areas = (Ratio of sides)²\n16/25 = (s1/s2)²\ns1/s2 = √(16/25) = 4/5." 
+    },
+  ];
+
+  const currentAnswerKey = isEnglish ? englishAnswerKey : (isHindi2026 ? hindiAnswerKey : (isMath1 ? math1AnswerKey : (isMath2 ? math2AnswerKey : [])));
+
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
@@ -409,13 +457,14 @@ const math1Pages = [
             </Link>
           </div>
         )}
-        {(isEnglish || isMarathi || isHindi2026) && (
-          <div className="bg-rose-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-rose-200">
-            <Link href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions">
-              🚨 SSC Algebra Paper 2026 with Solutions — March 6 LIVE Now ➔
+        {(isEnglish || isMarathi || isHindi2026 || isMath1) && (
+          <div className="bg-indigo-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-bounce shadow-xl shadow-indigo-200">
+            <Link href="/ssc-board-papers/2026/ssc-maths-part2-geometry-question-paper-2026-with-solutions">
+              🚨 SSC Geometry Paper 2026 with Solutions — March 9 LIVE Now ➔
             </Link>
           </div>
         )}
+
         {(isMath1) && (
           <div className="bg-amber-600 text-white p-4 rounded-2xl mb-8 text-center font-bold animate-pulse shadow-xl shadow-amber-200">
             <Link href="/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions">
@@ -433,15 +482,19 @@ const math1Pages = [
           <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
             {isMath1 ? (
               <>SSC Maths Part 1 (Algebra) Question Paper 2026 With Solutions — Maharashtra 10th Board</>
+            ) : isMath2 ? (
+              <>SSC Maths Part 2 (Geometry) Question Paper 2026 With Solutions — Maharashtra 10th Board</>
             ) : (
               <>{displayTitle} PDF Download: 10th Question Paper & Answer Key Live Updates</>
             )}
           </h1>
+
           
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs md:text-sm mb-6">
             <div className="flex items-center gap-1 bg-slate-200 px-3 py-1 rounded-full text-slate-700 font-medium whitespace-nowrap">
-              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : (isHindi2026 ? "Mar 04, 2026" : (isMath1 ? "Mar 06, 2026" : "Feb 23, 2026"))}
+              <Calendar size={14} /> {isEnglish ? "Feb 27, 2026" : (isHindi2026 ? "Mar 04, 2026" : (isMath1 ? "Mar 06, 2026" : (isMath2 ? "Mar 09, 2026" : "Feb 23, 2026")))}
             </div>
+
             <div className="flex items-center gap-1 whitespace-nowrap">
               <Clock size={14} /> Last Updated: Just Now
             </div>
@@ -451,25 +504,37 @@ const math1Pages = [
           </div>
 
           <div className="prose prose-slate max-w-none text-lg text-slate-700 leading-relaxed bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-indigo-50/50">
-            {isMath1 ? (
+            {(isMath1 || isMath2) ? (
               <>
                 <div className="mb-6 p-4 bg-indigo-50 rounded-2xl border-l-4 border-indigo-600">
-                  <p className="font-bold text-indigo-900 mb-2">Subject: Maths Part 1 — Algebra | Class: 10th (SSC)</p>
-                  <p className="text-sm">Exam Date: March 6, 2026 | Total Marks: 40</p>
+                  <p className="font-bold text-indigo-900 mb-2">Subject: Maths Part {isMath1 ? '1 — Algebra' : '2 — Geometry'} | Class: 10th (SSC)</p>
+                  <p className="text-sm">Exam Date: {isMath1 ? 'March 6, 2026' : 'March 9, 2026'} | Total Marks: 40</p>
                   <p className="text-rose-600 font-bold mt-2 animate-pulse">⏳ Complete solutions uploading LIVE from 1:10 PM. Bookmark & Refresh this page.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
                   <div className="bg-slate-900 text-white p-6 rounded-3xl shadow-xl">
                     <h3 className="text-amber-400 font-bold mb-4 flex items-center gap-2">
-                      <FileText size={20} /> GUARANTEED FORMULAS 2026
+                      <FileText size={20} /> {isMath1 ? 'GUARANTEED FORMULAS 2026' : 'IMP THEOREMS & CONCEPT 2026'}
                     </h3>
                     <ul className="space-y-3 text-sm font-mono">
-                      <li><span className="text-slate-400">Quadratic:</span> x = (-b ± √b²-4ac) / 2a</li>
-                      <li><span className="text-slate-400">AP nth:</span> aₙ = a + (n-1)d</li>
-                      <li><span className="text-slate-400">AP Sum:</span> Sₙ = n/2 [2a + (n-1)d]</li>
-                      <li><span className="text-slate-400">Prob:</span> P(A) = n(A) / n(S)</li>
-                      <li><span className="text-slate-400">Mean:</span> x̄ = Σfx / Σf</li>
+                      {isMath1 ? (
+                        <>
+                          <li><span className="text-slate-400">Quadratic:</span> x = (-b ± √b²-4ac) / 2a</li>
+                          <li><span className="text-slate-400">AP nth:</span> aₙ = a + (n-1)d</li>
+                          <li><span className="text-slate-400">AP Sum:</span> Sₙ = n/2 [2a + (n-1)d]</li>
+                          <li><span className="text-slate-400">Prob:</span> P(A) = n(A) / n(S)</li>
+                          <li><span className="text-slate-400">Mean:</span> x̄ = Σfx / Σf</li>
+                        </>
+                      ) : (
+                        <>
+                          <li><span className="text-slate-400">Pythagoras:</span> a² + b² = c²</li>
+                          <li><span className="text-slate-400">Similarity:</span> A1/A2 = (s1/s2)²</li>
+                          <li><span className="text-slate-400">Trig:</span> sin²θ + cos²θ = 1</li>
+                          <li><span className="text-slate-400">Circle:</span> Angle in semicircle is 90°</li>
+                          <li><span className="text-slate-400">Slope:</span> m = (y2-y1)/(x2-x1)</li>
+                        </>
+                      )}
                     </ul>
                   </div>
 
@@ -505,6 +570,7 @@ const math1Pages = [
               </>
             )}
           </div>
+
         </header>
 
         {/* Marathi & English & Hindi & Maths Specific Content */}
@@ -627,11 +693,13 @@ const math1Pages = [
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Subject</td>
-                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : (isHindi2026 ? "Hindi (S.L.)" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi (Kumarbharati/Aksharbharati)"))}</td>
+                      <td className="py-4 px-6 font-medium text-slate-800 italic">{isEnglish ? "English (HL/LL)" : (isHindi2026 ? "Hindi (S.L.)" : (isMath1 ? "Maths Part 1 (Algebra)" : (isMath2 ? "Maths Part 2 (Geometry)" : "Marathi (Kumarbharati/Aksharbharati)")))}</td>
+
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Date</td>
-                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : (isHindi2026 ? "04 Mar 2026" : (isMath1 ? "06 Mar 2026" : "23 Feb 2026"))}</td>
+                      <td className="py-4 px-6 font-medium">{isEnglish ? "27 Feb 2026" : (isHindi2026 ? "04 Mar 2026" : (isMath1 ? "06 Mar 2026" : (isMath2 ? "09 Mar 2026" : "23 Feb 2026")))}</td>
+
                     </tr>
                     <tr className="hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-600">Difficulty Level</td>
@@ -664,11 +732,16 @@ const math1Pages = [
                     <>
                       "The <strong>10th Board Maths Part 1 (Algebra) Paper 2026</strong> was very student-friendly. Most questions from the <strong>Linear Equations</strong> and <strong>Quadratic Equations</strong> sections were direct. The <strong>Probability</strong> part was scoring, while <strong>Arithmetic Progression</strong> tested conceptual clarity."
                     </>
+                  ) : isMath2 ? (
+                    <>
+                      "The <strong>10th Board Maths Part 2 (Geometry) Paper 2026</strong> tested basic constructions and theorems. <strong>Similarity</strong> and <strong>Circle</strong> questions were as expected from previous years. <strong>Trigonometry</strong> was direct, and <strong>Coordinate Geometry</strong> was highly scoring for most students."
+                    </>
                   ) : (
                     <>
                       "The <strong>10th Board Marathi Paper 2026</strong> was well-balanced. Section 1 (Prose) and Section 2 (Poetry) were straight from the textbook. The <strong>Marathi Vyakaran (Grammar)</strong> section was scoring, while the <strong>Upyojit Lekhan (Writing Skills)</strong> gave students ample choice to express their creativity."
                     </>
                   ))}
+
                 </p>
               </div>
             </section>
@@ -676,10 +749,12 @@ const math1Pages = [
             {/* H2: Paper Preview Section */}
             <section className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-6 flex items-center gap-2">
-                <Eye className="text-indigo-600" /> {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Board Paper 2026 - Page Preview
+                <Eye className="text-indigo-600" /> {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : (isMath2 ? "Maths Part 2 (Geometry)" : "Marathi")))} Board Paper 2026 - Page Preview
+
               </h2>
               <p className="text-slate-600 mb-6">
-                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : "Marathi"))} Question Paper 2026 are shown below:
+                Scanned pages of the official Maharashtra SSC {isEnglish ? "English" : (isHindi2026 ? "Hindi" : (isMath1 ? "Maths Part 1 (Algebra)" : (isMath2 ? "Maths Part 2 (Geometry)" : "Marathi")))} Question Paper 2026 are shown below:
+
               </p>
               
               <div className="flex flex-col bg-white rounded-3xl overflow-hidden shadow-2xl relative border border-slate-200 mx-auto max-w-4xl">
@@ -803,9 +878,10 @@ const math1Pages = [
             ) : (
               <>
                 <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
-                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the Class 10th {isEnglish ? "English" : "Marathi"} paper hard today?</h3>
+                  <h3 className="text-lg font-bold text-indigo-300 mb-2">Was the Class 10th {isEnglish ? "English" : (isMath1 || isMath2) ? "Maths" : "Marathi"} paper hard today?</h3>
                   <p className="text-slate-300">Most students rated it as "Easy to Moderate."</p>
                 </div>
+
                 <div className="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 transition-colors group">
                   <h3 className="text-lg font-bold text-indigo-300 mb-2">Where can I download the solved Answer Key?</h3>
                   <p className="text-slate-300">You can download the PDF right here on SciFun Education.</p>
@@ -827,7 +903,9 @@ const math1Pages = [
               { href: "/ssc-board-papers/2026/hindi", title: "SSC Hindi Board Paper 2026", slug: "hindi-question-paper-2026-answer-key" },
               { href: "/ssc-board-papers/2026/ssc-board-hindi-question-paper-2026-with-solutions", title: "SSC Hindi Paper With Solutions", slug: "ssc-board-hindi-question-paper-2026-with-solutions" },
               { href: "/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions", title: "SSC Algebra (Maths 1) Paper & Solutions 2026", slug: "ssc-maths-part1-algebra-question-paper-2026-with-solutions" },
+              { href: "/ssc-board-papers/2026/ssc-maths-part2-geometry-question-paper-2026-with-solutions", title: "SSC Geometry (Maths 2) Paper & Solutions 2026", slug: "ssc-maths-part2-geometry-question-paper-2026-with-solutions" },
             ].filter(link => link.slug !== examSlug).map((link, idx) => (
+
               <Link key={idx} href={link.href} className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl hover:border-indigo-500 hover:shadow-md transition-all group">
                 <span className="font-semibold text-slate-700">{link.title}</span>
                 <ArrowRight size={18} className="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
@@ -849,6 +927,8 @@ const math1Pages = [
 
         {/* Hidden SEO Keywords Section in Hinglish */}
         <div style={{ fontSize: '1px', color: '#f8fafc', opacity: 0.1, pointerEvents: 'none', userSelect: 'none' }} className="pt-2">
+          SSC Geometry Maths 2 question paper solution 2026 maharashtra board 10th Geometry answer key 2026 Geometry paper answers 10th Class Geometry Board Paper Solution. 
+          SSC Algebra Maths 1 question paper solution 2026 maharashtra board 10th Algebra answer key 2026 Algebra paper answers 10th Class Algebra Board Paper Solution.
           SSC Hindi N 917 question paper solution 2026 maharashtra board 10th Hindi answer key 2026 N 917 Hindi paper answers 10th Class Hindi Board Paper Solution. 
           Goa! Yeh naam sunte hi sabhi ka man tarangayit ho uthta hai passage answers Priy Saroj, tumhara 16 se 18 tak likha hua patra (Kaka Kalelkar) answers Aaj ka yug aur sanskriti vigyapan kranti se vyapt hai passage solution Chahe sabhi suman bik jayen kavita ka arth Mere to giridhar gopal, dusro na koi padyansh ke prashn uttar. 
           Lekhak ke sadhu sahab ka shehar kaun sa tha Kanhaiya ke naam kriti purn kijiye Upbhokta sanskriti tikne ke sadhan Durgandh aur Parai ka vilom shabd padyansh se Kamzori aur Saptahik ke mool shabd. 
