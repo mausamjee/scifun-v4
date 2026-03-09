@@ -131,6 +131,7 @@ const math2Pages = [
 ];
 
 
+
   const isEnglish = examSlug === "english-question-paper-2026-answer-key";
   const isMarathi = examSlug === "marathi-second-language-question-paper-2026-answer-key";
   const isHindi2026 = examSlug === "hindi-question-paper-2026-answer-key";
@@ -574,21 +575,21 @@ const math2Pages = [
         </header>
 
         {/* Marathi & English & Hindi & Maths Specific Content */}
-        {(isMarathi || isEnglish || isHindi2026 || isMath1) ? (
+        {(isMarathi || isEnglish || isHindi2026 || isMath1 || isMath2) ? (
           <>
             {/* Answer Key & Solutions */}
             <section className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-indigo-900 mb-2 flex items-center gap-2">
-                <ListOrdered className="text-indigo-600 flex-shrink-0" /> {isMath1 ? "SSC Algebra 2026 — Complete Answer Key" : (displayTitle + " Solutions")}
+                <ListOrdered className="text-indigo-600 flex-shrink-0" /> {isMath1 ? "SSC Algebra 2026 — Complete Answer Key" : (isMath2 ? "SSC Geometry 2026 — Complete Answer Key" : (displayTitle + " Solutions"))}
               </h2>
-              {isMath1 && (
+              {(isMath1 || isMath2) && (
                 <p className="text-slate-500 mb-6 font-semibold">
                   Last Updated: <span className="text-emerald-600 font-bold">Solutions Uploaded Live</span>
                 </p>
               )}
               
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-                {(isEnglish || isHindi2026 || isMath1) ? (
+                {(isEnglish || isHindi2026 || isMath1 || isMath2) ? (
                   <>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse">
@@ -818,12 +819,12 @@ const math2Pages = [
                 Download Official PDF Paper
               </h2>
               <p className="text-slate-600 mb-10 max-w-2xl mx-auto text-lg">
-                Get the complete, high-resolution <strong>{isMath1 ? "SSC Maths Part 1 (Algebra)" : (isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi"))} Board Question Paper 2026</strong> for offline study.
+                Get the complete, high-resolution <strong>{isMath1 ? "SSC Maths Part 1 (Algebra)" : (isMath2 ? "SSC Maths Part 2 (Geometry)" : (isEnglish ? "English" : (isHindi2026 ? "Hindi" : "Marathi")))} Board Question Paper 2026</strong> for offline study.
               </p>
               
               <SmartDownloadButton 
                 fileUrl={isMath1 ? "https://drive.google.com/uc?export=download&id=11mIJ1apQyEmWte1QkzGUIZmUctZsAU-1" : paperPages[0]} 
-                fileName={`${isMath1 ? "SSC-Maths-Algebra" : (isEnglish ? "SSC-English" : (isHindi2026 ? "SSC-Hindi" : "SSC-Marathi"))}-Board-Paper-2026.pdf`}
+                fileName={`${isMath1 ? "SSC-Maths-Algebra" : (isMath2 ? "SSC-Maths-Geometry" : (isEnglish ? "SSC-English" : (isHindi2026 ? "SSC-Hindi" : "SSC-Marathi")))}-Board-Paper-2026.pdf`}
                 paperId={examSlug}
               />
 
