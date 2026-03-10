@@ -239,7 +239,7 @@ export default function CBSLandingClient() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-black uppercase text-slate-500 ml-4 tracking-widest">Current School/College (Optional)</label>
+                    <label className="text-xs font-black uppercase text-slate-500 ml-4 tracking-widest">Current School/College Name (Optional)</label>
                     <input 
                       type="text" 
                       value={formData.schoolName}
