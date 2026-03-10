@@ -6,7 +6,7 @@ export async function POST(request) {
   // 1. Instructions for User:
   // Replace the URL below with your NEW standalone Apps Script URL 
   // after you deploy the cbs-registration.gs in Apps Script.
-  const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbyp0E2Cy4m4Z3D-aUDYlzX2KmX4uqfvkqxtN8FuBJmR_o0qrgDsLq9PUjVwy7QWT44VFw/exec';
+  const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbyuHJcwDgAdxl6uTBi_aoalNAa7cxZ_9ThBjo_sB-tAHuYQHUIXhDPZqXMhNzagm5nN-Q/exec';
 
   try {
     const appsScriptResponse = await fetch(appsScriptUrl, {
