@@ -5,7 +5,11 @@ const OpTitleMap = {
   ADD: 'Addition',
   SUB: 'Subtraction',
   MUL: 'Multiplication',
-  DIV: 'Division'
+  DIV: 'Division',
+  HCF: 'Highest Common Factor',
+  LCM: 'Least Common Multiple',
+  INT: 'Integers',
+  FRAC: 'Fractions'
 };
 
 // A4 Constants
@@ -43,6 +47,8 @@ const Worksheet = ({ data, wordProblems, isWordProblemLoading, printSettings, cu
   
   // Helper to determine grid columns
   const getGridCols = (op) => {
+      if (['HCF', 'LCM', 'INT'].includes(op)) return 'grid-cols-3';
+      if (['FRAC'].includes(op)) return 'grid-cols-4';
       if (op !== 'DIV') return 'grid-cols-5';
 
       // Rule 1: Font Size > 40px -> 4 Cols

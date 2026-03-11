@@ -6,6 +6,70 @@ const ProblemCard = ({ problem, index, scale = 1 }) => {
   const fontSizeClass = scale > 1.5 ? 'text-4xl' : scale > 1.2 ? 'text-3xl' : 'text-2xl';
   const labelSize = Math.max(0.6, 0.5 * scale) + 'rem';
 
+  if (type === 'FRAC') {
+    const { n1, d1, n2, d2, opSymbol } = problem;
+    return (
+      <div className="flex flex-row items-center gap-3 p-2 font-mono break-inside-avoid">
+        <span className="font-sans text-slate-800 font-bold self-start mt-1 mr-2" style={{ fontSize: labelSize }}>{index + 1}.</span>
+        <div className="flex items-center gap-3" style={{ fontSize: `${scale * 1.5}rem` }}>
+          <div className="flex flex-col items-center leading-none">
+            <span className="border-b-2 border-black w-full text-center pb-1 mb-1">{n1}</span>
+            <span>{d1}</span>
+          </div>
+          <span>{opSymbol}</span>
+          <div className="flex flex-col items-center leading-none">
+            <span className="border-b-2 border-black w-full text-center pb-1 mb-1">{n2}</span>
+            <span>{d2}</span>
+          </div>
+          <span>=</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'HCF' || type === 'LCM') {
+    const { nums } = problem;
+    const label = type;
+    return (
+      <div className="flex flex-row items-start gap-2 p-2 break-inside-avoid w-full">
+        <span className="font-sans text-slate-800 font-bold mt-1" style={{ fontSize: labelSize }}>{index + 1}.</span>
+        <div className="flex flex-col items-start gap-1 font-mono w-full" style={{ fontSize: `${scale * 1.2}rem` }}>
+          <span className="font-sans font-semibold text-slate-700">Find {label} of:</span>
+          <span className="tracking-widest leading-relaxed break-words whitespace-pre-wrap">{nums.join(', ')}</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'INT') {
+    const { nums } = problem;
+    let expTokens = [];
+    nums.forEach((num, i) => {
+      if (i > 0) {
+        if (num < 0) {
+           expTokens.push('+');
+        } else {
+           expTokens.push('+');
+        }
+      }
+      expTokens.push(num.toString());
+    });
+    
+    return (
+      <div className="flex flex-row items-start gap-2 p-2 break-inside-avoid w-full">
+        <span className="font-sans text-slate-800 font-bold mt-2" style={{ fontSize: labelSize }}>{index + 1}.</span>
+        <div className="flex flex-col items-start w-full font-mono" style={{ fontSize: `${scale * 1.2}rem` }}>
+           <div className="flex flex-wrap gap-x-2 gap-y-1 items-center leading-relaxed">
+             {expTokens.map((token, i) => (
+                 <span key={i} className="tracking-wide">{token}</span>
+             ))}
+             <span>=</span>
+           </div>
+        </div>
+      </div>
+    );
+  }
+
   // Compact Division
   if (type === 'DIV') {
     return (

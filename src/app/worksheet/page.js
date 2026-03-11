@@ -13,6 +13,11 @@ const generateRandomNumber = (digits) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+const lcm = (a, b) => (a * b) / Math.abs(gcd(a, b));
+const lcmMultiple = (arr) => arr.reduce(lcm);
+const gcdMultiple = (arr) => arr.reduce(gcd);
+
 const generateForOperation = (op, settings) => {
   const problems = [];
   let attempts = 0;
@@ -25,6 +30,83 @@ const generateForOperation = (op, settings) => {
     let answer = 0;
     let isValid = true;
     let isOneQuestion = false;
+
+    if (op === 'HCF' || op === 'LCM') {
+        const terms = settings.termCount || 2;
+        const maxN = settings.maxNumber || 20;
+        
+        let nums = [];
+        for(let i=0; i<terms; i++) nums.push(Math.floor(Math.random() * (maxN - 1)) + 2); // 2 to maxN
+        nums = Array.from(new Set(nums));
+        while(nums.length < terms) {
+            nums.push(Math.floor(Math.random() * (maxN - 1)) + 2);
+            nums = Array.from(new Set(nums));
+        }
+        
+        answer = op === 'HCF' ? gcdMultiple(nums) : lcmMultiple(nums);
+        problems.push({
+            id: Math.random().toString(36).substr(2, 9), type: op,
+            valA: 0, valB: 0, answer,
+            nums: nums
+        });
+        continue;
+    } else if (op === 'INT') {
+        const terms = settings.termCount || 2;
+        const minN = settings.minNumber || 1;
+        const maxN = settings.maxNumber || 9;
+        
+        let nums = []; let evalSum = 0;
+        for(let i=0; i<terms; i++) {
+           let num = Math.floor(Math.random() * (maxN - minN + 1)) + minN;
+           if (Math.random() < 0.5) num = -num;
+           nums.push(num); evalSum += num;
+        }
+        answer = evalSum;
+        problems.push({
+            id: Math.random().toString(36).substr(2, 9), type: op,
+            valA: 0, valB: 0, answer, 
+            nums: nums
+        });
+        continue;
+    } else if (op === 'FRAC') {
+        const ops = settings.operations || ['+'];
+        const isLike = settings.likeFractions !== false;
+        const minDenom = settings.minDenom || 2;
+        const maxDenom = settings.maxDenom || 10;
+        const minNum = settings.minNum || 1;
+        const maxNum = settings.maxNum || 10;
+        
+        const selOp = ops[Math.floor(Math.random() * ops.length)];
+        let d1 = Math.floor(Math.random() * (maxDenom - minDenom + 1)) + minDenom;
+        let d2 = isLike ? d1 : (Math.floor(Math.random() * (maxDenom - minDenom + 1)) + minDenom);
+        let n1 = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+        let n2 = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+        
+        if (selOp === '-') {
+            if (n1/d1 < n2/d2) { [n1, n2] = [n2, n1]; [d1, d2] = [d2, d1]; }
+            if (n1/d1 === n2/d2) n1 += 1;
+        }
+
+        let numRes, denRes;
+        if (selOp === '+') { numRes = n1*d2 + n2*d1; denRes = d1*d2; } 
+        else if (selOp === '-') { numRes = n1*d2 - n2*d1; denRes = d1*d2; } 
+        else if (selOp === '*') { numRes = n1*n2; denRes = d1*d2; } 
+        else if (selOp === '/') { numRes = n1*d2; denRes = d1*n2; }
+
+        if (numRes === 0) { answer = "0"; } else {
+            const g = Math.abs(gcd(numRes, denRes));
+            const ansNum = numRes / g;
+            const ansDen = denRes / g;
+            answer = ansDen === 1 ? `${ansNum}` : `${ansNum}/${ansDen}`;
+        }
+        
+        const opSymbol = selOp === '*' ? '×' : selOp === '/' ? '÷' : selOp;
+        problems.push({
+            id: Math.random().toString(36).substr(2, 9), type: op,
+            n1, d1, n2, d2, opSymbol, answer
+        });
+        continue;
+    }
 
     if (op === 'DIV') {
         // ... (Existing Division Logic) ...
@@ -226,6 +308,7 @@ export default function WorksheetPage() {
   });
 
   const [activeTab, setActiveTab] = useState('ADD');
+  const [difficulty, setDifficulty] = useState('Medium');
   const [data, setData] = useState({});
   const [wordProblems, setWordProblems] = useState([]);
   const [loadingAI, setLoadingAI] = useState(false);
@@ -235,7 +318,42 @@ export default function WorksheetPage() {
   useEffect(() => {
     setData({});
     setWordProblems([]);
+    
+    // Initialize the new operations once (defaults to Medium)
+    handleDifficultyChange('Medium');
   }, []);
+
+  const handleDifficultyChange = (level) => {
+    setDifficulty(level);
+    setConfig(prev => {
+        const newOps = { ...prev.operations };
+        
+        // HCF/LCM Settings
+        const termCountHcf = level === 'Hard' ? 3 : 2;
+        const minNumHcf = level === 'Easy' ? 2 : level === 'Medium' ? 2 : 2;
+        const maxNumHcf = level === 'Easy' ? 20 : level === 'Medium' ? 50 : 100;
+        
+        // INT Settings
+        const termCountInt = level === 'Easy' ? 2 : level === 'Medium' ? 3 : 4;
+        const minNumInt = level === 'Easy' ? 1 : level === 'Medium' ? 1 : 10;
+        const maxNumInt = level === 'Easy' ? 9 : level === 'Medium' ? 99 : 99;
+        
+        // FRAC Settings
+        const isLikeFrac = level === 'Easy';
+        const minDenom = 2;
+        const maxDenom = level === 'Easy' ? 10 : level === 'Medium' ? 20 : 50;
+        const minNum = 1;
+        const maxNum = level === 'Easy' ? 10 : level === 'Medium' ? 20 : 50;
+        const fracOps = level === 'Easy' ? ['+', '-'] : level === 'Medium' ? ['+', '-', '*'] : ['+', '-', '*', '/'];
+
+        newOps.HCF = { ...newOps.HCF, enabled: newOps.HCF?.enabled || false, questionCount: newOps.HCF?.questionCount || 20, termCount: termCountHcf, minNumber: minNumHcf, maxNumber: maxNumHcf };
+        newOps.LCM = { ...newOps.LCM, enabled: newOps.LCM?.enabled || false, questionCount: newOps.LCM?.questionCount || 20, termCount: termCountHcf, minNumber: minNumHcf, maxNumber: maxNumHcf };
+        newOps.INT = { ...newOps.INT, enabled: newOps.INT?.enabled || false, questionCount: newOps.INT?.questionCount || 20, termCount: termCountInt, minNumber: minNumInt, maxNumber: maxNumInt };
+        newOps.FRAC = { ...newOps.FRAC, enabled: newOps.FRAC?.enabled || false, questionCount: newOps.FRAC?.questionCount || 20, operations: fracOps, likeFractions: isLikeFrac, minDenom, maxDenom, minNum, maxNum };
+        
+        return { ...prev, operations: newOps };
+    });
+  };
 
   // Dynamic Scale for Mobile "Fit to Screen"
   useEffect(() => {
@@ -306,6 +424,22 @@ export default function WorksheetPage() {
           <h1 className="text-2xl font-bold tracking-tight">Math Studio</h1>
         </div>
 
+        {/* Difficulty Level Selector */}
+        <div className="px-6 pt-4">
+          <label className="block text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">Difficulty Level</label>
+          <div className="flex bg-slate-100 p-1 rounded-xl">
+            {['Easy', 'Medium', 'Hard'].map(lvl => (
+              <button
+                key={lvl}
+                onClick={() => handleDifficultyChange(lvl)}
+                className={`flex-1 py-1.5 text-sm font-bold rounded-lg transition-all ${difficulty === lvl ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {lvl}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Scrollable Settings */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
           
@@ -313,8 +447,8 @@ export default function WorksheetPage() {
           <section>
             <label className="block text-sm font-semibold text-slate-500 mb-3 uppercase tracking-wider">Operations</label>
             <div className="flex flex-col gap-2">
-                {['ADD', 'SUB', 'MUL', 'DIV'].map(op => {
-                    const isEnabled = config.operations[op].enabled;
+                {['ADD', 'SUB', 'MUL', 'DIV', 'HCF', 'LCM', 'INT', 'FRAC'].map(op => {
+                    const isEnabled = config.operations[op]?.enabled;
                     const isActive = activeTab === op;
                     return (
                         <div key={op} className={`flex items-center gap-2 p-2 rounded-lg border-2 transition-all ${isActive ? 'border-indigo-500 bg-indigo-50' : 'border-transparent hover:bg-slate-50'}`}>
@@ -332,6 +466,10 @@ export default function WorksheetPage() {
                                 {op === 'SUB' && 'Subtraction'}
                                 {op === 'MUL' && 'Multiplication'}
                                 {op === 'DIV' && 'Division'}
+                                {op === 'HCF' && 'HCF'}
+                                {op === 'LCM' && 'LCM'}
+                                {op === 'INT' && 'Integers'}
+                                {op === 'FRAC' && 'Fractions'}
                             </button>
                         </div>
                     );
@@ -340,27 +478,133 @@ export default function WorksheetPage() {
           </section>
 
           {/* Active Skill Settings */}
+          {currentSettings && (
           <section className="bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
             <div className="absolute -top-3 left-4 bg-slate-50 px-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
                 Config: {activeTab}
             </div>
             
             <div className="space-y-5 mt-2">
-                <div>
-                    <div className="flex justify-between mb-1">
-                        <span className="text-sm text-slate-700">Top Number Digits</span>
-                        <span className="text-sm font-mono font-bold">{currentSettings.digitCountA}</span>
-                    </div>
-                    <input type="range" min="1" max="4" value={currentSettings.digitCountA} onChange={(e) => updateOpSettings(activeTab, { digitCountA: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
-                </div>
+                {['ADD', 'SUB', 'MUL', 'DIV'].includes(activeTab) && (
+                    <>
+                        <div>
+                            <div className="flex justify-between mb-1">
+                                <span className="text-sm text-slate-700">Top Number Digits</span>
+                                <span className="text-sm font-mono font-bold">{currentSettings.digitCountA}</span>
+                            </div>
+                            <input type="range" min="1" max="4" value={currentSettings.digitCountA} onChange={(e) => updateOpSettings(activeTab, { digitCountA: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                        </div>
 
-                <div>
-                    <div className="flex justify-between mb-1">
-                        <span className="text-sm text-slate-700">Bottom Number Digits</span>
-                        <span className="text-sm font-mono font-bold">{currentSettings.digitCountB}</span>
+                        <div>
+                            <div className="flex justify-between mb-1">
+                                <span className="text-sm text-slate-700">Bottom Number Digits</span>
+                                <span className="text-sm font-mono font-bold">{currentSettings.digitCountB}</span>
+                            </div>
+                            <input type="range" min="1" max="4" value={currentSettings.digitCountB} onChange={(e) => updateOpSettings(activeTab, { digitCountB: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                        </div>
+                    </>
+                )}
+
+                {['HCF', 'LCM', 'INT'].includes(activeTab) && (
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Number of Terms</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.termCount}</span>
+                        </div>
+                        <input type="range" min="2" max="5" value={currentSettings.termCount} onChange={(e) => updateOpSettings(activeTab, { termCount: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
                     </div>
-                    <input type="range" min="1" max="4" value={currentSettings.digitCountB} onChange={(e) => updateOpSettings(activeTab, { digitCountB: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
-                </div>
+                )}
+
+                {['HCF', 'LCM'].includes(activeTab) && (
+                    <>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Min Number</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.minNumber}</span>
+                        </div>
+                        <input type="range" min="2" max="50" step="1" value={currentSettings.minNumber} onChange={(e) => updateOpSettings(activeTab, { minNumber: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Max Number</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.maxNumber}</span>
+                        </div>
+                        <input type="range" min="10" max="200" step="5" value={currentSettings.maxNumber} onChange={(e) => updateOpSettings(activeTab, { maxNumber: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                    </div>
+                    </>
+                )}
+
+                {['INT'].includes(activeTab) && (
+                    <>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Min Absolute Number</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.minNumber}</span>
+                        </div>
+                        <input type="range" min="1" max="500" step="1" value={currentSettings.minNumber} onChange={(e) => updateOpSettings(activeTab, { minNumber: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Max Absolute Number</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.maxNumber}</span>
+                        </div>
+                        <input type="range" min="1" max="500" step="1" value={currentSettings.maxNumber} onChange={(e) => updateOpSettings(activeTab, { maxNumber: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                    </div>
+                    </>
+                )}
+
+                {['FRAC'].includes(activeTab) && (
+                    <>
+                    <div>
+                        <div className="flex justify-between mb-2">
+                            <span className="text-sm text-slate-700">Operations</span>
+                        </div>
+                        <div className="flex gap-2">
+                           {['+', '-', '*', '/'].map(op => {
+                               const isActive = currentSettings.operations?.includes(op);
+                               return (
+                                   <button 
+                                      key={op}
+                                      onClick={() => {
+                                          let newOps = [...(currentSettings.operations || ['+'])];
+                                          if (isActive) {
+                                              newOps = newOps.filter(o => o !== op);
+                                              if (newOps.length === 0) newOps.push(op); // Prevent empty selection
+                                          } else {
+                                              newOps.push(op);
+                                          }
+                                          updateOpSettings(activeTab, { operations: newOps });
+                                      }}
+                                      className={`flex-1 py-1 font-bold text-lg rounded-md border-2 transition-all ${isActive ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-slate-400 border-slate-200 hover:border-indigo-300'}`}
+                                   >
+                                      {op === '*' ? '×' : op === '/' ? '÷' : op}
+                                   </button>
+                               );
+                           })}
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Numerator Range</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.minNum} - {currentSettings.maxNum}</span>
+                        </div>
+                        <div className="flex gap-2">
+                           <input type="range" min="1" max="50" value={currentSettings.minNum} onChange={(e) => updateOpSettings(activeTab, { minNum: parseInt(e.target.value) })} className="w-1/2 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                           <input type="range" min="1" max="100" value={currentSettings.maxNum} onChange={(e) => updateOpSettings(activeTab, { maxNum: parseInt(e.target.value) })} className="w-1/2 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm text-slate-700">Denominator Range</span>
+                            <span className="text-sm font-mono font-bold">{currentSettings.minDenom} - {currentSettings.maxDenom}</span>
+                        </div>
+                        <div className="flex gap-2">
+                           <input type="range" min="2" max="50" value={currentSettings.minDenom} onChange={(e) => updateOpSettings(activeTab, { minDenom: parseInt(e.target.value) })} className="w-1/2 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                           <input type="range" min="2" max="100" value={currentSettings.maxDenom} onChange={(e) => updateOpSettings(activeTab, { maxDenom: parseInt(e.target.value) })} className="w-1/2 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                        </div>
+                    </div>
+                    </>
+                )}
 
                 <div>
                     <div className="flex justify-between mb-1">
@@ -370,6 +614,7 @@ export default function WorksheetPage() {
                     <input type="range" min="4" max="60" step="4" value={currentSettings.questionCount} onChange={(e) => updateOpSettings(activeTab, { questionCount: parseInt(e.target.value) })} className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
                 </div>
 
+                {['ADD', 'SUB', 'DIV', 'MUL'].includes(activeTab) && (
                 <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-slate-200">
                     <span className="text-sm font-medium text-slate-700">
                         {activeTab === 'ADD' && 'Allow Carry'}
@@ -397,8 +642,10 @@ export default function WorksheetPage() {
                         <div className="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
                     </label>
                 </div>
+                )}
             </div>
           </section>
+          )}
 
           {/* Print Studio Options */}
           <section className="space-y-6 pt-4 border-t border-slate-100">
@@ -426,7 +673,7 @@ export default function WorksheetPage() {
              <div className="space-y-3">
                 <span className="text-sm font-medium text-slate-700">Include in Print:</span>
                 <div className="grid grid-cols-2 gap-2">
-                    {['ADD', 'SUB', 'MUL', 'DIV', 'WORD_PROBLEMS'].map(sec => (
+                    {['ADD', 'SUB', 'MUL', 'DIV', 'HCF', 'LCM', 'INT', 'FRAC', 'WORD_PROBLEMS'].map(sec => (
                         <button key={sec} onClick={() => toggleSectionSelection(sec)} className={`px-3 py-2 rounded-lg text-xs font-bold border-2 transition-all ${!config.printSettings.excludedSections.includes(sec) ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-200 text-slate-400'}`}>
                             {sec.replace('_', ' ')}
                         </button>
