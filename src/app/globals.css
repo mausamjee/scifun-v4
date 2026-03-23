@@ -16,3 +16,113 @@
     transform: rotateY(180deg);
   }
 }
+
+/* 1. Global Page Setup */
+@page {
+  size: A4 portrait;
+  margin: 0 !important; /* CRITICAL: Kills browser margins so 297mm math is perfect. We add padding directly inside the .a4-paper container. */
+}
+
+/* Table structure: invisible on screen */
+.print-repeat-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+}
+
+.print-repeat-table thead,
+.print-repeat-table tbody,
+.print-repeat-table tr,
+.print-repeat-table td {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.print-repeat-table thead td {
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  line-height: 0;
+  overflow: visible;
+}
+
+@media print {
+  body {
+    background-color: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    margin: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .paper-container {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .a4-paper {
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 20mm 15mm !important; /* Safe area padding since browser margin is 0 */
+    box-shadow: none !important;
+    overflow: visible !important;
+    min-height: 297mm !important;
+  }
+}
+
+/* 4. Screen Preview Setup */
+.a4-paper {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  margin: 20px auto;
+  padding: 20mm 15mm;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  white-space: nowrap;
+}
+
+.watermark-text {
+  font-size: 100pt;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.04);
+  text-transform: uppercase;
+  font-family: sans-serif;
+}
+
+.mjx-container {
+  font-size: 100% !important;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}

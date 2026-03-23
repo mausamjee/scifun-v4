@@ -30,7 +30,7 @@ export default function ContactUs() {
                 <div>
                   <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter">Our Center</h3>
                   <p className="text-slate-600 font-semibold leading-relaxed">
-                    Valaipada road santosh bhuvan, Nalasopara (E), Maharashtra 401209.
+                    Valaipada road Santosh Bhuvan, Nallasopara (E), Maharashtra 401209.
                   </p>
                 </div>
               </div>

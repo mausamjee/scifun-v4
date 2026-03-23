@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Brand Section */}
         <div className="space-y-6">
            <div className="flex items-center gap-2">
-             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-200">SF</div>
+             <img src="/logobg.png" alt="SciFun Logo" className="w-10 h-10 object-contain" />
              <span className="text-2xl font-black tracking-tighter text-slate-900 uppercase">SciFun Education</span>
            </div>
            <p className="text-slate-500 text-sm leading-relaxed font-semibold">
@@ -47,7 +47,7 @@ export default function Footer() {
            <div className="space-y-4 text-sm text-slate-500 font-bold">
               <div className="flex items-start gap-3 group">
                  <MapPin size={18} className="text-blue-600 shrink-0" />
-                 <span className="leading-relaxed">Valaipada road santosh bhuvan, Nalasopara (E), Maharashtra 401209.</span>
+                 <span className="leading-relaxed">Valaipada road Santosh Bhuvan, Nallasopara (E), Maharashtra 401209.</span>
               </div>
               <div className="flex items-center gap-3">
                  <Phone size={18} className="text-blue-600 shrink-0" />

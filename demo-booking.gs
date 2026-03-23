@@ -75,7 +75,7 @@ function doPost(e) {
       const studentSubject = "Your FREE Demo Session is Booked! - SciFun Education";
       const studentHtmlBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #eff6ff; border-radius: 12px; padding: 25px; color: #1e293b;">
-          <h2 style="color: #2563eb; margin-top: 0;">Demo Request Received! 🎁</h2>
+          <h2 style="color: #2563eb; margin-top: 0;">Demo Request Received! </h2>
           <p>Hi <b>${studentName}</b>,</p>
           <p>Thank you for expressing interest in <b>SciFun Education</b>. We have received your request for a Free Demo Session.</p>
           

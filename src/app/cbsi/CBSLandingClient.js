@@ -29,6 +29,7 @@ export default function CBSLandingClient() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // Dynamic urgency effect
   useEffect(() => {
@@ -55,15 +56,15 @@ export default function CBSLandingClient() {
       const result = await response.json();
 
       if (result.status === "Success" || response.ok) {
+        setIsSuccess(true);
         // Clear form after success
         setFormData({studentName: '', whatsappNumber: '', parentNumber: '', email: '', schoolName: ''});
         
-        // Redirect to WhatsApp Group
+        // Wait a bit to show animation before redirect
         if (result.whatsappGroup) {
-          alert('🎉 Registration Successful!\n\nDetails saved. Now join our WhatsApp group for 60-day schedule and batch updates!\n\nNote: Please visit our Valaipada office to confirm seat with ₹500 fee.');
-          window.location.href = result.whatsappGroup;
-        } else {
-           alert('🎉 Registration Successful! Please visit our office to pay the ₹500 fee and confirm your seat.');
+          setTimeout(() => {
+            window.location.href = result.whatsappGroup;
+          }, 3500);
         }
       } else {
         throw new Error(result.message || 'Failed to record registration.');
@@ -251,22 +252,28 @@ export default function CBSLandingClient() {
 
                   <button 
                     disabled={isSubmitting}
-                    className="w-full bg-blue-600 disabled:bg-blue-300 text-white py-6 rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-2xl shadow-blue-200 flex items-center justify-center gap-3 group"
+                    className="w-full bg-blue-600 disabled:bg-blue-300 text-white py-6 rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-2xl shadow-blue-200 flex items-center justify-center gap-3 group relative overflow-hidden"
                   >
                     {isSubmitting ? 'RECORDING DETAILS...' : 'CONFIRM & BOOK MY SEAT'}
                     {!isSubmitting && <ArrowRight className="group-hover:translate-x-2 transition-transform" />}
                   </button>
 
-                  <div className="flex flex-col items-center gap-4 py-4 border-t border-slate-100">
-                    <div className="flex items-center gap-4 opacity-50 grayscale hover:grayscale-0 transition duration-500">
-                       <CreditCard size={24} />
-                       <Smartphone size={24} />
-                       <Lock size={24} />
+                  {/* Success Overlay */}
+                  {isSuccess && (
+                    <div className="absolute inset-0 z-50 bg-white flex flex-col items-center justify-center text-center p-8 rounded-[3.5rem] animate-in fade-in zoom-in duration-500">
+                        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-6 animate-bounce">
+                           <CheckCircle2 size={48} />
+                        </div>
+                        <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter uppercase">Registration Complete! 🎉</h3>
+                        <p className="text-slate-600 font-bold leading-relaxed mb-8">
+                           Welcome to the SciFun Family! 🚀 Your seat is provisionally booked. Check your email for the receipt and get ready for an intensive journey!
+                        </p>
+                        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                           <div className="h-full bg-blue-600 animate-progress"></div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-4 uppercase font-bold tracking-widest">Redirecting to WhatsApp Group...</p>
                     </div>
-                    <p className="text-xs font-bold text-slate-400 flex items-center gap-2">
-                       <Lock size={12} /> SECURE 256-BIT ENCRYPTED PAYMENT
-                    </p>
-                  </div>
+                  )}
                 </form>
               </div>
             </div>
@@ -288,6 +295,13 @@ export default function CBSLandingClient() {
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+        .animate-progress {
+          animation: progress 3.5s linear forwards;
         }
         main { animation: fadeIn 1s ease-out; }
       `}</style>

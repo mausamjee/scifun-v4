@@ -24,7 +24,7 @@ export default function Home() {
                 Master Class 1 to 12 <span className="text-blue-600">(SSC & HSC)</span> with <span className="text-cyan-500">Fun &</span> <span className="text-teal-500">Focus.</span>
               </h1>
               <p className="text-gray-600 text-lg leading-relaxed">
-                The Best Science & Math Coaching in Nallasopara. Join our expert-led classes for Boards, MHT-CET, JEE, & NEET preparation.
+                The Best Science & Math Coaching in <span className="text-blue-600 font-bold">Santosh Bhuvan, Nallasopara (E)</span>. Join our expert-led classes for Boards, MHT-CET, JEE, & NEET preparation.
               </p>
               
               <div className="flex flex-wrap gap-4 pt-4">
@@ -81,26 +81,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Exams - IMPORTANT FOR SEO */}
-      <section className="bg-indigo-900 py-6">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-              </span>
-              <h2 className="text-white font-bold text-lg md:text-xl uppercase tracking-widest">Upcoming Exam Alert:</h2>
-            </div>
-            <Link 
-              href="/ssc-board-papers/2026/ssc-maths-part1-algebra-question-paper-2026-with-solutions"
-              className="bg-white text-indigo-900 px-8 py-3 rounded-full font-black hover:bg-indigo-50 transition shadow-xl animate-pulse flex items-center gap-2 group w-full md:w-auto justify-center"
-            >
-              Maths Paper 2026 Coming March 6 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
+
 
       {/* Courses Section */}
       <section className="py-20 bg-white">
@@ -182,7 +163,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row gap-6 justify-center">
                <ResultCard 
                  name="Consistent Toppers"
-                 location="In Nallasopara"
+                 location="In Santosh Bhuvan, Nallasopara (E)"
                  imgUrl="https://images.unsplash.com/photo-1548372290-8d01b6c8e78c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
                  score="93%"
                  sub="SSC Score"
