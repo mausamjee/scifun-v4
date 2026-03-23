@@ -7,32 +7,32 @@ import {
   Sparkles, 
   Eye
 } from 'lucide-react';
-import { GenerationConfig, Question, SectionType, GeneratedPaper, PaperSection } from '@/types';
 import { fetchQuestions } from '@/services/questionService';
 
-interface Step2ManualSelectProps {
-  config: GenerationConfig;
-  setConfig: (config: GenerationConfig) => void;
-  onGenerate: (paper: GeneratedPaper) => void;
-  onBack: () => void;
-  loading: boolean;
-}
+// Re-defining SectionType enum for JS
+const SectionType = {
+  MCQ: 'MCQ',
+  VSA: 'VSA',
+  SA_2: 'SA_2',
+  SA_3: 'SA_3',
+  LA_4: 'LA_4'
+};
 
-export const Step2ManualSelect: React.FC<Step2ManualSelectProps> = ({
+export const Step2ManualSelect = ({
   config,
   onGenerate,
   onBack,
   loading
 }) => {
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState([]);
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<string>('All');
-  const [filterChapter, setFilterChapter] = useState<string>('All');
+  const [filterType, setFilterType] = useState('All');
+  const [filterChapter, setFilterChapter] = useState('All');
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -40,8 +40,8 @@ export const Step2ManualSelect: React.FC<Step2ManualSelectProps> = ({
       try {
         const pool = await fetchQuestions('manual', config.selectedChapters);
         setQuestions(pool);
-      } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch questions');
+      } catch (err) {
+        setError(err.message || 'Failed to fetch questions');
       } finally {
         setFetching(false);
       }
@@ -54,7 +54,7 @@ export const Step2ManualSelect: React.FC<Step2ManualSelectProps> = ({
   // Derived marks sum from selected questions
   const currentTotalMarks = selectedQuestions.reduce((sum, q) => sum + (q.marks || 1), 0);
 
-  const toggleQuestion = (question: Question) => {
+  const toggleQuestion = (question) => {
     if (selectedQuestions.find(q => q.id === question.id)) {
       setSelectedQuestions(selectedQuestions.filter(q => q.id !== question.id));
     } else {
@@ -67,7 +67,7 @@ export const Step2ManualSelect: React.FC<Step2ManualSelectProps> = ({
     
     // Group selected custom paper by types into sections
     const types = [SectionType.MCQ, SectionType.VSA, SectionType.SA_2, SectionType.SA_3, SectionType.LA_4];
-    const sections: PaperSection[] = [];
+    const sections = [];
 
     types.forEach(type => {
       const typeQuestions = selectedQuestions.filter(q => q.type === type);
@@ -84,7 +84,7 @@ export const Step2ManualSelect: React.FC<Step2ManualSelectProps> = ({
       }
     });
 
-    const manualPaper: GeneratedPaper = {
+    const manualPaper = {
       id: `PAPER_MANUAL_${Date.now()}`,
       title: config.headerTitle,
       subject: config.subject,

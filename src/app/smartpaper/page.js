@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Beaker, Atom, Upload, Layout, FileText, Home, FileJson } from 'lucide-react';
 import { Sidebar } from '@/components/Sidebar';
 
-const DashboardCard = ({ icon: Icon, title, file, href, color = "blue" }: any) => {
-  const colorMap: any = {
+const DashboardCard = ({ icon: Icon, title, file, href, color = "blue" }) => {
+  const colorMap = {
     blue: "bg-blue-600 hover:bg-blue-700 shadow-blue-100",
     pink: "bg-pink-600 hover:bg-pink-700 shadow-pink-100",
     indigo: "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100",

@@ -22,25 +22,11 @@ import {
 import { Sidebar } from '@/components/Sidebar';
 import { CHAPTERS } from '@/data/questions';
 
-// --- Types ---
-
-interface BlueprintRule {
-  id: string;
-  chapter: string;
-  type: string;
-  difficulty: string;
-  count: number;
-  marksPerQuestion: number;
-}
-
 // --- Components ---
 
 const StepIndicator = ({
   currentStep,
   steps
-}: {
-  currentStep: number,
-  steps: { label: string, progress: number }[]
 }) => {
   return (
     <div className="mb-10 w-full">
@@ -99,7 +85,7 @@ export default function CreatePaperPage() {
   });
 
   // Step 2 State
-  const [rules, setRules] = useState<BlueprintRule[]>([]);
+  const [rules, setRules] = useState([]);
   const [newRule, setNewRule] = useState({
     chapter: '',
     type: '',
@@ -137,7 +123,7 @@ export default function CreatePaperPage() {
     if (newRule.type === 'Short Answer') marks = 3;
     if (newRule.type === 'Long Answer') marks = 4;
 
-    const rule: BlueprintRule = {
+    const rule = {
       id: Math.random().toString(36).substr(2, 9),
       chapter: newRule.chapter,
       type: newRule.type,
@@ -150,11 +136,11 @@ export default function CreatePaperPage() {
     setNewRule({ ...newRule, count: 1 }); // reset some fields if desired
   };
 
-  const removeRule = (id: string) => {
+  const removeRule = (id) => {
     setRules(rules.filter(r => r.id !== id));
   };
 
-  const updateRuleCount = (id: string, delta: number) => {
+  const updateRuleCount = (id, delta) => {
     setRules(rules.map(r =>
       r.id === id ? { ...r, count: Math.max(1, r.count + delta) } : r
     ));
@@ -304,7 +290,7 @@ export default function CreatePaperPage() {
                 <div className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div>
-                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">Chapter</label>
+                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Chapter</label>
                       <div className="relative">
                         <select
                           className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold appearance-none outline-none focus:border-blue-500"
@@ -318,7 +304,7 @@ export default function CreatePaperPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">Type</label>
+                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Type</label>
                       <div className="relative">
                         <select
                           className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold appearance-none outline-none focus:border-blue-500"
@@ -332,7 +318,7 @@ export default function CreatePaperPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">Difficulty</label>
+                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Difficulty</label>
                       <div className="relative">
                         <select
                           className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold appearance-none outline-none focus:border-blue-500"
@@ -349,7 +335,7 @@ export default function CreatePaperPage() {
 
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1">
-                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2">Count</label>
+                      <label className="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Count</label>
                       <input
                         type="number"
                         min="1"

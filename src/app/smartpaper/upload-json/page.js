@@ -19,7 +19,7 @@ export default function BulkUploadPage() {
   const [jsonInput, setJsonInput] = useState('');
   const [selectedClass, setSelectedClass] = useState('12');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+  const [result, setResult] = useState(null);
 
   const validClasses = ['4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
@@ -41,7 +41,7 @@ export default function BulkUploadPage() {
       }
 
       // 2. Map snake_case to camelCase and ensure required fields
-      const mappedData = data.map((item: any) => ({
+      const mappedData = data.map((item) => ({
         id: item.id,
         board: item.board || 'State Board',
         medium: item.medium || 'English',
@@ -72,7 +72,7 @@ export default function BulkUploadPage() {
       });
       setJsonInput(''); // Clear input on success
 
-    } catch (err: any) {
+    } catch (err) {
       console.error("Bulk upload error:", err);
       setResult({
         type: 'error',

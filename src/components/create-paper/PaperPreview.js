@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { GeneratedPaper, GenerationConfig, Question } from '@/types';
 import { QuestionItem } from './QuestionItem';
 
 // The "DOM Stamping" Approach: hardcode 15 watermarks exactly 297mm apart
-const WatermarkStamps = ({ config, contentRef }: { config: any, contentRef: React.RefObject<HTMLDivElement | null> }) => {
+const WatermarkStamps = ({ config, contentRef }) => {
   const [pages, setPages] = useState(1);
   const A4_HEIGHT_MM = 297;
   const size = config.watermarkSize || 40;
@@ -158,34 +157,26 @@ const WatermarkStamps = ({ config, contentRef }: { config: any, contentRef: Reac
   );
 };
 
-
-interface PaperPreviewProps {
- paper: GeneratedPaper;
- config: GenerationConfig;
- showSolutions: boolean;
- onEditQuestion: (sectionIndex: number, questionIndex: number, question: Question) => void;
-}
-
-export const PaperPreview: React.FC<PaperPreviewProps> = ({
+export const PaperPreview = ({
  paper,
  config,
  showSolutions,
  onEditQuestion
  }) => {
-  const paperRef = React.useRef<HTMLDivElement>(null);
+  const paperRef = React.useRef(null);
 
  useEffect(() => {
   const timer = setTimeout(() => {
-   const win = window as any;
+   const win = window;
    if (win.MathJax && win.MathJax.typesetPromise) {
-    win.MathJax.typesetPromise().catch((err: unknown) => console.error("MathJax error:", err));
+    win.MathJax.typesetPromise().catch((err) => console.error("MathJax error:", err));
    }
   }, 100);
   return () => clearTimeout(timer);
  }, [paper, showSolutions, config.fontSize]);
 
- const getRoman = (num: number) => {
-  const map: any = { 0: 'i', 1: 'ii', 2: 'iii', 3: 'iv', 4: 'v', 5: 'vi', 6: 'vii', 7: 'viii', 8: 'ix', 9: 'x', 10: 'xi', 11: 'xii' };
+ const getRoman = (num) => {
+  const map = { 0: 'i', 1: 'ii', 2: 'iii', 3: 'iv', 4: 'v', 5: 'vi', 6: 'vii', 7: 'viii', 8: 'ix', 9: 'x', 10: 'xi', 11: 'xii' };
   return map[num] || (num + 1).toString();
  };
 
@@ -257,8 +248,8 @@ export const PaperPreview: React.FC<PaperPreviewProps> = ({
         } else {
           // Sections B, C, D (or 2, 3, 4)
           if (isBoardPaper) {
-            const typeMap: Record<string, string> = { SA_2: '2', SA_3: '3', LA_4: '4' };
-            const sectionNum = typeMap[section.type as string] || (sectionIdx + 1).toString();
+            const typeMap = { SA_2: '2', SA_3: '3', LA_4: '4' };
+            const sectionNum = typeMap[section.type] || (sectionIdx + 1).toString();
             sectionTitle = `SECTION ${sectionNum}`;
             showSectionHeader = false;
           } else {

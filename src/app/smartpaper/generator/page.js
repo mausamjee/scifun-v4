@@ -25,13 +25,12 @@ import {
   Maximize
 } from 'lucide-react';
 import { CHAPTERS } from '@/data/questions';
-import { GenerationConfig, GeneratedPaper, Question } from '@/types';
 import { generatePaper, getAlternativeQuestion } from '@/services/generator';
 import { fetchQuestionsByChapters } from '@/services/questionService';
 import { supabase, aiModel } from '@/lib/clients';
 
 // The "DOM Stamping" Approach: hardcode 15 watermarks exactly 297mm apart
-const WatermarkStamps = ({ config, contentRef }: { config: any, contentRef: React.RefObject<HTMLDivElement | null> }) => {
+const WatermarkStamps = ({ config, contentRef }) => {
   const [pages, setPages] = useState(1);
   const A4_HEIGHT_MM = 297;
   const size = config.watermarkSize || 40;
@@ -51,7 +50,7 @@ const WatermarkStamps = ({ config, contentRef }: { config: any, contentRef: Reac
     });
     observer.observe(contentRef.current);
     return () => observer.disconnect();
-  }, [contentRef]);
+  }, [contentRef, config]);
 
   return (
     <>
@@ -186,8 +185,8 @@ const WatermarkStamps = ({ config, contentRef }: { config: any, contentRef: Reac
   );
 };
 
-const App: React.FC = () => {
-  const [config, setConfig] = useState<GenerationConfig>({
+const App = () => {
+  const [config, setConfig] = useState({
     mode: 'generator',
     class: '12',
     selectedChapters: [...CHAPTERS],
@@ -210,14 +209,14 @@ const App: React.FC = () => {
     blueprint: []
   });
 
-  const [paper, setPaper] = useState<GeneratedPaper | null>(null);
-  const [questionPool, setQuestionPool] = useState<Question[]>([]);
+  const [paper, setPaper] = useState(null);
+  const [questionPool, setQuestionPool] = useState([]);
   const [showSolutions, setShowSolutions] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [dbStatus, setDbStatus] = useState<'checking' | 'connected' | 'error'>('checking');
-  const [aiStatus, setAiStatus] = useState<'checking' | 'connected' | 'error'>('checking');
-  const paperRef = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState(null);
+  const [dbStatus, setDbStatus] = useState('checking');
+  const [aiStatus, setAiStatus] = useState('checking');
+  const paperRef = useRef(null);
 
   useEffect(() => {
     const checkConnections = async () => {
@@ -245,14 +244,10 @@ const App: React.FC = () => {
     checkConnections();
   }, []);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef(null);
 
   // Edit Modal State
-  const [editingQuestion, setEditingQuestion] = useState<{
-    sectionIndex: number;
-    questionIndex: number;
-    data: Question;
-  } | null>(null);
+  const [editingQuestion, setEditingQuestion] = useState(null);
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -269,7 +264,7 @@ const App: React.FC = () => {
       // 2. Generate the paper using the fetched pool
       const newPaper = generatePaper(config, pool);
       setPaper(newPaper);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Generation error:", err);
       setError(err.message || "Failed to generate paper. Check settings.");
     } finally {
@@ -277,12 +272,12 @@ const App: React.FC = () => {
     }
   };
 
-  const handleMarksChange = (marks: 20 | 40 | 80) => {
+  const handleMarksChange = (marks) => {
     setConfig({ ...config, totalMarks: marks });
     setPaper(null);
   };
 
-  const handleExamYearToggle = (checked: boolean) => {
+  const handleExamYearToggle = (checked) => {
     setConfig({ ...config, showExamYear: checked });
     setPaper(null);
     if (paper) {
@@ -292,12 +287,12 @@ const App: React.FC = () => {
     }
   };
 
-  const handleWatermarkImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWatermarkImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setConfig(prev => ({ ...prev, watermarkImage: reader.result as string }));
+        setConfig(prev => ({ ...prev, watermarkImage: reader.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -311,8 +306,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (paper || editingQuestion) {
       const timer = setTimeout(() => {
-        if ((window as any).MathJax && (window as any).MathJax.typesetPromise) {
-          (window as any).MathJax.typesetPromise().catch((err: any) => console.error("MathJax error:", err));
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise().catch((err) => console.error("MathJax error:", err));
         }
       }, 100);
       return () => clearTimeout(timer);
@@ -320,13 +315,9 @@ const App: React.FC = () => {
   }, [paper, showSolutions, editingQuestion]);
 
   // === PRINT WATERMARK: SVG Background Tiling ===
-  // Chrome does NOT repeat position:fixed elements per page. Period.
-  // Instead, we use background-image with a repeating SVG tile sized to exactly
-  // one A4 content area (210mm x 267mm). CSS background-repeat:repeat-y
-  // automatically tiles it once per physical page. This CANNOT fail.
   useEffect(() => {
     const styleId = 'dynamic-print-watermark-style';
-    let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
+    let styleEl = document.getElementById(styleId);
     if (!styleEl) {
       styleEl = document.createElement('style');
       styleEl.id = styleId;
@@ -339,9 +330,6 @@ const App: React.FC = () => {
       return;
     }
 
-    // SVG viewBox in mm units matching physical A4 paper size EXACTLY
-    // Width: 210mm, Height: 297mm (Crucial: Not content height, but physical height
-    // so background-repeat aligns perfectly with page breaks)
     const W = 210;
     const H = 297;
     const cx = W / 2;
@@ -353,13 +341,11 @@ const App: React.FC = () => {
     const size = config.watermarkSize || 40;
 
     if (config.watermarkImage) {
-      // Image watermark embedded inside SVG
       const imgW = W * (size / 100);
       const imgH = H * (size / 150);
       svgContent = `<image href="${config.watermarkImage}" x="${cx - imgW / 2}" y="${cy - imgH / 2}" width="${imgW}" height="${imgH}" opacity="${opacity}" transform="rotate(${rotation}, ${cx}, ${cy})" preserveAspectRatio="xMidYMid meet"/>`;
     } else {
-      // Text watermark
-      const escapedText = config.watermark
+      const escapedText = (config.watermark || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -369,8 +355,6 @@ const App: React.FC = () => {
     }
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${W} ${H}" width="${W}mm" height="${H}mm">${svgContent}</svg>`;
-
-    // Base64 encode to safely handle all characters
     const encoded = btoa(unescape(encodeURIComponent(svg)));
     const dataURI = `data:image/svg+xml;base64,${encoded}`;
 
@@ -391,9 +375,9 @@ const App: React.FC = () => {
       const el = document.getElementById(styleId);
       if (el) el.textContent = '';
     };
-  }, [paper, config.watermark, config.watermarkImage, config.watermarkRotation, config.watermarkOpacity]);
+  }, [paper, config.watermark, config.watermarkImage, config.watermarkRotation, config.watermarkOpacity, config.watermarkSize]);
 
-  const toggleChapter = (chapter: string) => {
+  const toggleChapter = (chapter) => {
     setConfig(prev => ({
       ...prev,
       selectedChapters: prev.selectedChapters.includes(chapter)
@@ -402,14 +386,12 @@ const App: React.FC = () => {
     }));
   };
 
-  const getRoman = (num: number) => {
-    const map: any = { 0: 'i', 1: 'ii', 2: 'iii', 3: 'iv', 4: 'v', 5: 'vi', 6: 'vii', 7: 'viii', 8: 'ix', 9: 'x', 10: 'xi', 11: 'xii' };
+  const getRoman = (num) => {
+    const map = { 0: 'i', 1: 'ii', 2: 'iii', 3: 'iv', 4: 'v', 5: 'vi', 6: 'vii', 7: 'viii', 8: 'ix', 9: 'x', 10: 'xi', 11: 'xii' };
     return map[num] || (num + 1).toString();
   };
 
-  // --- Edit Question Logic ---
-
-  const openEditModal = (sectionIdx: number, qIdx: number, q: Question) => {
+  const openEditModal = (sectionIdx, qIdx, q) => {
     setEditingQuestion({
       sectionIndex: sectionIdx,
       questionIndex: qIdx,
@@ -436,7 +418,7 @@ const App: React.FC = () => {
 
   const swapWithRandom = () => {
     if (!paper || !editingQuestion || !questionPool.length) return;
-    const usedIds: string[] = [];
+    const usedIds = [];
     paper.sections.forEach(s => s.questions.forEach(q => usedIds.push(q.id)));
 
     const newQ = getAlternativeQuestion(editingQuestion.data, questionPool, usedIds);
@@ -565,7 +547,6 @@ const App: React.FC = () => {
                       onClick={() => fileInputRef.current?.click()}
                       className="flex-1 py-1.5 bg-white border border-slate-300 rounded text-[10px] font-bold text-slate-600 flex items-center justify-center gap-1 hover:bg-slate-50"
                     >
-                      <Upload className="w-3 h-3" />
                       {config.watermarkImage ? 'Change Logo' : 'Upload Logo'}
                     </button>
                     {config.watermarkImage && (
@@ -581,8 +562,8 @@ const App: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <div>
-                      <label className="text-[9px] font-bold text-slate-400 block mb-1 flex items-center gap-1">
-                        Rotation: <span className="text-slate-600">{config.watermarkRotation}°</span>
+                      <label className="text-[9px] font-bold text-slate-400 block mb-1">
+                        Rotation: {config.watermarkRotation}°
                       </label>
                       <input
                         type="range"
@@ -594,8 +575,8 @@ const App: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-slate-400 block mb-1 flex items-center gap-1">
-                        Opacity: <span className="text-slate-600">{Math.round(config.watermarkOpacity * 100)}%</span>
+                      <label className="text-[9px] font-bold text-slate-400 block mb-1">
+                        Opacity: {Math.round(config.watermarkOpacity * 100)}%
                       </label>
                       <input
                         type="range"
@@ -608,8 +589,8 @@ const App: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-slate-400 block mb-1 flex items-center gap-1">
-                        Size: <span className="text-slate-600">{config.watermarkSize || 40}</span>
+                      <label className="text-[9px] font-bold text-slate-400 block mb-1">
+                        Size: {config.watermarkSize || 40}
                       </label>
                       <input
                         type="range"
@@ -621,8 +602,8 @@ const App: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-[9px] font-bold text-slate-400 block mb-1 flex items-center gap-1">
-                        H-Offset: <span className="text-slate-600">{config.watermarkOffsetX || 0}mm</span>
+                      <label className="text-[9px] font-bold text-slate-400 block mb-1">
+                        H-Offset: {config.watermarkOffsetX || 0}mm
                       </label>
                       <input
                         type="range"
@@ -634,8 +615,8 @@ const App: React.FC = () => {
                       />
                     </div>
                     <div className="col-span-2">
-                      <label className="text-[9px] font-bold text-slate-400 block mb-1 flex items-center gap-1">
-                        V-Offset: <span className="text-slate-600">{config.watermarkOffsetY || 0}mm</span>
+                      <label className="text-[9px] font-bold text-slate-400 block mb-1">
+                        V-Offset: {config.watermarkOffsetY || 0}mm
                       </label>
                       <input
                         type="range"
@@ -739,9 +720,6 @@ const App: React.FC = () => {
               className="a4-paper shadow-2xl print:shadow-none font-serif leading-[1.3] relative overflow-hidden print:overflow-visible"
               style={{ fontSize: `${config.fontSize}pt` }}
             >
-
-
-
               {/* ===== DOM STAMPING WATERMARKS ===== */}
               <WatermarkStamps config={config} contentRef={paperRef} />
 
@@ -841,7 +819,7 @@ const App: React.FC = () => {
                                                 alt="Figure"
                                                 className="max-w-[80%] md:max-w-[50%] h-auto mx-auto border border-slate-100 shadow-sm"
                                                 onError={(e) => {
-                                                  (e.target as HTMLImageElement).style.display = 'none';
+                                                  e.target.style.display = 'none';
                                                 }}
                                               />
                                             </div>
@@ -887,7 +865,6 @@ const App: React.FC = () => {
                         <span>Page 1 of 1</span>
                       </div>
               </div>
-              {/* ===== END CONTENT WRAPPER ===== */}
             </div>
           </div>
         )}
@@ -940,7 +917,7 @@ const App: React.FC = () => {
                       src={editingQuestion.data.imageUrl}
                       alt="Preview"
                       className="max-h-40 mx-auto object-contain"
-                      onError={(e) => (e.target as HTMLImageElement).src = "https://via.placeholder.com/150?text=Invalid+Image+URL"}
+                      onError={(e) => (e.target.src = "https://via.placeholder.com/150?text=Invalid+Image+URL")}
                     />
                   </div>
                 )}

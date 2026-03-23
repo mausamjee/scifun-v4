@@ -15,7 +15,6 @@ import {
   Trash2
 } from 'lucide-react';
 import { Sidebar } from '@/components/Sidebar';
-import { GenerationConfig, GeneratedPaper, Question, SectionType, BlueprintRule } from '@/types';
 import { generatePaper, getAlternativeQuestion } from '@/services/generator';
 import { fetchQuestions } from '@/services/questionService';
 import { supabase } from '@/lib/clients';
@@ -27,7 +26,7 @@ import { Step2ManualSelect } from '@/components/create-paper/Step2ManualSelect';
 import { Step3PrintStudio } from '@/components/create-paper/Step3PrintStudio';
 
 // --- Step Indicator Component ---
-const StepIndicator = ({ currentStep }: { currentStep: number }) => {
+const StepIndicator = ({ currentStep }) => {
   const steps = [
     { id: 1, name: 'Setup & Mode', icon: Settings },
     { id: 2, name: 'Blueprint & Rules', icon: Layers },
@@ -71,10 +70,10 @@ const StepIndicator = ({ currentStep }: { currentStep: number }) => {
 export default function CreatePaperPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [dbStatus, setDbStatus] = useState<'checking' | 'connected' | 'error'>('checking');
+  const [error, setError] = useState(null);
+  const [dbStatus, setDbStatus] = useState('checking');
 
-  const [config, setConfig] = useState<GenerationConfig>({
+  const [config, setConfig] = useState({
     mode: 'generator', // 'generator' or 'past_year'
     class: '12',
     selectedYear: '2025',
@@ -99,17 +98,13 @@ export default function CreatePaperPage() {
     blueprint: []
   });
 
-  const [paper, setPaper] = useState<GeneratedPaper | null>(null);
-  const [questionPool, setQuestionPool] = useState<Question[]>([]);
+  const [paper, setPaper] = useState(null);
+  const [questionPool, setQuestionPool] = useState([]);
 
   // Edit Modal State
-  const [editingQuestion, setEditingQuestion] = useState<{
-    sectionIndex: number;
-    questionIndex: number;
-    data: Question;
-  } | null>(null);
+  const [editingQuestion, setEditingQuestion] = useState(null);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef(null);
 
   // --- Effects ---
   useEffect(() => {
@@ -154,11 +149,11 @@ export default function CreatePaperPage() {
       setStep(3);
       // Ensure MathJax re-renders after content is set
       setTimeout(() => {
-        if ((window as any).MathJax && (window as any).MathJax.typesetPromise) {
-          (window as any).MathJax.typesetPromise().catch((err: unknown) => console.error("MathJax error:", err));
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise().catch((err) => console.error("MathJax error:", err));
         }
       }, 100);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Generation error:", err);
       setError(err.message || "Failed to generate paper. Check settings.");
     } finally {
@@ -166,7 +161,7 @@ export default function CreatePaperPage() {
     }
   };
 
-  const handleManualGenerate = (manualPaper: GeneratedPaper) => {
+  const handleManualGenerate = (manualPaper) => {
     setPaper(manualPaper);
     setStep(3);
   };
@@ -181,7 +176,7 @@ export default function CreatePaperPage() {
 
   const swapWithRandom = () => {
     if (!paper || !editingQuestion || !questionPool.length) return;
-    const usedIds: string[] = [];
+    const usedIds = [];
     paper.sections.forEach(s => s.questions.forEach(q => usedIds.push(q.id)));
     const newQ = getAlternativeQuestion(editingQuestion.data, questionPool, usedIds);
     if (newQ) {
@@ -337,7 +332,7 @@ export default function CreatePaperPage() {
                           if (file) {
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                              setEditingQuestion({ ...editingQuestion, data: { ...editingQuestion.data, imageUrl: reader.result as string } });
+                              setEditingQuestion({ ...editingQuestion, data: { ...editingQuestion.data, imageUrl: reader.result } });
                             };
                             reader.readAsDataURL(file);
                           }

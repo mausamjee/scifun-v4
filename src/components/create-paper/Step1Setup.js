@@ -1,24 +1,16 @@
 import React from 'react';
 import {
- Target,
- CheckCircle2,
- Cpu,
- History,
- FileText,
- Sparkles,
- ChevronRight,
- GraduationCap
+  Target,
+  CheckCircle2,
+  Cpu,
+  History,
+  FileText,
+  Sparkles,
+  ChevronRight,
+  GraduationCap
 } from 'lucide-react';
-import { GenerationConfig } from '@/types';
 
-interface Step1SetupProps {
- config: GenerationConfig;
- setConfig: (config: GenerationConfig) => void;
- dbStatus: 'checking' | 'connected' | 'error';
- onNext: () => void;
-}
-
-export const Step1Setup: React.FC<Step1SetupProps> = ({
+export const Step1Setup = ({
  config,
  setConfig,
  dbStatus,
