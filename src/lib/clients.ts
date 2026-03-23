@@ -3,8 +3,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // 1. Supabase Configuration
 // Note: NEXT_PUBLIC_ is required for client-side access in Next.js
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-url.supabase.co';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key';
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
