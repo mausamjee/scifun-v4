@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 import clientPromise from '@/lib/mongodb';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DynamicRedirectPage({ params }) {
   const { slug } = await params;
   
@@ -9,6 +11,7 @@ export default async function DynamicRedirectPage({ params }) {
   }
 
   const client = await clientPromise;
+  if (!client) redirect('/?error=db-not-ready');
   const db = client.db('scifun');
   const collection = db.collection('links');
 

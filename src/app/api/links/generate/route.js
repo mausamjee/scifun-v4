@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import QRCode from 'qrcode';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request) {
   try {
-    const { destinationUrl, customSlug } = await request.json();
+    const { destinationUrl, customSlug, linkName } = await request.json();
 
     if (!destinationUrl) {
       return NextResponse.json({ error: 'Destination URL is required' }, { status: 400 });
@@ -13,6 +15,7 @@ export async function POST(request) {
     const slug = customSlug || Math.random().toString(36).substring(7);
     
     const client = await clientPromise;
+    if (!client) throw new Error('MongoDB client not initialized');
     const db = client.db('scifun');
     const collection = db.collection('links');
 
@@ -28,17 +31,18 @@ export async function POST(request) {
     const shortLink = `${protocol}://${host}/l/${slug}`;
     
     const qrData = await QRCode.toDataURL(shortLink, {
-        width: 400,
+        width: 1000, // Higher resolution for downloading
         margin: 2,
         color: {
-            dark: '#1e293b',
-            light: '#f8fafc',
+            dark: '#000000',
+            light: '#ffffff',
         }
     });
 
     const newLink = {
       shortSlug: slug,
       destinationUrl,
+      linkName: linkName || 'Untitled Link',
       qrData,
       createdAt: new Date(),
     };

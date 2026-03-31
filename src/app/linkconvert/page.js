@@ -12,7 +12,10 @@ import {
   PlusCircle, 
   ArrowRight,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Download,
+  Trash2,
+  Type
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -24,12 +27,14 @@ function cn(...inputs) {
 export default function LinkConvertPage() {
   const [destinationUrl, setDestinationUrl] = useState('');
   const [customSlug, setCustomSlug] = useState('');
+  const [linkName, setLinkName] = useState('');
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingLink, setEditingLink] = useState(null);
   const [copiedSlug, setCopiedSlug] = useState(null);
+  const [deletingSlug, setDeletingSlug] = useState(null);
 
   useEffect(() => {
     fetchLinks();
@@ -57,7 +62,7 @@ export default function LinkConvertPage() {
       const res = await fetch('/api/links/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ destinationUrl, customSlug }),
+        body: JSON.stringify({ destinationUrl, customSlug, linkName }),
       });
 
       const data = await res.json();
@@ -66,6 +71,7 @@ export default function LinkConvertPage() {
       setLinks([data.link, ...links]);
       setDestinationUrl('');
       setCustomSlug('');
+      setLinkName('');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -83,7 +89,8 @@ export default function LinkConvertPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           shortSlug: editingLink.shortSlug, 
-          newDestinationUrl: editingLink.destinationUrl 
+          newDestinationUrl: editingLink.destinationUrl,
+          newLinkName: editingLink.linkName 
         }),
       });
 
@@ -96,6 +103,27 @@ export default function LinkConvertPage() {
     }
   };
 
+  const handleDelete = async (slug) => {
+    if (!confirm('Are you sure you want to delete this link?')) return;
+    
+    setDeletingSlug(slug);
+    try {
+      const res = await fetch('/api/links/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shortSlug: slug }),
+      });
+
+      if (!res.ok) throw new Error('Failed to delete');
+
+      setLinks(links.filter(l => l.shortSlug !== slug));
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setDeletingSlug(null);
+    }
+  };
+
   const copyToClipboard = (slug) => {
     const url = `${window.location.origin}/l/${slug}`;
     navigator.clipboard.writeText(url);
@@ -103,9 +131,18 @@ export default function LinkConvertPage() {
     setTimeout(() => setCopiedSlug(null), 2000);
   };
 
+  const downloadQR = (qrData, slug, name) => {
+    const link = document.createElement('a');
+    link.href = qrData;
+    link.download = `qr_${name || slug}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 font-sans selection:bg-blue-500/30 overflow-x-hidden">
-      {/* Premium Background Elements */}
+      {/* Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/20 blur-[150px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-900/20 blur-[150px] rounded-full" />
@@ -113,7 +150,6 @@ export default function LinkConvertPage() {
       </div>
 
       <div className="max-w-5xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        {/* Title Bar - Merged with Layout Design */}
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/40">
@@ -127,39 +163,35 @@ export default function LinkConvertPage() {
           </div>
         </div>
 
-        {/* Hero & Form Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 space-y-6 pt-4">
+          <div className="lg:col-span-4 space-y-6 pt-4">
             <h1 className="text-5xl font-black leading-tight">
               Shorten links,<br />
               <span className="text-blue-500">Redirect instantly.</span>
             </h1>
             <p className="text-lg text-slate-400 leading-relaxed">
               Create permanent short links with live-editable destinations and auto-generated high-quality QR codes. 
-              Built for speed and control.
             </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                <Check className="w-4 h-4 text-blue-500" /> Immutable Slugs
-              </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                <Check className="w-4 h-4 text-blue-500" /> Dynamic Targets
-              </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                <Check className="w-4 h-4 text-blue-500" /> Auto-QR
-              </div>
-            </div>
           </div>
 
-          <section className="lg:col-span-7 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <PlusCircle className="w-24 h-24 text-blue-400" />
-            </div>
-            
+          <section className="lg:col-span-8 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
             <form onSubmit={handleGenerate} className="space-y-6 relative">
-              <div className="space-y-4">
-                <div className="space-y-2 group/input">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2 group/input md:col-span-2">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-2">
+                    <Type className="w-3 h-3" /> Link Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 10th Math Chapter 1 Solution"
+                    value={linkName}
+                    onChange={(e) => setLinkName(e.target.value)}
+                    className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all text-lg placeholder:text-slate-700"
+                  />
+                </div>
+                
+                <div className="space-y-2 group/input md:col-span-2">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-2">
                     <ExternalLink className="w-3 h-3" /> Target Destination URL
                   </label>
                   <input
@@ -172,11 +204,11 @@ export default function LinkConvertPage() {
                   />
                 </div>
                 
-                <div className="space-y-2 group/input">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+                <div className="space-y-2 group/input md:col-span-2">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-2">
                     <Edit3 className="w-3 h-3" /> Custom Slug (Optional)
                   </label>
-                  <div className="flex items-center bg-slate-900/50 border border-white/5 rounded-2xl px-5 py-4 focus-within:ring-2 focus-within:ring-blue-500/40 group-focus-within/input:border-blue-500/50 transition-all font-mono">
+                  <div className="flex items-center bg-slate-900/50 border border-white/5 rounded-2xl px-5 py-4 focus-within:ring-2 focus-within:ring-blue-500/40 transition-all font-mono">
                     <span className="text-slate-600 pr-1 select-none whitespace-nowrap">scifun.in/l/</span>
                     <input
                       type="text"
@@ -191,7 +223,7 @@ export default function LinkConvertPage() {
 
               <button
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-5 rounded-2xl shadow-[0_10px_30px_-10px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_40px_-5px_rgba(37,99,235,0.5)] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-3 text-lg"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-5 rounded-2xl shadow-[0_10px_30px_-10px_rgba(37,99,235,0.4)] transition-all disabled:opacity-50 flex items-center justify-center gap-3 text-lg"
               >
                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Create Dynamic Link <ArrowRight className="w-5 h-5" /></>}
               </button>
@@ -206,7 +238,6 @@ export default function LinkConvertPage() {
           </section>
         </div>
 
-        {/* Links Display Grid */}
         <section className="space-y-8">
           <div className="flex items-center justify-between border-b border-white/5 pb-4">
             <h2 className="text-3xl font-black flex items-center gap-3">
@@ -227,9 +258,9 @@ export default function LinkConvertPage() {
                   className="group relative bg-white/5 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] flex flex-col gap-6 hover:bg-white/10 transition-all duration-500"
                 >
                   <div className="flex items-start gap-8">
-                    <div className="relative flex-shrink-0">
-                      <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500" />
-                      <div className="relative bg-white p-3 rounded-[1.5rem] shadow-xl group-hover:scale-[1.03] transition duration-500">
+                    <div className="relative flex-shrink-0 group/qr">
+                      <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-3xl blur opacity-20 group-hover/qr:opacity-40 transition duration-500" />
+                      <div className="relative bg-white p-3 rounded-[1.5rem] shadow-xl transition duration-500 group-hover/qr:scale-105 group-hover/qr:-rotate-2">
                         <Image 
                           src={link.qrData} 
                           alt="QR Code" 
@@ -237,13 +268,20 @@ export default function LinkConvertPage() {
                           height={120} 
                           className="rounded-lg"
                         />
+                        <button 
+                          onClick={() => downloadQR(link.qrData, link.shortSlug, link.linkName)}
+                          className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-[1.5rem] opacity-0 group-hover/qr:opacity-100 transition-opacity duration-300"
+                          title="Download QR Code"
+                        >
+                          <Download className="w-8 h-8 text-white drop-shadow-lg" />
+                        </button>
                       </div>
                     </div>
 
                     <div className="flex-grow space-y-4 pt-1">
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/70">Unique Slug</span>
+                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/70">Link Mapping</span>
                           <span className="text-[10px] font-bold text-slate-600">{new Date(link.createdAt).toLocaleDateString()}</span>
                         </div>
                         <div className="flex items-center gap-2 group/slug">
@@ -260,36 +298,43 @@ export default function LinkConvertPage() {
 
                       <div className="space-y-1">
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/70">Live Destination</span>
-                        <p className="text-slate-400 text-sm truncate max-w-[200px] font-medium leading-relaxed">
+                        <p className="text-slate-400 text-sm truncate max-w-[180px] font-medium leading-relaxed">
                           {link.destinationUrl}
                         </p>
                       </div>
                     </div>
                   </div>
 
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors cursor-pointer group/name" onClick={() => setEditingLink({...link})}>
+                       <span className="text-lg font-bold truncate max-w-[250px]">{link.linkName || 'Untitled Link'}</span>
+                       <Edit3 className="w-4 h-4 opacity-0 group-hover/name:opacity-100 transition-opacity" />
+                    </div>
+                  </div>
+
                   <div className="flex gap-3 mt-auto pt-4 border-t border-white/5">
                     <button 
                       onClick={() => setEditingLink({...link})}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-blue-600 hover:text-white border border-white/5 hover:border-blue-500 rounded-2xl text-xs font-bold transition-all group/btn"
+                      className="flex-[4] flex items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-blue-600 hover:text-white border border-white/5 hover:border-blue-500 rounded-2xl text-xs font-bold transition-all group/btn"
                     >
-                      <Edit3 className="w-3 h-3 group-hover/btn:rotate-12 transition-transform" /> 
+                      <PlusCircle className="w-3 h-3 group-hover/btn:rotate-90 transition-transform" /> 
                       Manage Destination
                     </button>
                     <a 
                       href={link.destinationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl transition-all"
+                      className="flex-1 flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl transition-all"
                     >
                       <ExternalLink className="w-4 h-4 text-slate-400" />
                     </a>
-                  </div>
-
-                  <div className="absolute top-6 right-8">
-                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-full border border-white/5">
-                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">Short Link Permanent</span>
-                    </div>
+                    <button 
+                      onClick={() => handleDelete(link.shortSlug)}
+                      disabled={deletingSlug === link.shortSlug}
+                      className="flex-1 flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-rose-600 border border-white/5 hover:border-rose-500 rounded-2xl transition-all group/trash"
+                    >
+                      {deletingSlug === link.shortSlug ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 text-slate-500 group-hover/trash:text-white" />}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -315,22 +360,34 @@ export default function LinkConvertPage() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 blur-3xl -z-10 rounded-full" />
               
               <div className="space-y-2">
-                <h3 className="text-3xl font-black">Redirect Control</h3>
+                <h3 className="text-3xl font-black">Link Settings</h3>
                 <p className="text-slate-400 leading-relaxed">
-                  Modifying the destination for <span className="text-blue-500 font-mono font-bold">/{editingLink.shortSlug}</span>.
+                  Update mapping for <span className="text-blue-500 font-mono font-bold">/{editingLink.shortSlug}</span>.
                 </p>
               </div>
               
               <form onSubmit={handleUpdate} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">New Live Target</label>
-                  <input
-                    type="url"
-                    required
-                    value={editingLink.destinationUrl}
-                    onChange={(e) => setEditingLink({...editingLink, destinationUrl: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/50 transition-all text-lg font-medium"
-                  />
+                <div className="space-y-4">
+                   <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Link Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={editingLink.linkName}
+                      onChange={(e) => setEditingLink({...editingLink, linkName: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all text-lg font-medium"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">New Library Target</label>
+                    <input
+                      type="url"
+                      required
+                      value={editingLink.destinationUrl}
+                      onChange={(e) => setEditingLink({...editingLink, destinationUrl: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all text-lg font-medium"
+                    />
+                  </div>
                 </div>
                 <div className="flex gap-4">
                   <button 
@@ -338,13 +395,13 @@ export default function LinkConvertPage() {
                     onClick={() => setEditingLink(null)}
                     className="flex-1 px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-sm font-bold transition-all border border-white/5"
                   >
-                    Discard
+                    Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95"
+                    className="flex-1 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg transition-all active:scale-95"
                   >
-                    Update Live
+                    Sync Updates
                   </button>
                 </div>
               </form>

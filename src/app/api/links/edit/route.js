@@ -1,22 +1,29 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
+export const dynamic = 'force-dynamic';
+
 export async function PATCH(request) {
   try {
-    const { shortSlug, newDestinationUrl } = await request.json();
+    const { shortSlug, newDestinationUrl, newLinkName } = await request.json();
 
-    if (!shortSlug || !newDestinationUrl) {
-      return NextResponse.json({ error: 'Slug and New Destination URL are required' }, { status: 400 });
+    if (!shortSlug) {
+      return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
     }
 
     const client = await clientPromise;
+    if (!client) throw new Error('MongoDB client not initialized');
     const db = client.db('scifun');
     const collection = db.collection('links');
 
-    // Immutable Slug, Dynamic Destination
+    const updateFields = {};
+    if (newDestinationUrl) updateFields.destinationUrl = newDestinationUrl;
+    if (newLinkName) updateFields.linkName = newLinkName;
+
+    // Immutable Slug, Dynamic Name & Destination
     const result = await collection.updateOne(
       { shortSlug },
-      { $set: { destinationUrl: newDestinationUrl } }
+      { $set: updateFields }
     );
 
     if (result.matchedCount === 0) {
