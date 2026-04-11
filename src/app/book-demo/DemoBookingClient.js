@@ -25,6 +25,7 @@ export default function DemoBookingClient() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,9 +41,8 @@ export default function DemoBookingClient() {
       const result = await response.json();
 
       if (result.status === "Success" || response.ok) {
+        setIsSuccess(true);
         setFormData({studentName: '', whatsappNumber: '', grade: '10th Std', board: 'Maharashtra Board', stream: 'General Batches', email: ''});
-        alert('🎁 Free Demo Booked Successfully!\n\nOur team will contact you shortly to schedule your preferred slot.\n\nNote: You can visit our Valaipada road office anytime to meet the faculty!');
-        window.location.href = '/'; 
       } else {
         throw new Error(result.message || 'Failed to book demo.');
       }
@@ -53,72 +53,75 @@ export default function DemoBookingClient() {
     }
   };
 
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-700">
+        <div className="bg-white p-12 md:p-16 rounded-[4rem] shadow-[0_40px_100px_-20px_rgba(0,102,255,0.15)] border-4 border-white max-w-2xl w-full relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 via-blue-600 to-indigo-600"></div>
+          
+          <div className="w-24 h-24 bg-green-100 rounded-3xl flex items-center justify-center text-green-600 mx-auto mb-8 animate-bounce">
+            <CheckCircle2 size={48} strokeWidth={3} />
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
+            Booking <span className="text-blue-600 italic">Confirmed!</span>
+          </h2>
+          
+          <p className="text-xl text-slate-600 font-medium mb-10 leading-relaxed">
+            Congratulations! Your free demo session at <span className="font-bold text-slate-800">SciFun Education</span> is successfully booked.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+            <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 flex flex-col items-center gap-2">
+              <MessageCircle className="text-blue-600" size={24} />
+              <span className="text-sm font-black text-blue-900 uppercase tracking-widest">Team Call</span>
+              <p className="text-xs text-blue-700 font-bold">Within 24 Hours</p>
+            </div>
+            <div className="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 flex flex-col items-center gap-2">
+              <GraduationCap className="text-indigo-600" size={24} />
+              <span className="text-sm font-black text-indigo-900 uppercase tracking-widest">Free Materials</span>
+              <p className="text-xs text-indigo-700 font-bold">Included in Demo</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+              <Link 
+                href="/" 
+                className="block w-full bg-slate-900 text-white py-6 rounded-2xl font-black text-lg hover:bg-slate-800 transition shadow-xl active:scale-95"
+              >
+                GO TO HOME
+              </Link>
+              <p className="text-sm font-bold text-slate-400">
+                Facing issues? Call <span className="text-blue-600">9604249235</span>
+              </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       
       {/* 2. Urgency/Offer Banner */}
       <div className="bg-blue-600 text-white py-3 text-center font-black uppercase tracking-widest text-sm px-4">
-        ✨ Limited Time Offer: Get 2-Day FREE Physical Classes for All Grades (1st-12th)
+        ✨ Limited Time Offer: Get 2-Month  All Grades (1st-12th)
       </div>
 
       <main className="pt-12 pb-24 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="flex justify-center items-start">
             
-            {/* Left: Content and Why SciFun? */}
-            <div className="space-y-10">
-              <div className="space-y-4">
-                <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
-                      SF
-                    </div>
-                    <span className="text-xl font-bold tracking-tight text-slate-800">SciFun Education</span>
-                </Link>
-                <h1 className="text-4xl md:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
-                  Experience a <span className="text-blue-600 italic">FREE Demo</span> Session Today
-                </h1>
-                <p className="text-lg md:text-2xl text-slate-600 leading-relaxed max-w-xl font-medium">
-                  Experience the most engaging way to learn Science & Math. From 1st Standard up to 12th Science (HSC).
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  "Specialized 11th & 12th Science Batches (JEE/NEET)",
-                  "Concept-based Science coaching for Primary Grades",
-                  "Expert Faculty with proven result track record",
-                  "Personalized attention to every student",
-                  "Free Career Guidance included in the demo"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-50 transition-all duration-300 transform hover:-translate-x-1">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
-                      <CheckCircle2 size={20} />
-                    </div>
-                    <span className="font-bold text-slate-700 text-lg leading-snug">{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="bg-slate-900 text-white p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
-                <h3 className="text-2xl font-black mb-4 flex items-center gap-2">
-                  <GraduationCap className="text-blue-500" /> Shaping Bright Futures
-                </h3>
-                <p className="text-slate-400 font-medium leading-relaxed">
-                  Join our Valaipada Center community and see why students love learning with SciFun. This demo session is 100% free with no obligations.
-                </p>
-              </div>
-            </div>
-
             {/* Right: The Booking Form */}
-            <div className="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-[0_32px_80px_-16px_rgba(0,102,255,0.1)] border-2 border-white sticky top-12">
-              <div className="mb-10">
+            <div className="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-[0_32px_80px_-16px_rgba(0,102,255,0.1)] border-2 border-white w-full max-w-2xl animate-in slide-in-from-bottom-8 duration-700">
+              <div className="mb-10 text-center">
                 <span className="bg-blue-50 text-blue-700 text-xs font-black px-4 py-2 rounded-full uppercase tracking-widest mb-4 inline-block">
                   No Registration Fee
                 </span>
-                <h3 className="text-3xl font-black text-slate-900 flex items-center gap-3 tracking-tighter uppercase">
-                  <FileText className="text-blue-600" /> Book Demo Session
+                <h3 className="text-3xl md:text-4xl font-black text-slate-900 flex items-center justify-center gap-3 tracking-tighter uppercase">
+                  <FileText className="text-blue-600" size={32} /> Book Demo Session
                 </h3>
+                <p className="text-slate-500 font-bold mt-2">Personalized coaching for Class 1st to 12th</p>
               </div>
 
               <form className="space-y-6" onSubmit={handleSubmit}>
@@ -248,10 +251,10 @@ export default function DemoBookingClient() {
       <style jsx global>{`
         html { scroll-behavior: smooth; }
         @keyframes slideIn {
-          from { opacity: 0; transform: translateX(-30px); }
-          to { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        main { animation: slideIn 0.8s ease-out; }
+        .animate-in { animation: slideIn 0.6s ease-out; }
       `}</style>
     </div>
   );
